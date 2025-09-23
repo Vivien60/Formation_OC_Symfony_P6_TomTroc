@@ -1,6 +1,7 @@
 <?php
 require_once 'config/autoload.php';
 
+use controller\ErrorController;
 use controller\IndexController;
 use services\DBManager;
 use config\Conf;
@@ -13,4 +14,7 @@ switch(Utils::request('action')) {
         $controller = new IndexController();
         $controller->index();
         break;
+    default:
+        $controller = new ErrorController();
+        $controller->pageNotFound();
 }
