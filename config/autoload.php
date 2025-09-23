@@ -8,7 +8,7 @@
  */
 spl_autoload_register(function($className) {
     //On va chercher dans le dossier src si la classe existe en prenant en compte le namespace.
-    $srcDir = dirname(__FILE__).'/src/';
+    $srcDir = dirname(__FILE__, 2).'/';
     $classRelPath = str_replace('\\', '/', $className);
     if(file_exists($srcDir.$classRelPath.'.php')) {
         include_once $srcDir.$classRelPath . '.php';
