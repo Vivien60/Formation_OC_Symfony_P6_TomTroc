@@ -2,7 +2,7 @@
 
 namespace services;
 
-use \{DateTime, IntlDateFormatter};
+use \DateTime, \IntlDateFormatter;
 use User;
 
 /**
