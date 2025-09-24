@@ -19,8 +19,9 @@
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8*/
 CREATE TABLE user (
-      id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-      name varchar(255) NOT NULL,
-      email varchar(255) NOT NULL,
-      created_at datetime NOT NULL
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    email varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
+    created_at datetime NOT NULL
 )
