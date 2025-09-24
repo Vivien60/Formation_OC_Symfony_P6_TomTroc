@@ -1,18 +1,25 @@
 <?php
+declare(strict_types=1);
+
 require_once 'config/autoload.php';
 
-use controller\ErrorController;
-use controller\IndexController;
-use services\DBManager;
 use config\Conf;
 use services\Utils;
+use controller\{ErrorController, IndexController, UserController};
 
 Conf::fromInstance()->deploy();
-
 switch(Utils::request('action')) {
     case 'home':
         $controller = new IndexController();
         $controller->index();
+        break;
+    case 'signup':
+        $controller = new IndexController();
+        $controller->displaySignUpForm();
+        break;
+    case 'create-account':
+        $controller = new UserController();
+        $controller->signUp();
         break;
     default:
         $controller = new ErrorController();

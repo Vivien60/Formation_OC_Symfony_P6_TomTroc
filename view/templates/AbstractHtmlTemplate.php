@@ -21,6 +21,8 @@ abstract class AbstractHtmlTemplate
         %s
     CONTENT;
 
+    public static string $baseUrl = '/';
+
     /**
      * @param Layout $layout
      * @param string[] $headers
@@ -66,7 +68,8 @@ abstract class AbstractHtmlTemplate
             '<meta charset="UTF-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
             '<title>'.$this->title.'</title>',
-            '<link rel="stylesheet" type="text/css" href="/css/general.css" media="screen">'
+            '<link rel="stylesheet" type="text/css" href="/css/general.css" media="screen">',
+            "<base href='{$this->getBaseUrl()}'>",
         ];
     }
 
@@ -78,5 +81,15 @@ abstract class AbstractHtmlTemplate
     {
         $this->headerHTML = $headerHTML;
         return $this;
+    }
+
+    public function getBaseUrl(): string
+    {
+        return static::$baseUrl;
+    }
+
+    public static function setBaseUrl(string $baseUrl): void
+    {
+        static::$baseUrl = $baseUrl;
     }
 }

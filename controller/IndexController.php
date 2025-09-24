@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace controller;
 
 use services\Utils;
 use view\layouts\ConnectedLayout;
-use view\layouts\Layout;
-use view\templates\Index;
+use view\templates\{Index, SignUpForm};
 
 class IndexController
 {
@@ -21,6 +21,13 @@ class IndexController
         //Si l'utilisateur est connecté
         $layout = new ConnectedLayout(); //Squelette de la page
         $view = new Index($layout);
+        echo $view->render();
+    }
+
+    public function displaySignUpForm() : void
+    {
+        $layout = new ConnectedLayout(); //Squelette de la page
+        $view = new SignUpForm($layout); //Template de la page structuré par le layout
         echo $view->render();
     }
 }
