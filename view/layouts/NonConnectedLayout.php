@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace view\layouts;
 
-class ConnectedLayout extends Layout
+class NonConnectedLayout extends Layout
 {
     public function __construct()
     {
