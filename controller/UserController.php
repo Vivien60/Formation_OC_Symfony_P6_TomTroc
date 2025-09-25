@@ -28,7 +28,7 @@ class UserController
             return;
         }
 
-        $view = new \view\templates\SignUpForm(new \view\layouts\ConnectedLayout());
+        $view = new \view\templates\SignUpForm(new \view\layouts\NonConnectedLayout());
         $view->setUser($user);
         $view->successfull(true);
         echo $view->render();
@@ -36,6 +36,16 @@ class UserController
 
     public function signIn() : void
     {
-        echo 'Sign in from controller';
+        $email = Utils::request('email');
+        $password = Utils::request('password');
+
+        if(User::authenticate($email, $password)){
+            $user = User::fromEmail($email);
+            $user->toMemory();
+            var_dump(User::fromMemory());
+            echo 'Sign in from controller';
+        } else {
+            echo "Authentification error";
+        }
     }
 }

@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
+session_start();
 
 require_once 'config/autoload.php';
-
 use config\Conf;
 use services\Utils;
 use controller\{ErrorController, IndexController, UserController};
@@ -27,7 +27,7 @@ switch(Utils::request('action')) {
         break;
     case 'sign-in':
         $controller = new IndexController();
-        $controller->signIn();
+        $controller->displaySignInForm();
         break;
     default:
         $controller = new ErrorController();

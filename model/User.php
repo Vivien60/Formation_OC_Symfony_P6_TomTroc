@@ -13,15 +13,14 @@ class User
 {
     public ?int $id;
     public string $username;
-    private string $password;
+    private ?string $password = null;
     public string $email;
     public ?DateTime $createdAt = null;
 
-    private static DBManager $db;
+    public static DBManager $db;
 
     private function __construct()
     {
-        static::$db = DBManager::getInstance();
     }
 
     public static function fromArray(array $data) : User
@@ -35,12 +34,24 @@ class User
         return $user;
     }
 
-    public static function fromId(int $id) : User
+    public static function fromId(int $id) : ?User
     {
-        $sql = "select * from user where id = :id";
+        $sql = "select id, name as username, email, password, created_at from user where id = :id";
         $stmt = static::$db->query($sql, ['id' => $id]);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, static::class);
-        return $stmt->fetch();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(empty($result['id']))
+            return null;
+        return static::fromArray($result);
+    }
+
+    public static function fromEmail(string $email) : ?User
+    {
+        $sql = "select id, name as username, email, password, DATE(created_at) as createdAt from user where email = :email";
+        $stmt = static::$db->query($sql, ['email' => $email]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(empty($result['id']))
+            return null;
+        return static::fromArray($result);
     }
 
     /**
@@ -73,6 +84,26 @@ class User
             'password' => $this->password,
         ]);
         $this->id = (int)static::$db->getPDO()->lastInsertId();
+    }
+
+    public function toMemory()
+    {
+        $_SESSION['user'] = $this->id;
+    }
+
+    public static function fromMemory() : ?User
+    {
+        return $_SESSION['user']? static::fromId($_SESSION['user']) : null;
+    }
+
+    public static function authenticate($email, $password) : bool
+    {
+        $stmt = static::$db->query(
+            "select count(*) as nb from user where email like :email and password like :password",
+            ['email' => $email, 'password' => $password]
+        );
+        $nb = $stmt->fetchColumn();
+        return $nb > 0;
     }
 
     private function checkExistId() : bool
