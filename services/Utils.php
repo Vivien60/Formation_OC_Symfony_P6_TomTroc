@@ -3,7 +3,7 @@
 namespace services;
 
 use \DateTime, \IntlDateFormatter;
-use User;
+use model\User;
 
 /**
  * Classe utilitaire : cette classe ne contient que des méthodes statiques qui peuvent être appelées
@@ -61,7 +61,7 @@ class Utils
      * @param string $string : la chaine à protéger.
      * @return string : la chaine protégée.
      */
-    public static function format(string $string): string
+    public static function formatToHtmlParagraphs(string $string): string
     {
         // Etape 1, on protège le texte avec htmlspecialchars.
         $finalString = htmlspecialchars($string, ENT_QUOTES);
@@ -88,9 +88,22 @@ class Utils
      * @param mixed $defaultValue : la valeur par défaut si la variable n'est pas définie.
      * @return mixed : la valeur de la variable ou la valeur par défaut.
      */
-    public static function request(string $variableName, mixed $defaultValue = null): mixed
+    public static function request(string $variableName, mixed $defaultValue = null, $secure = true): mixed
     {
-        return $_REQUEST[$variableName] ?? $defaultValue;
+        return isset($_REQUEST[$variableName]) ?
+            ($secure ? static::filterInput($_REQUEST[$variableName]) : $_REQUEST[$variableName])
+            : $defaultValue;
+    }
+
+    /**
+     * This method sanitizes the input string by converting special characters to HTML entities.
+     * This helps prevent XSS (Cross-Site Scripting) attacks by escaping potentially harmful characters.
+     * @param string $string The input string to be sanitized.
+     * @return string The sanitized string with special characters converted to HTML entities.
+     */
+    public static function filterInput(string $string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES);
     }
 
     public static function userConnected(): User|null
