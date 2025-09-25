@@ -21,6 +21,14 @@ switch(Utils::request('action')) {
         $controller = new UserController();
         $controller->signUp();
         break;
+    case 'login':
+        $controller = new UserController();
+        $controller->signIn();
+        break;
+    case 'sign-in':
+        $controller = new IndexController();
+        $controller->signIn();
+        break;
     default:
         $controller = new ErrorController();
         $controller->pageNotFound();

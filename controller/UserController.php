@@ -33,4 +33,9 @@ class UserController
         $view->successfull(true);
         echo $view->render();
     }
+
+    public function signIn() : void
+    {
+        echo 'Sign in from controller';
+    }
 }

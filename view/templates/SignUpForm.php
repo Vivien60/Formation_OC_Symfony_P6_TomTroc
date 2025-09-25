@@ -10,7 +10,7 @@ class SignUpForm extends AbstractHtmlTemplate
 {
     public string $title = 'Home';
     private ?User $user = null;
-    private bool $success;
+    private bool $success = false;
 
     public function __construct(Layout $layout)
     {
