@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace model;
 
+use Cassandra\Date;
 use DateTime;
 use mysql_xdevapi\Statement;
 use PDO;
@@ -10,11 +11,11 @@ use services\DBManager;
 
 class User
 {
-    public int $id;
+    public ?int $id;
     public string $username;
-    public string $password;
+    private string $password;
     public string $email;
-    public DateTime $createdAt;
+    public ?DateTime $createdAt = null;
 
     private static DBManager $db;
 
@@ -26,10 +27,11 @@ class User
     public static function fromArray(array $data) : User
     {
         $user = new static;
-        $user->id = $data['id'];
+        $user->id = $data['id']??null;
         $user->username = $data['username'];
         $user->email = $data['email'];
-        $user->createdAt = new DateTime($data['created_at']);
+        $user->password = $data['password'];
+        $user->createdAt = isset($data['created_at'])?new DateTime($data['created_at']):null;
         return $user;
     }
 
@@ -64,13 +66,12 @@ class User
         if($this->checkExist()) {
             throw new \Exception('User already registered');
         }
-        $sql = "insert into user (name, email, password, created_at) values (:username, :email, :password, :created_at)";
+        $sql = "insert into user (name, email, password, created_at) values (:username, :email, :password, NOW())";
         $stmt = static::$db->query($sql, [
             'username' => $this->username,
             'email' => $this->email,
             'password' => $this->password,
         ]);
-        $stmt->execute();
         $this->id = (int)static::$db->getPDO()->lastInsertId();
     }
 
