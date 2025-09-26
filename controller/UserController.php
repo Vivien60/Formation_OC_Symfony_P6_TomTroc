@@ -42,10 +42,20 @@ class UserController
         if(User::authenticate($email, $password)){
             $user = User::fromEmail($email);
             $user->toMemory();
-            var_dump(User::fromMemory());
-            echo 'Sign in from controller';
+            Utils::redirect('edit-profile');
         } else {
             echo "Authentification error";
         }
+    }
+
+    public function signOut() : void
+    {
+
+    }
+
+    public function update() : void
+    {
+        echo "try to update account ?";
+        var_dump($_POST);
     }
 }

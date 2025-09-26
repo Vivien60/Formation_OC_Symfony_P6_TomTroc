@@ -10,6 +10,7 @@ use controller\{ErrorController, IndexController, UserController};
 Conf::fromInstance()->deploy();
 switch(Utils::request('action')) {
     case 'home':
+    case null:
         $controller = new IndexController();
         $controller->index();
         break;
@@ -28,6 +29,14 @@ switch(Utils::request('action')) {
     case 'sign-in':
         $controller = new IndexController();
         $controller->displaySignInForm();
+        break;
+    case 'edit-profile':
+        $controller = new IndexController();
+        $controller->editProfile();
+        break;
+    case 'update-account':
+        $controller = new UserController();
+        $controller->update();
         break;
     default:
         $controller = new ErrorController();

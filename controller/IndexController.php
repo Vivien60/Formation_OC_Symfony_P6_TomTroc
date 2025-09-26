@@ -5,7 +5,7 @@ namespace controller;
 
 use services\Utils;
 use view\layouts\NonConnectedLayout;
-use view\templates\{Index, SignInForm, SignUpForm};
+use view\templates\{EditProfile, Index, SignInForm, SignUpForm};
 
 class IndexController
 {
@@ -35,6 +35,13 @@ class IndexController
     {
         $layout = new NonConnectedLayout();
         $view = new SignInForm($layout);
+        echo $view->render();
+    }
+
+    public function editProfile() : void
+    {
+        $layout = new NonConnectedLayout();
+        $view = new EditProfile($layout);
         echo $view->render();
     }
 }
