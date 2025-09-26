@@ -65,7 +65,8 @@ class UserController
      */
     public function signOut() : void
     {
-
+        session_destroy();
+        echo 'session destroyed';
     }
 
     /**
@@ -125,7 +126,16 @@ class UserController
 
     public function readProfile() : void
     {
-        $view = new ReadProfile(new COnnectedLayout());
+        $userConnected = User::fromMemory();
+        if(!$userConnected?->id) {
+            $view = new NotAllowed(new ErrorLayout());
+            echo $view->render();
+            return;
+        }
+        $id = intval(Utils::request('id', 0));
+        $profile = User::fromId($id);
+        $view = new ReadProfile(new CONNectedLayout());
+        $view->setUser($profile);
         echo $view->render();
     }
 }

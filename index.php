@@ -30,6 +30,10 @@ switch(Utils::request('action', null)) {
         $controller = new IndexController();
         $controller->displaySignInForm();
         break;
+    case 'sign-out':
+        $controller = new UserController();
+        $controller->signOut();
+        break;
     case 'edit-profile':
         $controller = new UserController();
         $controller->editProfile();
