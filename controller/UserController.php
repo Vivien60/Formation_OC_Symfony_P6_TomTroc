@@ -10,6 +10,8 @@ use view\layouts\ConnectedLayout;
 use view\layouts\ErrorLayout;
 use view\templates\EditProfile;
 use view\templates\Error;
+use view\templates\NotAllowed;
+use view\templates\ReadProfile;
 
 class UserController
 {
@@ -37,6 +39,12 @@ class UserController
         echo $view->render();
     }
 
+    /**
+     * Authenticate the user and start a user session if
+     * he's correctly authentified
+     * Otherwise, display an error
+     * @return void
+     */
     public function signIn() : void
     {
         $email = Utils::request('email');
@@ -51,9 +59,35 @@ class UserController
         }
     }
 
+    /**
+     * Disconnect the user and close/destroy his session
+     * @return void
+     */
     public function signOut() : void
     {
 
+    }
+
+    /**
+     * Show the editing user profile form. Ensures that the current user
+     * has the necessary permissions to edit the profile. If the user is not allowed,
+     * an error view is rendered. If allowed, the edit profile view is displayed.
+     *
+     * @return void
+     */
+    public function editProfile() : void
+    {
+        $user = User::fromMemory();
+        $id = Utils::request('id',0);
+        if(!$user || $id && $user->id !== $id) {
+            $view = new NotAllowed(new ErrorLayout());
+            echo $view->render();
+            return;
+        }
+        $layout = new ConnectedLayout();
+        $view = new EditProfile($layout);
+        $view->setUser($user);
+        echo $view->render();
     }
 
     public function update() : void
@@ -87,5 +121,11 @@ class UserController
         $view->setUser($user);
         echo $view->render();
 
+    }
+
+    public function readProfile() : void
+    {
+        $view = new ReadProfile(new COnnectedLayout());
+        echo $view->render();
     }
 }

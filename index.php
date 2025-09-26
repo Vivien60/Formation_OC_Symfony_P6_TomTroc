@@ -31,7 +31,7 @@ switch(Utils::request('action', null)) {
         $controller->displaySignInForm();
         break;
     case 'edit-profile':
-        $controller = new IndexController();
+        $controller = new UserController();
         $controller->editProfile();
         break;
     case 'update-account':
@@ -41,6 +41,10 @@ switch(Utils::request('action', null)) {
     case 'not-allowed':
         $controller = new ErrorController();
         $controller->notAllowed();
+        break;
+    case 'profile':
+        $controller = new UserController();
+        $controller->readProfile();
         break;
     default:
         $controller = new ErrorController();

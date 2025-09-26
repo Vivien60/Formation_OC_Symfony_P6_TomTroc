@@ -40,19 +40,4 @@ class IndexController
         $view = new SignInForm($layout);
         echo $view->render();
     }
-
-    public function editProfile() : void
-    {
-        $user = User::fromMemory();
-        $id = Utils::request('id',0);
-        if(!$user || $id && $user->id !== $id) {
-            $view = new NotAllowed(new ErrorLayout());
-            echo $view->render();
-            return;
-        }
-        $layout = new ConnectedLayout();
-        $view = new EditProfile($layout);
-        $view->setUser($user);
-        echo $view->render();
-    }
 }
