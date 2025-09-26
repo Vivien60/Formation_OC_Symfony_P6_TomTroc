@@ -46,7 +46,6 @@ class IndexController
         $user = User::fromMemory();
         $id = Utils::request('id',0);
         if(!$user || $id && $user->id !== $id) {
-            die('toto');
             $view = new NotAllowed(new ErrorLayout());
             echo $view->render();
             return;
