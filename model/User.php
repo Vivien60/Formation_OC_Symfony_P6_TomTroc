@@ -13,7 +13,14 @@ class User
 {
     public ?int $id;
     public string $username;
-    private ?string $password = null;
+    public ?string $password = null {
+        get {
+            return $this->password;
+        }
+        set {
+            $this->password = $value?: $this->password;
+        }
+    }
     public string $email;
     public ?DateTime $createdAt = null;
 
@@ -64,10 +71,11 @@ class User
         }
         $sql = "update user set name = :username, email = :email, password = :password, created_at = :created_at where id = :id";
         $stmt = static::$db->query($sql, [
+            'id' => $this->id,
             'username' => $this->username,
             'email' => $this->email,
             'password' => $this->password,
-            'created_at' => $this->createdAt
+            'created_at' => $this->createdAt->format("Y-m-d H:i:s")
         ]);
         $stmt->execute();
     }

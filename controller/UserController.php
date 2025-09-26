@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace controller;
 
+use JetBrains\PhpStorm\Language;
 use model\User;
 use services\Utils;
+use view\layouts\ConnectedLayout;
 use view\layouts\ErrorLayout;
+use view\templates\EditProfile;
 use view\templates\Error;
 
 class UserController
@@ -57,5 +60,31 @@ class UserController
     {
         echo "try to update account ?";
         var_dump($_POST);
+        $userConnected = User::fromMemory();
+        $id = Utils::request('id', 0);
+        if(!$userConnected || ($id && $id !== $userConnected->id)){
+            Utils::redirect('not-allowed');
+            return;
+        }
+        $email = Utils::request('email');
+        $name = Utils::request('name');
+        $password  = Utils::request('password');
+
+        $user = $userConnected;
+        $user->email = $email;
+        $user->username = $name;
+        $user->password = $password;
+        try {
+            $user->save();
+            $user->toMemory();
+        } catch (\Exception $e) {
+            $view = new Error(new ErrorLayout(), $e);
+            echo $view->render();
+            return;
+        }
+        $view = new EditProfile(new ConnectedLayout());
+        $view->setUser($user);
+        echo $view->render();
+
     }
 }
