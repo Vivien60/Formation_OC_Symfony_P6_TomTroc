@@ -83,6 +83,7 @@ class UserController
             return;
         }
         $view = new EditProfile(new ConnectedLayout());
+        $view->successfull(true);
         $view->setUser($user);
         echo $view->render();
 
