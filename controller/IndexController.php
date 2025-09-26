@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace controller;
 
+use model\User;
 use services\Utils;
+use view\layouts\ConnectedLayout;
+use view\layouts\ErrorLayout;
 use view\layouts\NonConnectedLayout;
-use view\templates\{EditProfile, Index, SignInForm, SignUpForm};
+use view\templates\{EditProfile, Index, NotAllowed, SignInForm, SignUpForm};
 
 class IndexController
 {
@@ -40,8 +43,17 @@ class IndexController
 
     public function editProfile() : void
     {
-        $layout = new NonConnectedLayout();
+        $user = User::fromMemory();
+        $id = Utils::request('id',0);
+        if(!$user || $id && $user->id !== $id) {
+            die('toto');
+            $view = new NotAllowed(new ErrorLayout());
+            echo $view->render();
+            return;
+        }
+        $layout = new ConnectedLayout();
         $view = new EditProfile($layout);
+        $view->setUser($user);
         echo $view->render();
     }
 }

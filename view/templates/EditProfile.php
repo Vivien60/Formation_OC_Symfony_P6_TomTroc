@@ -10,7 +10,7 @@ class EditProfile extends AbstractHtmlTemplate
 {
     public string $title = 'My profile';
     private ?User $user = null;
-    private bool $success = false;
+    private ?bool $success = null;
 
     public function __construct(Layout $layout)
     {
@@ -35,10 +35,17 @@ HEADERS
     }
     public function getMainContent(): string
     {
-        $message = $this->user?
-            $this->success?"Mise à jour réussie":"Mise à jour impossible"
-            : '';
-        $classMessage = $this->success?"success":"error";
+        if(true === $this->success && $this->user) {
+            $message = 'Your profile has been updated.';
+            $classMessage = 'success';
+        } elseif(false === $this->success) {
+            $message = 'Your profile has not been updated.';
+            $classMessage = 'error';
+        } else {
+            $message = '';
+            $classMessage = '';
+        }
+
         return
         <<<MAIN
             <div>
