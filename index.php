@@ -8,7 +8,7 @@ use services\Utils;
 use controller\{ErrorController, IndexController, UserController};
 
 Conf::fromInstance()->deploy();
-switch(Utils::request('action')) {
+switch(Utils::request('action', null)) {
     case 'home':
     case null:
         $controller = new IndexController();
@@ -37,6 +37,10 @@ switch(Utils::request('action')) {
     case 'update-account':
         $controller = new UserController();
         $controller->update();
+        break;
+    case 'not-allowed':
+        $controller = new ErrorController();
+        $controller->notAllowed();
         break;
     default:
         $controller = new ErrorController();
