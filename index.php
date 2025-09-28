@@ -5,7 +5,7 @@ session_start();
 require_once 'config/autoload.php';
 use config\Conf;
 use services\Utils;
-use controller\{ErrorController, IndexController, UserController};
+use controller\{BookController, ErrorController, IndexController, UserController};
 
 Conf::fromInstance()->deploy();
 switch(Utils::request('action', null)) {
@@ -49,6 +49,10 @@ switch(Utils::request('action', null)) {
     case 'profile':
         $controller = new UserController();
         $controller->readProfile();
+        break;
+    case 'book-copy':
+        $controller = new BookController();
+        $controller->copyDetail();
         break;
     default:
         $controller = new ErrorController();
