@@ -6,14 +6,19 @@ use model\User;
 
 abstract class AbstractController
 {
+    private ?User $userConnected = null;
+
     public function __construct()
     {
 
     }
 
-    protected function userConnected() : bool
+    protected function userConnected() : ?User
     {
-        return !!User::fromMemory();
+        if(!$this->userConnected) {
+            $this->userConnected = User::fromMemory();
+        }
+        return $this->userConnected;
     }
 
     /**

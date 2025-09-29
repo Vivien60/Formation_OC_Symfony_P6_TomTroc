@@ -18,7 +18,7 @@ class ReadProfile extends AbstractHtmlTemplate
         parent::__construct($layout);
     }
 
-    public function setUser(User $user): void
+    public function setUser(?User $user): void
     {
         $this->user = $user;
     }

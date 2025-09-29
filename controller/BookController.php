@@ -11,7 +11,7 @@ class BookController extends AbstractController
 {
     public function copyDetail() : void
     {
-        if($this->userConnected() === false) {
+        if(! $this->userConnected()) {
             $view = $this->viewNotAllowed();
             echo $view->render();
             return;

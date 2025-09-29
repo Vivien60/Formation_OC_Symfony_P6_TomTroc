@@ -13,7 +13,7 @@ use view\templates\Error;
 use view\templates\NotAllowed;
 use view\templates\ReadProfile;
 
-class UserController
+class UserController extends AbstractController
 {
     public function signUp() : void
     {
@@ -95,20 +95,16 @@ class UserController
     {
         echo "try to update account ?";
         var_dump($_POST);
-        $userConnected = User::fromMemory();
         $id = Utils::request('id', 0);
-        if(!$userConnected || ($id && $id !== $userConnected->getId())){
+        if(!$this->userConnected() || $this->userConnected()->id !== $id) {
             Utils::redirect('not-allowed');
             return;
         }
-        $email = Utils::request('email');
-        $name = Utils::request('name');
-        $password  = Utils::request('password');
 
-        $user = $userConnected;
-        $user->email = $email;
-        $user->username = $name;
-        $user->password = $password;
+        $user = $this->userConnected();
+        $user->email = Utils::request('email');
+        $user->username = Utils::request('name');
+        $user->password  = Utils::request('password');
         try {
             $user->save();
             $user->toMemory();
@@ -126,9 +122,8 @@ class UserController
 
     public function readProfile() : void
     {
-        $userConnected = User::fromMemory();
-        if(!$userConnected?->getId()) {
-            $view = new NotAllowed(new ErrorLayout());
+        if($this->userConnected() === null) {
+            $view = $this->viewNotAllowed();
             echo $view->render();
             return;
         }
