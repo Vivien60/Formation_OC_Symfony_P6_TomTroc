@@ -6,32 +6,24 @@ use DateTime;
 use PDO;
 use services\DBManager;
 
-class BookCopy
+class BookCopy extends AbstractEntity
 {
-
-    public static DBManager $db;
-    public int $id = -1;
     public string $auteur;
     public string $title;
     public string $description;
     public int $availabilityStatus;
     public string $image = '';
-    public ?DateTime $createdAt;
     public int $ownerId;
+    protected static string $selectSql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy";
 
-    public static function fromId(int $id) : ?static
+    protected function __construct()
     {
-        $sql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy where id = :id";
-        $stmt = static::$db->query($sql, ['id' => $id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(empty($result['id']))
-            return null;
-        return static::fromArray($result);
+        parent::__construct();
     }
 
     public static function fromOwner(int $ownerId) : array
     {
-        $sql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy where user_id = :ownerId";
+        $sql = static::$selectSql." where user_id = :ownerId";
         $stmt = static::$db->query($sql, ['ownerId' => $ownerId]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(static::fromArray(...), $result);
@@ -39,14 +31,7 @@ class BookCopy
 
     public static function fromArray(array $fieldVals) : static
     {
-        $bookCopy = new static;
-        $bookCopy->id = $fieldVals['id']??-1;
-        $bookCopy->auteur = $fieldVals['auteur'];
-        $bookCopy->title = $fieldVals['title'];
-        $bookCopy->description = $fieldVals['description'];
-        $bookCopy->image = $fieldVals['image'];
-        $bookCopy->availabilityStatus = $fieldVals['availability_status'];
-        $bookCopy->createdAt = isset($fieldVals['created_at'])?new DateTime($fieldVals['created_at']):null;
+        $bookCopy = parent::fromArray($fieldVals);
         $bookCopy->ownerId = $fieldVals['user_id'];
         return $bookCopy;
     }
@@ -91,12 +76,5 @@ class BookCopy
             'ownerId' => $this->ownerId,
         ]);
         $this->id = (int)static::$db->getPDO()->lastInsertId();
-    }
-
-    private function checkExistId() : bool
-    {
-        $stmt = static::$db->query("select count(*) as nb from user where id = :id", ['id' => $this->id]);
-        $nb = $stmt->fetchColumn();
-        return $nb > 0;
     }
 }

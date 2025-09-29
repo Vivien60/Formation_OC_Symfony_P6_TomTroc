@@ -2,25 +2,33 @@
 
 namespace model;
 
+use DateTime;
+use PDO;
 use services\DBManager;
 
 abstract class AbstractEntity
 {
-    protected int $id = -1;
-
-    public static DBManager $db;   // Par défaut l'id vaut -1, ce qui permet de vérifier facilement si l'entité est nouvelle ou pas.
+    public int $id = -1; // Par défaut l'id vaut -1, ce qui permet de vérifier
+    // facilement si l'entité est nouvelle ou pas.
+    public DateTime|string|null $createdAt {
+        set {
+            if(!is_a($value, ' DateTimeInterface') && $value !== null) {
+                $this->createdAt = new DateTime($value);
+            } else {
+                $this->createdAt = $value;
+            }
+        }
+    }
+    public static DBManager $db;
 
     /**
-     * Constructeur de la classe.
-     * Si un tableau associatif est passé en paramètre, on hydrate l'entité.
-     *
-     * @param array $data
+     * Base for SQL select, without where clause. This is to avoid select fields clause repetitions
+     * @var string
      */
-    public function __construct(array $data = [])
+    protected static string $selectSql;
+
+    public function __construct()
     {
-        if (!empty($data)) {
-            $this->hydrate($data);
-        }
     }
 
     /**
@@ -38,32 +46,34 @@ abstract class AbstractEntity
             $property = strtolower($fieldName[0]).substr($fieldName, 1);
             if (method_exists($this, $method)) {
                 $this->$method($value);
-            } else if(property_exists($this, $method)) {
+            } else if(property_exists($this, $property)) {
                 $this->$property = $value;
             }
         }
     }
 
-    /**
-     * Setter pour l'id.
-     * @param int $id
-     * @return void
-     */
-    public function setId(int $id) : void
+    public static function fromArray(array $fieldVals) : static
     {
-        $this->id = $id;
+        $entity = new static;
+        $entity->hydrate($fieldVals);
+        return $entity;
     }
 
-
-    /**
-     * Getter pour l'id.
-     * @return int
-     */
-    public function getId() : int
+    public static function fromId(int $id) : ?static
     {
-        return $this->id;
+        $sql = static::$selectSql . " where id = :id";
+        $stmt = static::$db->query($sql, ['id' => $id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(empty($result['id']))
+            return null;
+        return static::fromArray($result);
     }
 
-    abstract public static function fromId(int $id) : ?static;
-    abstract public static function fromArray(array $fieldVals) : static;
+    protected function checkExistId() : bool
+    {
+        $stmt = static::$db->query("select count(*) as nb from user where id = :id", ['id' => $this->id]);
+        $nb = $stmt->fetchColumn();
+        return $nb > 0;
+    }
+
 }

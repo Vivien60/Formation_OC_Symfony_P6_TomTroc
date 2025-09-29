@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace model;
 
-use Cassandra\Date;
 use DateTime;
-use mysql_xdevapi\Statement;
 use PDO;
 use services\DBManager;
 
@@ -20,37 +18,19 @@ class User extends AbstractEntity
             $this->password = $value?: $this->password;
         }
     }
+
     public string $email;
-    public ?DateTime $createdAt = null;
 
-    private function __construct()
-    {
-    }
+    protected static string $selectSql = "select id, name as username, email, password, DATE(created_at) as createdAt from user";
 
-    public static function fromArray(array $data) : static
+    protected function __construct()
     {
-        $user = new static;
-        $user->id = $data['id']??null;
-        $user->username = $data['username'];
-        $user->email = $data['email'];
-        $user->password = $data['password'];
-        $user->createdAt = isset($data['created_at'])?new DateTime($data['created_at']):null;
-        return $user;
-    }
-
-    public static function fromId(int $id) : ?static
-    {
-        $sql = "select id, name as username, email, password, created_at from user where id = :id";
-        $stmt = static::$db->query($sql, ['id' => $id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(empty($result['id']))
-            return null;
-        return static::fromArray($result);
+        parent::__construct();
     }
 
     public static function fromEmail(string $email) : ?User
     {
-        $sql = "select id, name as username, email, password, DATE(created_at) as createdAt from user where email = :email";
+        $sql = static::$selectSql." where email = :email";
         $stmt = static::$db->query($sql, ['email' => $email]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if(empty($result['id']))
@@ -112,14 +92,14 @@ class User extends AbstractEntity
         return $nb > 0;
     }
 
-    private function checkExistId() : bool
+    protected function checkExistId() : bool
     {
         $stmt = static::$db->query("select count(*) as nb from user where id = :id", ['id' => $this->id]);
         $nb = $stmt->fetchColumn();
         return $nb > 0;
     }
 
-    private function checkExist()
+    protected function checkExist()
     {
         $stmt = static::$db->query("select count(*) as nb from user where email = :email", ['email' => $this->email]);
         $nb = $stmt->fetchColumn();
