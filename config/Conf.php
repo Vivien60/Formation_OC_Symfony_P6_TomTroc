@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace config;
 
+use model\BookCopy;
 use model\User;
 use services\DBManager;
 use view\templates\AbstractHtmlTemplate;
@@ -24,5 +25,6 @@ class Conf extends \config\AbstractConf
         DBManager::$bddConfig = $this->_config['bddConfig'];
         AbstractHtmlTemplate::setBaseUrl($this->_config['baseUrl']);
         User::$db = DBManager::getInstance();
+        BookCopy::$db = DBManager::getInstance();
     }
 }

@@ -16,7 +16,7 @@ abstract class AbstractConf
         $this->_config = array_merge($this->defaultConfig(), $config);
     }
 
-    public static function fromInstance(array $config = []): static
+    public static function getInstance(array $config = []): static
     {
         if (static::$instance !== null) {
             return static::$instance;

@@ -9,9 +9,8 @@ use mysql_xdevapi\Statement;
 use PDO;
 use services\DBManager;
 
-class User
+class User extends AbstractEntity
 {
-    public ?int $id;
     public string $username;
     public ?string $password = null {
         get {
@@ -24,13 +23,11 @@ class User
     public string $email;
     public ?DateTime $createdAt = null;
 
-    public static DBManager $db;
-
     private function __construct()
     {
     }
 
-    public static function fromArray(array $data) : User
+    public static function fromArray(array $data) : static
     {
         $user = new static;
         $user->id = $data['id']??null;
@@ -41,7 +38,7 @@ class User
         return $user;
     }
 
-    public static function fromId(int $id) : ?User
+    public static function fromId(int $id) : ?static
     {
         $sql = "select id, name as username, email, password, created_at from user where id = :id";
         $stmt = static::$db->query($sql, ['id' => $id]);
@@ -66,6 +63,7 @@ class User
      */
     public function save() : void
     {
+        //TODO : vérifier email pas en double et pseudo pas en double aussi
         if(!$this->checkExistId()) {
             throw new \Exception('User not found');
         }

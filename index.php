@@ -7,7 +7,7 @@ use config\Conf;
 use services\Utils;
 use controller\{BookController, ErrorController, IndexController, UserController};
 
-Conf::fromInstance()->deploy();
+Conf::getInstance()->deploy();
 switch(Utils::request('action', null)) {
     case 'home':
     case null:

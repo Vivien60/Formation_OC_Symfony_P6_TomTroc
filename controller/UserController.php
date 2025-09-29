@@ -80,7 +80,7 @@ class UserController
     {
         $user = User::fromMemory();
         $id = Utils::request('id',0);
-        if(!$user || $id && $user->id !== $id) {
+        if(!$user || $id && $user->getId() !== $id) {
             $view = new NotAllowed(new ErrorLayout());
             echo $view->render();
             return;
@@ -97,7 +97,7 @@ class UserController
         var_dump($_POST);
         $userConnected = User::fromMemory();
         $id = Utils::request('id', 0);
-        if(!$userConnected || ($id && $id !== $userConnected->id)){
+        if(!$userConnected || ($id && $id !== $userConnected->getId())){
             Utils::redirect('not-allowed');
             return;
         }
@@ -127,7 +127,7 @@ class UserController
     public function readProfile() : void
     {
         $userConnected = User::fromMemory();
-        if(!$userConnected?->id) {
+        if(!$userConnected?->getId()) {
             $view = new NotAllowed(new ErrorLayout());
             echo $view->render();
             return;
