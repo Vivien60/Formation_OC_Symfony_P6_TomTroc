@@ -68,7 +68,7 @@ abstract class AbstractHtmlTemplate
             '<meta charset="UTF-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
             '<title>'.$this->title.'</title>',
-            '<link rel="stylesheet" type="text/css" href="/css/general.css" media="screen">',
+            '<link rel="stylesheet" type="text/css" href="css/general.css" media="screen">',
             "<base href='{$this->getBaseUrl()}'>",
         ];
     }

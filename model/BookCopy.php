@@ -11,7 +11,13 @@ class BookCopy extends AbstractEntity
     public string $auteur;
     public string $title;
     public string $description;
-    public int $availabilityStatus;
+    public int $availabilityStatus {
+        set {
+           $this->availabilityStatus = $value;
+           $this->availabilityLibelle = $value? 'Disponible' : 'Indisponible';
+        }
+    }
+    public string $availabilityLibelle;
     public string $image = '';
     public int $ownerId;
     protected static string $selectSql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy";

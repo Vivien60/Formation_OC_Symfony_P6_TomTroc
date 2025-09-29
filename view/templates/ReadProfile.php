@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace view\templates;
 
+use model\BookCopy;
 use model\User;
 use services\Utils;
 use \view\layouts\Layout;
@@ -12,6 +13,10 @@ class ReadProfile extends AbstractHtmlTemplate
     public string $title = 'My profile';
     private ?User $user = null;
     private ?bool $success = null;
+    /**
+     * @var BookCopy[]
+     */
+    private array $library;
 
     public function __construct(Layout $layout)
     {
@@ -21,6 +26,11 @@ class ReadProfile extends AbstractHtmlTemplate
     public function setUser(?User $user): void
     {
         $this->user = $user;
+    }
+
+    public function setBookLibrary(array $books): void
+    {
+        $this->library = $books;
     }
 
     /**
@@ -37,14 +47,10 @@ HEADERS
     public function getMainContent(): string
     {
         $dateCrea = $this->user?Utils::convertDateToFrenchFormat($this->user?->createdAt):'';
-        return
-        <<<MAIN
-            <div>
-            Look my profile page !
-            </div>
-            <p>{$this->user?->username}</p>
-            <p>{$dateCrea}</p>
-        MAIN;
+        $libraryRows = '';
+        ob_start();
+        require_once dirname(__DIR__, 1).'/ui/readProfileMain.php';;
+        return ob_get_clean();
     }
 
     public function successfull(bool $success): void

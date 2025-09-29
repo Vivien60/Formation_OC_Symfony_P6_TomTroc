@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace controller;
 
 use JetBrains\PhpStorm\Language;
+use model\BookCopy;
 use model\User;
 use services\Utils;
 use view\layouts\ConnectedLayout;
@@ -131,6 +132,7 @@ class UserController extends AbstractController
         $profile = User::fromId($id);
         $view = new ReadProfile(new CONNectedLayout());
         $view->setUser($profile);
+        $view->setBookLibrary(BookCopy::fromOwner($profile->id));
         echo $view->render();
     }
 }
