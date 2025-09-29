@@ -79,7 +79,7 @@ class User extends AbstractEntity
 
     public static function fromMemory() : ?User
     {
-        return $_SESSION['user']? static::fromId($_SESSION['user']) : null;
+        return !empty($_SESSION['user'])? static::fromId($_SESSION['user']) : null;
     }
 
     public static function authenticate($email, $password) : bool

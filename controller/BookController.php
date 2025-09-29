@@ -2,16 +2,23 @@
 
 namespace controller;
 
-use Couchbase\View;
+use model\BookCopy;
+use services\Utils;
 use view\layouts\ConnectedLayout;
 use view\templates\BookCopyDetail;
 
-class BookController
+class BookController extends AbstractController
 {
     public function copyDetail() : void
     {
+        if($this->userConnected() === false) {
+            $view = $this->viewNotAllowed();
+            echo $view->render();
+            return;
+        }
+        $refBook = Utils::request('id', '0');
         $view = new BookCopyDetail(new ConnectedLayout());
-        //$view->setBook()
+        $view->setBook( BookCopy::fromId($refBook) );
         echo $view->render();
     }
 }

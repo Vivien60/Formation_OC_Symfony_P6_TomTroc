@@ -3,24 +3,23 @@ declare(strict_types=1);
 
 namespace view\templates;
 
-use model\User;
+use model\BookCopy;
 use services\Utils;
 use \view\layouts\Layout;
 
 class BookCopyDetail extends AbstractHtmlTemplate
 {
     public string $title = 'My profile';
-    private ?User $user = null;
-    private ?bool $success = null;
+    private ?BookCopy $book = null;
 
     public function __construct(Layout $layout)
     {
         parent::__construct($layout);
     }
 
-    public function setUser(User $user): void
+    public function setBook(BookCopy $book): void
     {
-        $this->user = $user;
+        $this->book = $book;
     }
 
     /**
@@ -34,21 +33,17 @@ class BookCopyDetail extends AbstractHtmlTemplate
 HEADERS
         ];
     }
+
     public function getMainContent(): string
     {
-        $dateCrea = $this->user?Utils::convertDateToFrenchFormat($this->user?->createdAt):'';
+        $dateCrea = $this->book?Utils::convertDateToFrenchFormat($this->book?->createdAt):'';
         return
         <<<MAIN
             <div>
             Look my book copy detail page !
             </div>
-            <p>{$this->user?->username}</p>
+            <p>{$this->book?->title}</p>
             <p>{$dateCrea}</p>
         MAIN;
-    }
-
-    public function successfull(bool $success): void
-    {
-        $this->success = $success;
     }
 }
