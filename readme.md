@@ -13,26 +13,29 @@ erDiagram
     }
 
     USER {
-        int id  ""  
-        string name  ""  
-        string email  ""  
-        date created_at  ""  
+        int id PK
+        string name
+        string email
+        string password
+        datetime created_at
     }
 
     THREAD {
-        int id  ""  
-        date created_at  ""  
+        int id PK
+        datetime created_at
     }
 
     MESSAGE {
-        int rank PK ""  
-        int thread_id FK, PK ""  
-        date created_at  ""  
-        string content  ""  
+        int rank PK
+        int thread_id PK,FK
+        datetime created_at
+        text content
+        int author FK
     }
 
-    USER||--o{MESSAGE:"writes"
-    MESSAGE}o--||THREAD:"contains"
-    THREAD}o--|{USER:"participates"
+    USER ||--o{ MESSAGE : "écrit"
+    THREAD ||--|{ MESSAGE : "contient"
+    USER }|--o{ THREAD : "participe"
+    USER }o--o{ MESSAGE : "lit"
     USER||--o{BOOK_COPY:"own"
 ```
