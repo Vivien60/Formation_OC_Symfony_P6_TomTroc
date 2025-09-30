@@ -1,0 +1,21 @@
+<?php
+
+namespace controller;
+
+use model\Thread;
+use view\templates\MessagerieThread;
+
+class ThreadController
+{
+    public function create()
+    {
+        echo 'create from threadController';
+    }
+
+    public function detail()
+    {
+        $view = new MessagerieThread(new \view\layouts\ConnectedLayout());
+        $view->setThread(new Thread());
+        echo $view->render();
+    }
+}

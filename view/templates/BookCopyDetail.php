@@ -44,6 +44,7 @@ HEADERS
             </div>
             <p>{$this->book?->title}</p>
             <p>{$dateCrea}</p>
+            <a href="?action=create-thread&dest={$this->book?->ownerId}" class="send-message">Send message</button>
         MAIN;
     }
 }

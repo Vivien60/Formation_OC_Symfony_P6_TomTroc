@@ -5,7 +5,12 @@ session_start();
 require_once 'config/autoload.php';
 use config\Conf;
 use services\Utils;
-use controller\{BookController, ErrorController, IndexController, UserController};
+use controller\{BookController,
+    ErrorController,
+    IndexController,
+    MessagerieController,
+    ThreadController,
+    UserController};
 
 Conf::getInstance()->deploy();
 switch(Utils::request('action', null)) {
@@ -53,6 +58,18 @@ switch(Utils::request('action', null)) {
     case 'book-copy':
         $controller = new BookController();
         $controller->copyDetail();
+        break;
+    case 'messagerie':
+        $controller = new MessagerieController();
+        $controller->home();
+        break;
+    case 'thread':
+        $controller = new ThreadController();
+        $controller->detail();
+        break;
+    case 'create-thread':
+        $controller = new ThreadController();
+        $controller->create();
         break;
     default:
         $controller = new ErrorController();
