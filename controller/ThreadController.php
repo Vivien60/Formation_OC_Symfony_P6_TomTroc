@@ -12,7 +12,7 @@ class ThreadController
         echo 'create from threadController';
     }
 
-    public function detail()
+    public function listMessages()
     {
         $view = new MessagerieThread(new \view\layouts\ConnectedLayout());
         $view->setThread(new Thread());

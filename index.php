@@ -8,6 +8,7 @@ use services\Utils;
 use controller\{BookController,
     ErrorController,
     IndexController,
+    MessageController,
     MessagerieController,
     ThreadController,
     UserController};
@@ -65,11 +66,15 @@ switch(Utils::request('action', null)) {
         break;
     case 'thread':
         $controller = new ThreadController();
-        $controller->detail();
+        $controller->listMessages();
         break;
-    case 'create-thread':
-        $controller = new ThreadController();
-        $controller->create();
+    case 'write-message':
+        $controller = new MessageController();;
+        $controller->writeTo();
+        break;
+    case 'send-message':
+        $controller = new MessageController();;
+        $controller->send();
         break;
     default:
         $controller = new ErrorController();
