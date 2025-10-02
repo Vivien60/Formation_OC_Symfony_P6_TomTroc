@@ -18,12 +18,13 @@ class Thread extends AbstractEntity
     public array $messages;
 
 
-    public function __construct()
+    public function __construct(array $users)
     {
+        $this->participants = $users;
         parent::__construct();
     }
 
-    public static function fromUsers(User $user1, User $user2) : static
+    /*public static function fromUsers(User $user1, User $user2) : static
     {
         //TODO : modifier fonction pour supporter un nombre indéfini d'utilisateurs
         $listId = [$user1->id, $user2->id];
@@ -37,18 +38,22 @@ class Thread extends AbstractEntity
         $stmt = static::$db->query($sql, ['users' => $users]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return static::fromArray($result);
+    }*/
+
+    public static function fromParticipant(User $user) : static
+    {
+        $sql = static::$selectSql." 
+                    inner join participer p on thread.id = p.thread_id 
+                    where p.user_id = :userId";
+        $stmt = static::$db->query($sql, ['userId' => $user->id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return static::fromArray($result);
     }
 
-    public function save() : void
+    public function create() : void
     {
-        $sql = "insert into thread (created_at) values (:created_at)";
-        static::$db->query($sql, ['created_at' => $this->createdAt->format("Y-m-d H:i:s")]);
-        $this->id = (int)static::$db->getPDO()->lastInsertId();
-        foreach($this->participants as $participant)
-        {
-            $sql = "insert into participer (thread_id, user_id, etat) values (:threadId, :userId, 1)";
-            static::$db->query($sql, ['threadId' => $this->id, 'userId' => $participant->id]);
-        }
+        $this->store();
+        $this->storeParticipants();
     }
 
     public function getMessages() : array
@@ -72,5 +77,21 @@ class Thread extends AbstractEntity
         $message->save();
         $this->getMessages();
         $this->messages[] = $message;
+    }
+
+    private function store() : void
+    {
+        $sql = "insert into thread (created_at) values (:created_at)";
+        static::$db->query($sql, ['created_at' => $this->createdAt->format("Y-m-d H:i:s")]);
+        $this->id = (int)static::$db->getPDO()->lastInsertId();
+    }
+
+    private function storeParticipants()
+    {
+        $sql = "insert into participer (thread_id, user_id, etat) values (:threadId, :userId, 1)";
+        foreach($this->participants as $participant)
+        {
+            static::$db->query($sql, ['threadId' => $this->id, 'userId' => $participant->id]);
+        }
     }
 }
