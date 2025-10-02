@@ -35,9 +35,8 @@ class Thread extends AbstractEntity
                     inner join participer p on thread.id = p.thread_id 
                     where p.user_id = :userId";
         $stmt = static::$db->query($sql, ['userId' => $user->id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return array_map($result->fetchALl(), static::fromArray(...));
+        return array_map(static::fromArray(...), $stmt->fetchAll());
     }
 
     public function create() : void
