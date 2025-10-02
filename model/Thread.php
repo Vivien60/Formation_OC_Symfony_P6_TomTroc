@@ -24,30 +24,20 @@ class Thread extends AbstractEntity
         parent::__construct();
     }
 
-    /*public static function fromUsers(User $user1, User $user2) : static
-    {
-        //TODO : modifier fonction pour supporter un nombre indéfini d'utilisateurs
-        $listId = [$user1->id, $user2->id];
-        sort($listId);
-        $users = implode(',', $listId);
-        $sql = "SELECT *, GROUP_CONCAT(participer.user_id ASC SEPARATOR ',') as users
-                FROM thread 
-                    INNER JOIN participer on thread.id = participer.thread_id 
-                GROUP BY thread.id
-                HAVING users = :users";
-        $stmt = static::$db->query($sql, ['users' => $users]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return static::fromArray($result);
-    }*/
-
-    public static function fromParticipant(User $user) : static
+    /**
+     * Returns the threads the user is participating in.
+     * @param User $user
+     * @return Thread[]
+     */
+    public static function fromParticipant(User $user) : array
     {
         $sql = static::$selectSql." 
                     inner join participer p on thread.id = p.thread_id 
                     where p.user_id = :userId";
         $stmt = static::$db->query($sql, ['userId' => $user->id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return static::fromArray($result);
+
+        return array_map($result->fetchALl(), static::fromArray(...));
     }
 
     public function create() : void
