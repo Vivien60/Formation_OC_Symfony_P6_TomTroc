@@ -1,6 +1,21 @@
 <?php
 use services\Utils;
-
+/**
+ * @var \view\templates\MessagerieThread $this
+ */
+echo "<pre>";
+var_dump($this->user);
+var_dump($this->thread);
+foreach($this->threads as $thread) {
+    echo $thread->id."\n";
+    echo $thread->getLastMessage()->content."\n";
+}
+echo "\nThread :\n";
+foreach($this->threads[0]->getMessages() as $message) {
+    echo $message->getAuthor()->username."\n";
+    echo $message->content."\n";
+}
+echo "</pre>";
 ?>
 <div>
     <h1>Messagerie</h1>

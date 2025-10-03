@@ -27,8 +27,11 @@ abstract class AbstractEntity
      */
     protected static string $selectSql;
 
-    public function __construct()
+    public function __construct($data)
     {
+        if (!empty($data)) {
+            $this->hydrate($data);
+        }
     }
 
     /**
@@ -54,9 +57,7 @@ abstract class AbstractEntity
 
     public static function fromArray(array $fieldVals) : static
     {
-        $entity = new static;
-        $entity->hydrate($fieldVals);
-        return $entity;
+        return new static($fieldVals);
     }
 
     public static function fromId(int $id) : ?static

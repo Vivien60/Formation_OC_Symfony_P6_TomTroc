@@ -23,9 +23,9 @@ class User extends AbstractEntity
 
     protected static string $selectSql = "select id, name as username, email, password, DATE(created_at) as createdAt from user";
 
-    protected function __construct()
+    protected function __construct(array $fieldVals)
     {
-        parent::__construct();
+        parent::__construct($fieldVals);
     }
 
     public static function fromEmail(string $email) : ?User

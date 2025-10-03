@@ -22,9 +22,22 @@ class BookCopy extends AbstractEntity
     public int $ownerId;
     protected static string $selectSql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy";
 
-    protected function __construct()
+    protected function __construct(array $fieldVals)
     {
-        parent::__construct();
+        parent::__construct($fieldVals);
+    }
+
+    protected function hydrate(array $fieldVals) : void
+    {
+        parent::hydrate($fieldVals);
+        $this->ownerId = $fieldVals['user_id'];
+    }
+
+    public static function fromArray(array $fieldVals) : static
+    {
+        $bookCopy = parent::fromArray($fieldVals);
+        $bookCopy->ownerId = $fieldVals['user_id'];
+        return $bookCopy;
     }
 
     public static function fromOwner(int $ownerId) : array
@@ -33,13 +46,6 @@ class BookCopy extends AbstractEntity
         $stmt = static::$db->query($sql, ['ownerId' => $ownerId]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(static::fromArray(...), $result);
-    }
-
-    public static function fromArray(array $fieldVals) : static
-    {
-        $bookCopy = parent::fromArray($fieldVals);
-        $bookCopy->ownerId = $fieldVals['user_id'];
-        return $bookCopy;
     }
 
     public function save() : void

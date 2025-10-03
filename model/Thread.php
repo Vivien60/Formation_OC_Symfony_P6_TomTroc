@@ -15,13 +15,29 @@ class Thread extends AbstractEntity
     /**
      * @var Message[] $messages
      */
-    public array $messages;
+    public array $messages = [];
 
 
-    public function __construct(array $users)
+    public function __construct(array $thread)
     {
-        $this->participants = $users;
-        parent::__construct();
+        parent::__construct($thread);
+    }
+
+    public static function openNewOne(array $participants) : static
+    {
+        $thread = new static(['created_at' => date("Y-m-d H:i:s")]);
+        $thread->participants = $participants;
+        return $thread;
+    }
+
+    public function getParticipants()
+    {
+        if(empty($this->participants)) {
+            $sql = "select user_id from participer where thread_id = :threadId";
+            $stmt = static::$db->query($sql, ['threadId' => $this->id]);
+            $this->participants = array_map(static fn($participant) => User::fromId($participant['user_id']), $stmt->fetchAll());
+        }
+        return $this->participants;
     }
 
     /**
@@ -53,16 +69,24 @@ class Thread extends AbstractEntity
         return $this->messages;
     }
 
-    public function getMessageAtRank(int $rank)
+    public function getLastMessage() : ?Message
     {
         $this->getMessages();
-        return $this->messages[$rank];
+        return $this->getMessageAtRank(count($this->messages));
+    }
+
+    public function getMessageAtRank(int $rank) : ?Message
+    {
+        $this->getMessages();
+        if(empty($this->messages))
+            return null;
+        return $this->messages[$rank-1];
     }
 
     public function createNewMessage($content, $author) : void
     {
         //TODO : Utiliser un repo pourrait permettre de laisser à Thread l'orchestration du rank
-        $message = new Message($this, -1, $author, $content);
+        $message = new Message(['threadId' => $this->id, 'author' => $author->id,'content'=> $content, 'etat' => -1] );
         $message->save();
         $this->getMessages();
         $this->messages[] = $message;

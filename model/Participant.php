@@ -8,18 +8,11 @@ class Participant extends AbstractEntity
 {
     static string $selectSql = "select thread_id, user_id, etat from participer";
 
-    public function __construct(public Thread $thread, public User $user, public string $etat = '1')
-    {
-        parent::__construct();
-    }
+    public int $etat = 1;
 
-    public static function fromArray(array $fieldVals) : static
+    public function __construct(public Thread $thread, public User $user, array $fieldVals = [])
     {
-        return new static(
-            Thread::fromId($fieldVals['thread_id']),
-            User::fromId($fieldVals['user_id']),
-            $fieldVals['etat']
-        );
+        parent::__construct($fieldVals);
     }
 
     public static function fromThreadAndUser(Thread $thread, User $user) : ?static
@@ -30,5 +23,10 @@ class Participant extends AbstractEntity
         if(empty($result['id']))
             return null;
         return static::fromArray($result);
+    }
+
+    public function create() : void
+    {
+
     }
 }

@@ -12,22 +12,28 @@ use \view\layouts\Layout;
 class MessagerieThread extends AbstractHtmlTemplate
 {
     public string $title = 'Conversation avec %s';
-    private ?User $user = null;
-    private ?Thread $thread;
+    private User $user;
+    private Thread $thread;
+    private array $threads;
 
     public function __construct(Layout $layout)
     {
         parent::__construct($layout);
     }
 
-    public function setUser(?User $user): void
+    public function setUserConnected(User $user): void
     {
         $this->user = $user;
     }
 
-    public function setThread(?Thread $thread): void
+    public function setThread(Thread $thread): void
     {
         $this->thread = $thread;
+    }
+
+    public function setThreads(array $threads)
+    {
+        $this->threads = $threads;
     }
 
     /**
