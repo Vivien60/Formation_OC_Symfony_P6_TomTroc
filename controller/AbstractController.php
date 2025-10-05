@@ -3,15 +3,11 @@
 namespace controller;
 
 use model\User;
+use services\Utils;
 
 abstract class AbstractController
 {
     private ?User $userConnected = null;
-
-    public function __construct()
-    {
-
-    }
 
     protected function userConnected() : ?User
     {
@@ -28,5 +24,13 @@ abstract class AbstractController
     {
         $view = new \view\templates\NotAllowed(new \view\layouts\NonConnectedLayout());
         return $view;
+    }
+
+    public function redirectIfNotLoggedIn()
+    {
+        if(!$this->userConnected()) {
+            Utils::redirect('sign-in');
+            exit();
+        }
     }
 }

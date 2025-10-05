@@ -38,14 +38,21 @@ class User extends AbstractEntity
         return static::fromArray($result);
     }
 
+    public static function fromMemory() : ?User
+    {
+        return !empty($_SESSION['user'])? static::fromId($_SESSION['user']) : null;
+    }
+
     /**
      * @throws \Exception
      */
     public function save() : void
     {
-        //TODO : vérifier email pas en double et pseudo pas en double aussi
-        if(!$this->checkExistId()) {
+        if(!User::fromId($this->id)) {
             throw new \Exception('User not found');
+        }
+        if($this->identifyAnotherUser()) {
+            throw new \Exception('Another user exist with this information');
         }
         $sql = "update user set name = :username, email = :email, password = :password, created_at = :created_at where id = :id";
         $stmt = static::$db->query($sql, [
@@ -60,7 +67,10 @@ class User extends AbstractEntity
 
     public function create() : void
     {
-        if($this->checkExist()) {
+        if($this->isAnyMissingFields()) {
+            throw new \Exception('Missing fields');
+        }
+        if($this->identifyAnotherUser()) {
             throw new \Exception('User already registered');
         }
         $sql = "insert into user (name, email, password, created_at) values (:username, :email, :password, NOW())";
@@ -72,14 +82,9 @@ class User extends AbstractEntity
         $this->id = (int)static::$db->getPDO()->lastInsertId();
     }
 
-    public function toMemory()
+    public function toMemory(): void
     {
         $_SESSION['user'] = $this->id;
-    }
-
-    public static function fromMemory() : ?User
-    {
-        return !empty($_SESSION['user'])? static::fromId($_SESSION['user']) : null;
     }
 
     public static function authenticate($email, $password) : bool
@@ -92,17 +97,25 @@ class User extends AbstractEntity
         return $nb > 0;
     }
 
-    protected function checkExistId() : bool
+    protected function identifyAnotherUser(): bool
     {
-        $stmt = static::$db->query("select count(*) as nb from user where id = :id", ['id' => $this->id]);
+        $sql = "select * from user where (email = :email or name = :username) and id != :id";
+        $stmt = static::$db->query(
+            $sql,
+            [
+                'email' => $this->email,
+                'username' => $this->username,
+                'id' => $this->id,
+            ]);
         $nb = $stmt->fetchColumn();
         return $nb > 0;
     }
 
-    protected function checkExist()
+    private function isAnyMissingFields() : bool
     {
-        $stmt = static::$db->query("select count(*) as nb from user where email = :email", ['email' => $this->email]);
-        $nb = $stmt->fetchColumn();
-        return $nb > 0;
+        if(empty($this->username) || empty($this->password) || empty($this->email)) {
+            return true;
+        }
+        return false;
     }
 }

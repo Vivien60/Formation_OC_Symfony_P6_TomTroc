@@ -10,12 +10,8 @@ class MessagerieController extends AbstractController
 {
     public function home()
     {
-        $userConnected = $this->userConnected();
-        if(!$userConnected) {
-            echo $this->viewNotAllowed()->render();
-            return;
-        }
-        $threads = Thread::fromParticipant($userConnected);
+        $this->redirectIfNotLoggedIn();
+        $threads = Thread::fromParticipant($this->userConnected());
         $view = new MessagerieHome(new \view\layouts\ConnectedLayout());
         $view->setThreads($threads);
         $view->setUserConnected($this->userConnected());

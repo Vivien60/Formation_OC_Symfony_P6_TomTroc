@@ -69,12 +69,4 @@ abstract class AbstractEntity
             return null;
         return static::fromArray($result);
     }
-
-    protected function checkExistId() : bool
-    {
-        $stmt = static::$db->query("select count(*) as nb from user where id = :id", ['id' => $this->id]);
-        $nb = $stmt->fetchColumn();
-        return $nb > 0;
-    }
-
 }

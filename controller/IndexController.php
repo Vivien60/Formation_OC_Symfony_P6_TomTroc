@@ -3,24 +3,15 @@ declare(strict_types=1);
 
 namespace controller;
 
-use model\User;
 use services\Utils;
-use view\layouts\ConnectedLayout;
-use view\layouts\ErrorLayout;
 use view\layouts\NonConnectedLayout;
-use view\templates\{EditProfile, Index, NotAllowed, SignInForm, SignUpForm};
+use view\templates\{Index, SignInForm, SignUpForm};
 
-class IndexController
+class IndexController extends AbstractController
 {
     public function index() : void
     {
-        error_reporting(E_ALL);
-        //TODO : Si l'utilisateur n'est pas connecté
-        if(false) {
-            Utils::redirect('pageNotFound');
-            return;
-        }
-
+        $this->redirectIfNotLoggedIn();
         //Si l'utilisateur est connecté
         $layout = new NonConnectedLayout(); //Squelette de la page
         $view = new Index($layout);
@@ -40,4 +31,5 @@ class IndexController
         $view = new SignInForm($layout);
         echo $view->render();
     }
+
 }

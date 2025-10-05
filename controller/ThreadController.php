@@ -10,10 +10,7 @@ class ThreadController extends AbstractController
 {
     public function listMessages()
     {
-        if(!$this->userConnected()) {
-            echo $this->viewNotAllowed()->render();
-            return;
-        }
+        $this->redirectIfNotLoggedIn();
         $view = new MessagerieThread(new \view\layouts\ConnectedLayout());
         $threadRef = Utils::request('thread', '0');
         $thread = Thread::fromId($threadRef);
@@ -26,10 +23,7 @@ class ThreadController extends AbstractController
 
     public function writeTo()
     {
-        if(!$this->userConnected()) {
-            echo $this->viewNotAllowed()->render();
-            return;
-        }
+        $this->redirectIfNotLoggedIn();
         $thread = Thread::openNewOne([$this->userConnected()->id, Utils::request('to', 0)]);;
 
         $view = new MessagerieThread(new \view\layouts\ConnectedLayout());
@@ -41,10 +35,7 @@ class ThreadController extends AbstractController
 
     public function send()
     {
-        if(!$this->userConnected()) {
-            echo $this->viewNotAllowed()->render();
-            return;
-        }
+        $this->redirectIfNotLoggedIn();
         $thread = Thread::fromId(Utils::request('thread', 0));
         $content = Utils::request('content');
         $thread->createNewMessage($content, $this->userConnected());

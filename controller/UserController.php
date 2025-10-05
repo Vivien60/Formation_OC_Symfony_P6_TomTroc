@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace controller;
 
-use JetBrains\PhpStorm\Language;
 use model\BookCopy;
 use model\User;
 use services\Utils;
@@ -28,16 +27,13 @@ class UserController extends AbstractController
         ]);
         try {
             $user->create();
+            $user->toMemory();
         } catch (\Exception $e) {
             $view = new Error(new ErrorLayout(), $e);
             echo $view->render();
             return;
         }
-
-        $view = new \view\templates\SignUpForm(new \view\layouts\NonConnectedLayout());
-        $view->setUser($user);
-        $view->successfull(true);
-        echo $view->render();
+        Utils::redirect('edit-profile');
     }
 
     /**
@@ -79,9 +75,10 @@ class UserController extends AbstractController
      */
     public function editProfile() : void
     {
+        $this->redirectIfNotLoggedIn();
         $user = User::fromMemory();
         $id = Utils::request('id',0);
-        if(!$user || $id && $user->getId() !== $id) {
+        if($id && $user?->id !== $id) {
             $view = new NotAllowed(new ErrorLayout());
             echo $view->render();
             return;
@@ -94,14 +91,7 @@ class UserController extends AbstractController
 
     public function update() : void
     {
-        echo "try to update account ?";
-        var_dump($_POST);
-        $id = Utils::request('id', 0);
-        if(!$this->userConnected() || $this->userConnected()->id !== $id) {
-            Utils::redirect('not-allowed');
-            return;
-        }
-
+        $this->redirectIfNotLoggedIn();
         $user = $this->userConnected();
         $user->email = Utils::request('email');
         $user->username = Utils::request('name');
