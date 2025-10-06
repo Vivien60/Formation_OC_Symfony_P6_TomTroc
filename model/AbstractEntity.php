@@ -41,7 +41,7 @@ abstract class AbstractEntity
      * Les underscore sont transformés en camelCase (ex: date_creation devient setDateCreation).
      * @return void
      */
-    protected function hydrate(array $data) : void
+    public function hydrate(array $data) : void
     {
         foreach ($data as $key => $value) {
             $fieldName = str_replace('_', '', ucwords($key, '_'));

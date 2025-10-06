@@ -27,7 +27,7 @@ class BookCopy extends AbstractEntity
         parent::__construct($fieldVals);
     }
 
-    protected function hydrate(array $fieldVals) : void
+    public function hydrate(array $fieldVals) : void
     {
         parent::hydrate($fieldVals);
         $this->ownerId = $fieldVals['user_id'];
@@ -50,12 +50,13 @@ class BookCopy extends AbstractEntity
 
     public function save() : void
     {
-        if(!$this->checkExistId()) {
+        if(!static::fromId($this->id)) {
             throw new \Exception('Book not found');
         }
         $sql = "update book_copy 
                 set auteur = :auteur, title = :title, description = :description, 
-                    created_at = :created_at, availability_status = :availability, image = :image where id = :id";
+                    created_at = :created_at, availability_status = :availability, 
+                    image = :image, user_id = :ownerId where id = :id";
         $stmt = static::$db->query($sql, [
             'id' => $this->id,
             'title' => $this->title,

@@ -59,6 +59,14 @@ switch(Utils::request('action', null)) {
         $controller = new BookController();
         $controller->copyDetail();
         break;
+    case 'book-copy-edit':
+        $controller = new BookController();
+        $controller->displayBookCopyForEdition();
+        break;
+    case 'book-copy-save':
+        $controller = new BookController();
+        $controller->saveCopy();
+        break;
     case 'messagerie':
         $controller = new MessagerieController();
         $controller->home();
