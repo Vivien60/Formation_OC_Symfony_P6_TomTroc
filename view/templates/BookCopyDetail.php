@@ -17,7 +17,7 @@ class BookCopyDetail extends AbstractHtmlTemplate
         parent::__construct($layout);
     }
 
-    public function setBook(BookCopy $book): void
+    public function setBook(?BookCopy $book): void
     {
         $this->book = $book;
     }

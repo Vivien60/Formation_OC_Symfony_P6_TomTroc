@@ -14,9 +14,9 @@ class ReadProfile extends AbstractHtmlTemplate
     private ?User $user = null;
     private ?bool $success = null;
     /**
-     * @var BookCopy[]
+     * @var null|BookCopy[]
      */
-    private array $library;
+    private ?array $library = null;
 
     public function __construct(Layout $layout)
     {
