@@ -1,8 +1,9 @@
 <?php
-
+declare(strict_types=1);
 namespace model;
 
 use DateTime;
+use DateTimeInterface;
 use PDO;
 use services\DBManager;
 
@@ -10,9 +11,9 @@ abstract class AbstractEntity
 {
     public int $id = -1; // Par défaut l'id vaut -1, ce qui permet de vérifier
     // facilement si l'entité est nouvelle ou pas.
-    public DateTime|string|null $createdAt {
+    public DateTimeInterface|string|null $createdAt = null {
         set {
-            if(!is_a($value, ' DateTimeInterface') && $value !== null) {
+            if(!is_subclass_of($value, 'DateTimeInterface') && $value !== null) {
                 $this->createdAt = new DateTime($value);
             } else {
                 $this->createdAt = $value;
@@ -41,7 +42,7 @@ abstract class AbstractEntity
      * Les underscore sont transformés en camelCase (ex: date_creation devient setDateCreation).
      * @return void
      */
-    public function hydrate(array $data) : void
+    protected function hydrate(array $data) : void
     {
         foreach ($data as $key => $value) {
             $fieldName = str_replace('_', '', ucwords($key, '_'));
@@ -49,9 +50,14 @@ abstract class AbstractEntity
             $property = strtolower($fieldName[0]).substr($fieldName, 1);
             if (method_exists($this, $method)) {
                 $this->$method($value);
+            } else if(property_exists($this, $property) && is_int($this->$property)) {
+                $this->$property = intval($value);
             } else if(property_exists($this, $property)) {
                 $this->$property = $value;
             }
+        }
+        if(empty($this->createdAt)) {
+            $this->createdAt = new DateTime();
         }
     }
 

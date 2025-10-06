@@ -9,7 +9,21 @@ use services\DBManager;
 
 class User extends AbstractEntity
 {
-    public string $username;
+    /**
+     * @var BookCopy[] $library
+     */
+    public array $library = [] {
+        get {
+            if(empty($this->library)) {
+                $this->retrieveLibrary();
+            }
+            return $this->library;
+        }
+        set {
+            $this->library = $value;
+        }
+    }
+    public string $username = '';
     public ?string $password = null {
         get {
             return $this->password;
@@ -19,7 +33,7 @@ class User extends AbstractEntity
         }
     }
 
-    public string $email;
+    public string $email = '';
 
     protected static string $selectSql = "select id, name as username, email, password, DATE(created_at) as createdAt from user";
 
@@ -117,5 +131,10 @@ class User extends AbstractEntity
             return true;
         }
         return false;
+    }
+
+    public function retrieveLibrary()
+    {
+        $this->library = BookCopy::fromOwner($this);
     }
 }
