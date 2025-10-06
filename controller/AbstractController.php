@@ -26,10 +26,14 @@ abstract class AbstractController
         return $view;
     }
 
+    //TODO : here we assume the controller has the responsibility to redirect.
+    //  It will be nice to discuss around this, becasue we can say it's the view who choose what to display.
+    //  On the 2 possibilities, it's also evident the controller won't give any information requested.
+    //  Then it will alert the view the user should be logged in, or if it decides, it will redirect.
     public function redirectIfNotLoggedIn()
     {
         if(!$this->userConnected()) {
-            Utils::redirect('sign-in');
+            Utils::redirect('sign-in-form');
             exit();
         }
     }

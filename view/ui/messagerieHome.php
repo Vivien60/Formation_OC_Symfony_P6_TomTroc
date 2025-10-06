@@ -9,12 +9,11 @@ var_dump($this->userConnected);
 var_dump($this->threads);
 foreach($this->threads as $thread) {
     echo $thread->id."\n";
-    echo $thread->getLastMessage()->content."\n";
+    echo $thread->getLastMessage()->getAuthor()->username, ':', $thread->getLastMessage()->content."\n";
 }
-echo "\nThread :\n";
-foreach($this->threads[0]->getMessages() as $message) {
-    echo $message->getAuthor()->username."\n";
-    echo $message->content."\n";
+echo "\nThread : {$this->threads[0]->id}\n";
+foreach($this->threads[0]?->getMessages() as $message) {
+    echo $message->getAuthor()->username, ':', $message->content."\n";
 }
 echo "</pre>";
 ?>

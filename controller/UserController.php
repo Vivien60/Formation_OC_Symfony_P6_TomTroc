@@ -33,7 +33,8 @@ class UserController extends AbstractController
             echo $view->render();
             return;
         }
-        Utils::redirect('edit-profile');
+        Utils::redirect('edit-profile-form');
+        exit(1);
     }
 
     /**
@@ -50,7 +51,7 @@ class UserController extends AbstractController
         if(User::authenticate($email, $password)){
             $user = User::fromEmail($email);
             $user->toMemory();
-            Utils::redirect('edit-profile');
+            Utils::redirect('edit-profile-form');
         } else {
             echo "Authentification error";
         }
@@ -121,8 +122,10 @@ class UserController extends AbstractController
         $id = intval(Utils::request('id', 0));
         $profile = User::fromId($id);
         $view = new ReadProfile(new CONNectedLayout());
-        $view->setUser($profile);
-        $view->setBookLibrary(BookCopy::fromOwner($profile->id));
+        if(!empty($profile)) {
+            $view->setUser($profile);
+            $view->setBookLibrary(BookCopy::fromOwner($profile));
+        }
         echo $view->render();
     }
 }
