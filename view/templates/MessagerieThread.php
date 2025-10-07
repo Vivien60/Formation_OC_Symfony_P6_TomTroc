@@ -13,7 +13,7 @@ class MessagerieThread extends AbstractHtmlTemplate
 {
     public string $title = 'Conversation avec %s';
     private User $user;
-    private Thread $thread;
+    private ?Thread $thread;
     private array $threads;
 
     public function __construct(Layout $layout)
@@ -26,7 +26,7 @@ class MessagerieThread extends AbstractHtmlTemplate
         $this->user = $user;
     }
 
-    public function setThread(Thread $thread): void
+    public function setThread(?Thread $thread): void
     {
         $this->thread = $thread;
     }

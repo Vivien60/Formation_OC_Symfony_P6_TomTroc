@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace model;
 
 use PDO;
@@ -12,8 +12,22 @@ class Message extends AbstractEntity
     public int $rank = -1;
     public string $content = '';
 
-    protected User $authorInstance;
-    protected Thread $thread;
+    protected User $authorInstance {
+        get {
+            if(empty($this->authorInstance)) {
+                $this->authorInstance = User::fromId($this->author);
+            }
+            return $this->authorInstance;
+        }
+    }
+    protected Thread $thread {
+        get {
+            if(empty($this->thread)) {
+                $this->thread = Thread::fromId($this->threadId);
+            }
+            return $this->thread;
+        }
+    }
 
     /**
      * @internal

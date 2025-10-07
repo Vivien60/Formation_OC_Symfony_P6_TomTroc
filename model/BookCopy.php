@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace model;
 
 use DateTime;
@@ -8,7 +8,7 @@ use services\DBManager;
 
 class BookCopy extends AbstractEntity
 {
-    public User $owner {
+    public ?User $owner = null {
         set {
             $this->owner = $value;
             $this->ownerId = $value->id;
@@ -52,8 +52,8 @@ class BookCopy extends AbstractEntity
     public static function fromArray(array $fieldVals) : static
     {
         $bookCopy = parent::fromArray($fieldVals);
-        if(isset($fieldVals['user_id']))
-            $bookCopy->ownerId ??= $fieldVals['user_id'];
+        if(isset($fieldVals['user_id']) && $bookCopy->ownerId <= 0 )
+            $bookCopy->ownerId = $fieldVals['user_id'];
         return $bookCopy;
     }
 

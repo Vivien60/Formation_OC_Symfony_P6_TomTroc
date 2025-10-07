@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 use services\Utils;
 /**
  * @var \view\templates\MessagerieThread $this
@@ -12,8 +13,7 @@ foreach($this->threads as $thread) {
 }
 echo "\nThread :\n";
 foreach($this->threads[0]->getMessages() as $message) {
-    echo $message->getAuthor()->username."\n";
-    echo $message->content."\n";
+    echo $message->getAuthor()->username, ':', $message->content."\n";
 }
 echo "</pre>";
 ?>

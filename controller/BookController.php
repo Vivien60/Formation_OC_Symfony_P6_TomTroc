@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace controller;
 
 use model\BookCopy;
@@ -16,7 +16,7 @@ class BookController extends AbstractController
         //  On the 2 possibilities, it's also evident the controller won't give any information requested.
         //  Then it will alert the view the user should be logged in, or if it decides, it will redirect.
         $this->redirectIfNotLoggedIn();
-        $refBook = Utils::request('id', '0');
+        $refBook = intval(Utils::request('id', '0'));
         $view = new BookCopyDetail(new ConnectedLayout());
         $view->setBook( BookCopy::fromId($refBook) );
         echo $view->render();
@@ -25,7 +25,7 @@ class BookController extends AbstractController
     public function displayBookCopyForEdition() : void
     {
         $this->redirectIfNotLoggedIn();
-        $refBook = Utils::request('id', '0');
+        $refBook = intval(Utils::request('id', '0'));
         $bookCopy = BookCopy::fromId($refBook);
         echo "Edition d'un livre";
         var_dump($bookCopy);
@@ -34,9 +34,10 @@ class BookController extends AbstractController
     public function saveCopy() : void
     {
         $this->redirectIfNotLoggedIn();
-        $bookCopy = BookCopy::fromId(Utils::request('id', '0'));
+        $bookCopy = BookCopy::fromId(intval(Utils::request('id', '0')));
         if($bookCopy) {
-            if($bookCopy->owner->id != $this->userConnected()->id) {
+            if($bookCopy->owner->id !=
+                $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
                 return;
             }

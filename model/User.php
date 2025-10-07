@@ -81,7 +81,7 @@ class User extends AbstractEntity
 
     public function create() : void
     {
-        if($this->isAnyMissingFields()) {
+        if($this->isAnyMissingField()) {
             throw new \Exception('Missing fields');
         }
         if($this->identifyAnotherUser()) {
@@ -125,7 +125,7 @@ class User extends AbstractEntity
         return $nb > 0;
     }
 
-    private function isAnyMissingFields() : bool
+    private function isAnyMissingField() : bool
     {
         if(empty($this->username) || empty($this->password) || empty($this->email)) {
             return true;
