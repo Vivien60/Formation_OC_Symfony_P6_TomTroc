@@ -1,0 +1,17 @@
+
+.libraryTable {
+    width: 100%;
+    max-width: 100%;
+}
+
+.libraryTable__book {
+    width: 100%;
+}
+
+.libraryTable__bookField {
+    max-width:200px;
+}
+
+.libraryTable__img {
+    width: 200px;
+}

@@ -1,0 +1,38 @@
+<?php
+declare(strict_types=1);
+
+namespace view\templates;
+
+use \view\layouts\Layout;
+
+class Index extends AbstractHtmlTemplate
+{
+    public string $title = 'Home';
+
+    public function __construct(Layout $layout)
+    {
+        parent::__construct($layout);
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function defaultHeaderHtml() : array
+    {
+        return [
+            ...parent::defaultHeaderHtml(),
+            <<<HEADERS
+HEADERS
+        ];
+    }
+    public function getMainContent(): string
+    {
+        return
+        <<<MAIN
+            <div>
+            Hello World from PHP!
+            #view/templates/Index.php
+            </div>
+        MAIN;
+    }
+}
