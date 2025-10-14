@@ -3,35 +3,33 @@ declare(strict_types=1);
 
 namespace view\templates;
 
-use view\layouts\Layout;
+use view\layouts\AbstractLayout;
 
 abstract class AbstractHtmlTemplate
 {
-    protected Layout $layout;
+    protected AbstractLayout $layout;
     /**
      * @var string[]
      */
     public array $headerHTML;
     public string $title = '';
 
-    public string $footer = <<<FOOT
-        <span><a href="/rgpd.php">Politique de confidentialité</a></span>
-    FOOT;
-    public string $contentHeader = <<<CONTENT
-        %s
-    CONTENT;
+    public string $footer = '';
+    public string $contentHeader = '';
 
     public static string $baseUrl = '/';
 
     /**
-     * @param Layout $layout
+     * @param AbstractLayout $layout
      * @param string[] $headers
      */
-    public function __construct(Layout $layout, array $headers = [])
+    public function __construct(AbstractLayout $layout, array $headers = [])
     {
         $this->layout = $layout;
         $this->headerHTML = $headers?:$this->defaultHeaderHtml();
-        $this->contentHeader = sprintf($this->contentHeader, $this->title);
+        //$this->contentHeader = sprintf($this->contentHeader, $this->title);
+        $this->contentHeader = include dirname(__DIR__) . '/ui/header.php';
+        $this->footer = include dirname(__DIR__) . '/ui/footer.php';
     }
 
     public function render() : string
@@ -68,7 +66,7 @@ abstract class AbstractHtmlTemplate
             '<meta charset="UTF-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
             '<title>'.$this->title.'</title>',
-            '<link rel="stylesheet" type="text/css" href="css/general.css" media="screen">',
+            '<link rel="stylesheet" type="text/css" href="assets/css/general.css" media="screen">',
             "<base href='{$this->getBaseUrl()}'>",
         ];
     }

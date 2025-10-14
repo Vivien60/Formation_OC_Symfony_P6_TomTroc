@@ -6,7 +6,7 @@ namespace view\templates;
 use model\BookCopy;
 use model\User;
 use services\Utils;
-use \view\layouts\Layout;
+use \view\layouts\AbstractLayout;
 
 class ReadProfile extends AbstractHtmlTemplate
 {
@@ -18,7 +18,7 @@ class ReadProfile extends AbstractHtmlTemplate
      */
     private ?array $library = null;
 
-    public function __construct(Layout $layout)
+    public function __construct(AbstractLayout $layout)
     {
         parent::__construct($layout);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace view\templates;
 
 use model\User;
-use \view\layouts\Layout;
+use \view\layouts\AbstractLayout;
 
 class SignUpForm extends AbstractHtmlTemplate
 {
@@ -12,7 +12,7 @@ class SignUpForm extends AbstractHtmlTemplate
     private ?User $user = null;
     private bool $success = false;
 
-    public function __construct(Layout $layout)
+    public function __construct(AbstractLayout $layout)
     {
         parent::__construct($layout);
     }

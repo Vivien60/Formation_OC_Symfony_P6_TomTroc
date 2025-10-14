@@ -7,7 +7,7 @@ use model\BookCopy;
 use model\Thread;
 use model\User;
 use services\Utils;
-use \view\layouts\Layout;
+use \view\layouts\AbstractLayout;
 
 class MessagerieThread extends AbstractHtmlTemplate
 {
@@ -16,7 +16,7 @@ class MessagerieThread extends AbstractHtmlTemplate
     private ?Thread $thread;
     private array $threads;
 
-    public function __construct(Layout $layout)
+    public function __construct(AbstractLayout $layout)
     {
         parent::__construct($layout);
     }

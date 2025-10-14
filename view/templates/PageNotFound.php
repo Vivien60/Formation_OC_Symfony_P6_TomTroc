@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace view\templates;
 
-use \view\layouts\Layout;
+use \view\layouts\AbstractLayout;
 
 class PageNotFound extends AbstractHtmlTemplate
 {
     public string $title = 'Home';
 
-    public function __construct(Layout $layout)
+    public function __construct(AbstractLayout $layout)
     {
         parent::__construct($layout);
     }

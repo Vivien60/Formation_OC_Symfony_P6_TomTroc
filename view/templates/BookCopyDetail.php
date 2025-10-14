@@ -5,14 +5,14 @@ namespace view\templates;
 
 use model\BookCopy;
 use services\Utils;
-use \view\layouts\Layout;
+use \view\layouts\AbstractLayout;
 
 class BookCopyDetail extends AbstractHtmlTemplate
 {
     public string $title = 'My profile';
     private ?BookCopy $book = null;
 
-    public function __construct(Layout $layout)
+    public function __construct(AbstractLayout $layout)
     {
         parent::__construct($layout);
     }

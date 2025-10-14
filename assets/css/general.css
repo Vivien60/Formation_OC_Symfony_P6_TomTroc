@@ -1,0 +1,29 @@
+div, span, ul, table {
+    border: 1px solid black;
+}
+section, main {
+    margin: 10px;
+    border: 1px solid cornflowerblue;
+}
+
+header, footer {
+    margin: 10px;
+    border: 1px solid coral;
+}
+
+.libraryTable {
+    width: 100%;
+    max-width: 100%;
+}
+
+.libraryTable__book {
+    width: 100%;
+}
+
+.libraryTable__bookField {
+    max-width:200px;
+}
+
+.libraryTable__img {
+    width: 200px;
+}

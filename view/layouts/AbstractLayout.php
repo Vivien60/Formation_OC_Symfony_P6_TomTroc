@@ -5,7 +5,7 @@ namespace view\layouts;
 
 use view\templates\AbstractHtmlTemplate;
 
-abstract class Layout
+abstract class AbstractLayout
 {
     public string $header = '';
     public string $contentHeader = '';
