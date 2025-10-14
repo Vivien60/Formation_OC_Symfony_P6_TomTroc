@@ -67,6 +67,7 @@ abstract class AbstractHtmlTemplate
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
             '<title>'.$this->title.'</title>',
             '<link rel="stylesheet" type="text/css" href="assets/css/general.css" media="screen">',
+            '<script src="assets/js/main.js"></script>',
             "<base href='{$this->getBaseUrl()}'>",
         ];
     }
