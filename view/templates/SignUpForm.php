@@ -39,19 +39,7 @@ HEADERS
             $this->success?"Inscription réussie":"Inscription impossible"
             : '';
         $classMessage = $this->success?"success":"error";
-        return
-        <<<MAIN
-            <div>
-            Look my sign-up form !
-            </div>
-            <form name="sign-up" method="POST" action="?action=create-account">
-                <input type="text" name="name" placeholder="Username" value="{$this->user?->username}">
-                <input type="text" name="email" placeholder="Email" value="{$this->user?->email}">
-                <input type="password" name="password" placeholder="Password">
-                <input type="submit" value="Sign Up">
-            </form>
-            <div class="{$classMessage}">{$message}</div>
-        MAIN;
+        return require_once dirname(__DIR__, 1).'/ui/signUpForm.php';
     }
 
     public function successfull(bool $success): void

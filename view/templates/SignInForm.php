@@ -31,18 +31,7 @@ HEADERS
     {
         $message = $this->success?"":"Connexion impossible";
         $classMessage = $this->success?"":"error";
-        return
-        <<<MAIN
-            <div>
-            Look my sign-in form !
-            </div>
-            <form name="sign-up" method="POST" action="?action=login">
-                <input type="text" name="email" placeholder="email" value="">
-                <input type="password" name="password" placeholder="Password">
-                <input type="submit" value="Sign In">
-            </form>
-            <div class="{$classMessage}">{$message}</div>
-        MAIN;
+        return require_once dirname(__DIR__, 1).'/ui/signInForm.php';
     }
 
     public function successfull(bool $success): void
