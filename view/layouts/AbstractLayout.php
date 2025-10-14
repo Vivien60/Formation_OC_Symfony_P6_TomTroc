@@ -43,21 +43,15 @@ abstract class AbstractLayout
         </head>
         <body>
         <header>
-            <div class="header">
-                {$this->template->getContentHeader()}
-            </div>
+            {$this->template->getContentHeader()}
         </header>
 
         <main>
-            <div class="main">
-                {$this->template->getMainContent()}
-            </div>
+            {$this->template->getMainContent()}
         </main>
 
         <footer>
-            <div class="footer">
-                {$this->template->getFooter()}
-            </div>
+            {$this->template->getFooter()}
         </footer>
         </body>
         </html>
