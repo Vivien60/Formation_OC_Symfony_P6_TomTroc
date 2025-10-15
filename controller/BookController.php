@@ -39,8 +39,7 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         $bookCopy = BookCopy::fromId(intval(Utils::request('id', '0')));
         if($bookCopy) {
-            if($bookCopy->owner->id !=
-                $this->userConnected()->id) {
+            if($bookCopy->owner->id != $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
                 return;
             }
@@ -55,6 +54,23 @@ class BookController extends AbstractController
         $view = new BookCopyEdit(new ConnectedLayout());
         $view->setBook($bookCopy);
         echo $view->render();
+    }
+
+    public function deleteCopy() : void
+    {
+        $this->redirectIfNotLoggedIn();
+        $bookCopy = BookCopy::fromId(intval(Utils::request('id', '0')));
+        if($bookCopy) {
+            if($bookCopy->owner->id != $this->userConnected()->id) {
+                echo $this->viewNotAllowed()->render();
+                return;
+            }
+            try {
+                $bookCopy->delete();
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+        }
     }
 
     public function addCopyToUserLibrary() : void

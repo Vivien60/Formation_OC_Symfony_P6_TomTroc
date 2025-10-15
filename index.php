@@ -71,6 +71,10 @@ switch(Utils::request('action', null)) {
         $controller = new BookController();
         $controller->addCopyToUserLibrary();
         break;
+    case 'book-copy-remove':
+        $controller = new BookController();
+        $controller->deleteCopy();
+        break;
     case 'messagerie':
         $controller = new MessagerieController();
         $controller->home();
