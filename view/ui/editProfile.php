@@ -29,13 +29,16 @@ return <<<HTML
         <h3>Vos informations personnelles</h3>
         <form>
             <label>
-                <input type="text" name="">
+                Adresse email
+                <input type="email" name="email">
             </label>
             <label>
-                <input type="text" name="">
+                Mot de passe
+                <input type="password" name="password">
             </label>
             <label>
-                <input type="text" name="">
+                Pseudo
+                <input type="text" name="pseudo">
             </label>
             <input type="submit" value="Enregistrer">
         </form>
