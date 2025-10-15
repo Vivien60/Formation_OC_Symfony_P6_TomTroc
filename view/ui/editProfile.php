@@ -1,36 +1,34 @@
 <?php
+
+use services\Utils;
 use view\templates\AbstractHtmlTemplate;
 /**
- * @var AbstractHtmlTemplate $this
+ * @var \view\templates\EditProfile $this
  */
+
+$bigUserCard = require __DIR__.'/component/cardUserBig.php';
+$editLink = '<a href="#">modifier</a>';
+$writeMessageLink = '<a href="?action=write-message">Ecrire un message</a>';
+$htmlBigUserCard = sprintf(
+    $bigUserCard,
+    $editLink,
+    $this->user->id,
+    $this->user->username,
+    Utils::convertDateToFrenchFormat($this->user->createdAt),
+    count($this->user->library),
+    $writeMessageLink,
+);
 return <<<HTML
 
 <h1>Mon compte</h1>
 <section class="userInfo">
-    <div>
-        <div>
-            <img alt="mon avatar" src="assets/img/avatars/for-test.jpg" width="135">
-            <a href="#">modifier</a>
-        </div>
-        <hr>
-        <div>
-            <h2>%PseudoDeUser%</h2>
-            <p>Membre depuis %DurationInscription%</p>
-            <div>
-                <p>Bibliothèque</p>
-                <span>
-                    <i class="icon--books" aria-hidden="true"></i>
-                    <p>%NbLivresUser% livres</p>
-                </span>
-            </div>
-        </div>
-    </div>
+    {$htmlBigUserCard}
     <div>
         <h3>Vos informations personnelles</h3>
         <form>
             <label>
                 Adresse email
-                <input type="email" name="email">
+                <input type="email" name="email" value="{$this->user->email}">
             </label>
             <label>
                 Mot de passe
@@ -38,7 +36,7 @@ return <<<HTML
             </label>
             <label>
                 Pseudo
-                <input type="text" name="pseudo">
+                <input type="text" name="pseudo" value="{$this->user->username}">
             </label>
             <input type="submit" value="Enregistrer">
         </form>

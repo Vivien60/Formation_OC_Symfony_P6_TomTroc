@@ -11,7 +11,7 @@ use \view\layouts\AbstractLayout;
 class ReadProfile extends AbstractHtmlTemplate
 {
     public string $title = 'My profile';
-    private ?User $user = null;
+    public ?User $user = null;
     private ?bool $success = null;
     /**
      * @var null|BookCopy[]
@@ -46,11 +46,7 @@ HEADERS
     }
     public function getMainContent(): string
     {
-        $dateCrea = $this->user?Utils::convertDateToFrenchFormat($this->user?->createdAt):'';
-        $libraryRows = '';
-        ob_start();
-        require_once dirname(__DIR__, 1).'/ui/readProfileMain.php';;
-        return ob_get_clean();
+        return require_once dirname(__DIR__, 1).'/ui/readProfileMain.php';
     }
 
     public function successfull(bool $success): void

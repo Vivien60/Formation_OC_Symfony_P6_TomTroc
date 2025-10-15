@@ -4,6 +4,13 @@ use view\templates\AbstractHtmlTemplate;
 /**
  * @var AbstractHtmlTemplate $this
  */
+
+$card = require __DIR__.'/component/cardBook.php';
+$htmlCards = '';
+for($i = 0; $i < 4; $i++) {
+    $htmlCards .= sprintf($card, 'titre', 'desc', 'footer');
+}
+
 return
 <<<HTML
     <section class="hero">
@@ -24,38 +31,7 @@ return
     <section class="lastBooks">
         <h2>Les derniers livres ajoutés</h2>
         <div>
-            <article>
-                <div><img alt="photo du livre ---" src="assets/img/books/default.png"></div>
-                <div>
-                    <h3>text for h3</h3>
-                    <p>text for p</p>
-                    <p>text for p</p>
-                </div>
-            </article>
-            <article>
-                <div><img alt="photo du livre ---" src="assets/img/books/default.png"></div>
-                <div>
-                    <h3>text for h3</h3>
-                    <p>text for p</p>
-                    <p>text for p</p>
-                </div>
-            </article>
-            <article>
-                <div><img alt="photo du livre ---" src="assets/img/books/default.png"></div>
-                <div>
-                    <h3>text for h3</h3>
-                    <p>text for p</p>
-                    <p>text for p</p>
-                </div>
-            </article>
-            <article>
-                <div><img alt="photo du livre ---" src="assets/img/books/default.png"></div>
-                <div>
-                    <h3>text for h3</h3>
-                    <p>text for p</p>
-                    <p>text for p</p>
-                </div>
-            </article>
+            {$htmlCards}
         </div>
         <footer><a>Voir tous les livres</a></footer>
     </section>
