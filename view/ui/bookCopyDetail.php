@@ -6,10 +6,7 @@ use view\templates\AbstractHtmlTemplate;
  */
 
 $cardUser = require __DIR__.'/component/cardUser.php';
-$htmlCards = '';
-for($i = 0; $i < 4; $i++) {
-    $htmlCards .= sprintf($cardUser, '1', 'pseudo');
-}
+$htmlCards = sprintf($cardUser, '1', 'pseudo');
 
 return
 <<<HTML

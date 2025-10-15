@@ -6,6 +6,7 @@ use model\BookCopy;
 use services\Utils;
 use view\layouts\ConnectedLayout;
 use view\templates\BookCopyDetail;
+use view\templates\BookCopyEdit;
 
 class BookController extends AbstractController
 {
@@ -27,8 +28,10 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         $refBook = intval(Utils::request('id', '0'));
         $bookCopy = BookCopy::fromId($refBook);
-        echo "Edition d'un livre";
-        var_dump($bookCopy);
+
+        $view = new BookCopyEdit(new ConnectedLayout());
+        $view->setBook($bookCopy);
+        echo $view->render();
     }
 
     public function saveCopy() : void
@@ -42,15 +45,16 @@ class BookController extends AbstractController
                 return;
             }
             $bookCopy->owner = $this->userConnected();
-            $bookCopy?->modify($_REQUEST);
+            $bookCopy->modify($_REQUEST);
             try {
-                $bookCopy?->save();
+                $bookCopy->save();
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
         }
-        echo "Edition d'un livre";
-        var_dump($bookCopy);
+        $view = new BookCopyEdit(new ConnectedLayout());
+        $view->setBook($bookCopy);
+        echo $view->render();
     }
 
     public function addCopyToUserLibrary() : void
