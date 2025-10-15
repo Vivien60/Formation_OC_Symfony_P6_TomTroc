@@ -12,5 +12,5 @@ return <<<HTML
             <li><a href="#">Tom Troc©</a></li>
         </ul>
     </nav>
-    <img alt="mini logo" src="assets/logo/mini-tt.svg">   
+    <img alt="mini logo" src="assets/img/logo/mini-tt.svg">   
 HTML;
