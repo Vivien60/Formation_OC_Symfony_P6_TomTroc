@@ -59,12 +59,7 @@ echo "</pre>";
     </nav>
 </div>
 <div>
-    <div>
-        <img alt="avatar de l'utilisateur" src="assets/img/avatars/for-test.jpg" width="25">
-        <div>
-            <p>Nom de l'utilisateur</p>
-        </div>
-    </div>
+    <?= sprintf(require __DIR__.'/component/cardUser.php', '5', 'Nom') ?>
     <div>
         <div><p>%HeureDuMessage%</p></div>
         <div><p>%Message%</p></div>

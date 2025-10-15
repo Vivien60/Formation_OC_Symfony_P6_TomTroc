@@ -36,15 +36,7 @@ HEADERS
 
     public function getMainContent(): string
     {
-        $dateCrea = $this->book?Utils::convertDateToFrenchFormat($this->book?->createdAt):'';
-        return
-        <<<MAIN
-            <div>
-            Look my book copy detail page !
-            </div>
-            <p>{$this->book?->title}</p>
-            <p>{$dateCrea}</p>
-            <a href="?action=write-message&to={$this->book?->ownerId}" class="send-message">Send message</button>
-        MAIN;
+        //$dateCrea = $this->book?Utils::convertDateToFrenchFormat($this->book?->createdAt):'';
+        return require_once dirname(__DIR__, 1).'/ui/bookCopyDetail.php';
     }
 }
