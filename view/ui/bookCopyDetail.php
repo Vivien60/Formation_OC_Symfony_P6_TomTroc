@@ -8,6 +8,10 @@ use view\templates\AbstractHtmlTemplate;
 $cardUser = require __DIR__.'/component/cardUser.php';
 $htmlCards = sprintf($cardUser, '1', 'pseudo');
 
+/**
+ * TODO : ajouter le fil d'ariane (il est presque invisible)
+ */
+
 return
 <<<HTML
 <div><img src="assets/img/books/book02.jpg"></div>

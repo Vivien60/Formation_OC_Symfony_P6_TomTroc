@@ -1,29 +1,74 @@
-div, span, ul, table {
-    border: 1px solid black;
-}
-section, main {
-    margin: 10px;
-    border: 1px solid cornflowerblue;
+/* Design System */
+:root {
+    --gris-clair: #f5f3ef;
+    --vert-principal: #00ac66;
+    --gris-texte: #a6a6a6;
+    --gris-foncé: #292929;
+    --font-family: "Inter", sans-serif;
+    --second-family: "Playfair Display", sans-serif;
+
+    --bg-color-light: #fff;
+    --bg-color-medium: #faf9f7;
+    --bg-color-medium2: var(--gris-clair);
+    --bg-color-dark: #edf2f6;
 }
 
-header, footer {
-    margin: 10px;
-    border: 1px solid coral;
+body {
+    background-color: var(--bg-color-medium);
+    font-family: var(--font-family), sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--gris-foncé);
+    /*
+    font-weight: var(--body-font-weight);
+    font-size: var(--body-font-size);
+    line-height: var(--body-line-height);
+    color: var(--black);
+     */
 }
 
-.libraryTable {
-    width: 100%;
-    max-width: 100%;
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--second-family), sans-serif;
+    font-weight: 400;
 }
 
-.libraryTable__book {
-    width: 100%;
+h1 {
+    font-size: 2.25rem;
+    color: #000;
 }
 
-.libraryTable__bookField {
-    max-width:200px;
+h2 {
+    font-size: 2rem;
 }
 
-.libraryTable__img {
-    width: 200px;
+.img-cover {
+    object-fit: cover;
+}
+
+.bigButton, .bigButton--dark, .bigButton--light {
+    background-color: var(--vert-principal);
+    border-radius: 0.62rem;
+    padding: 1.38rem 2.38rem;
+    height: 3.94rem;
+}
+
+.bigButton--dark {
+    background-color: #006D41;
+}
+
+.bigButton--light {
+    background-color: #006D41;
+    color: var(--vert-principal);
+}
+
+.formField, .formField--darker {
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 0.38rem;
+    width: 20.12rem;
+    height: 3.12rem;
+}
+
+.formField--darker {
+    background-color: var(--bg-color-dark);
 }
