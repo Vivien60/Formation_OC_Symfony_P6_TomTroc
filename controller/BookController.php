@@ -5,6 +5,7 @@ namespace controller;
 use model\BookCopy;
 use services\Utils;
 use view\layouts\ConnectedLayout;
+use view\templates\BookCopiesAvailableList;
 use view\templates\BookCopyDetail;
 use view\templates\BookCopyEdit;
 
@@ -85,5 +86,18 @@ class BookController extends AbstractController
         }
         echo "Ajout d'un livre à ma librairie";
         var_dump($bookCopy);
+    }
+
+    public function listBooksForExchange() : void
+    {
+        $this->redirectIfNotLoggedIn();
+        try {
+            $bookCopies = BookCopy::listAvailableBookCopies();
+            $view = new BookCopiesAvailableList(new ConnectedLayout());
+            $view->books = $bookCopies;
+            echo $view->render();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }

@@ -75,6 +75,10 @@ switch(Utils::request('action', null)) {
         $controller = new BookController();
         $controller->deleteCopy();
         break;
+    case 'available-list':
+        $controller = new BookController();
+        $controller->listBooksForExchange();
+        break;
     case 'messagerie':
         $controller = new MessagerieController();
         $controller->home();

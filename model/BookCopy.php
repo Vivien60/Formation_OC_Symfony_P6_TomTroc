@@ -39,6 +39,28 @@ class BookCopy extends AbstractEntity
         parent::__construct($fieldVals);
     }
 
+    /**
+     * @return static[]
+     */
+    public static function all(): array
+    {
+        $sql = static::$selectSql;
+        $stmt = static::$db->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(static::fromArray(...), $result);
+    }
+
+    /**
+     * @return static[]
+     */
+    public static function listAvailableBookCopies(): array
+    {
+        $sql = static::$selectSql." where availability_status = 1";
+        $stmt = static::$db->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(static::fromArray(...), $result);
+    }
+
     public function modify(array $fieldVals) : void
     {
         $this->hydrate($fieldVals);

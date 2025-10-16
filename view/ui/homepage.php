@@ -8,7 +8,7 @@ use view\templates\AbstractHtmlTemplate;
 $card = require __DIR__.'/component/cardBook.php';
 $htmlCards = '';
 for($i = 0; $i < 4; $i++) {
-    $htmlCards .= sprintf($card, 'titre', 'desc', 'footer');
+    $htmlCards .= sprintf($card, 'titre', 'desc', 'footer', 2);
 }
 
 return
