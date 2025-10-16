@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace view\templates;
 
-use \view\layouts\Layout;
+use \view\layouts\AbstractLayout;
 
 class Error extends AbstractHtmlTemplate
 {
     public string $title = 'Erreur';
 
-    public function __construct(Layout $layout, public ?\Exception $error = null)
+    public function __construct(AbstractLayout $layout, public ?\Exception $error = null)
     {
         parent::__construct($layout);
     }

@@ -19,7 +19,7 @@ switch(Utils::request('action', null)) {
         $controller = new IndexController();
         $controller->index();
         break;
-    case 'signup-form':
+    case 'signup':
         $controller = new IndexController();
         $controller->displaySignUpForm();
         break;
@@ -31,7 +31,7 @@ switch(Utils::request('action', null)) {
         $controller = new UserController();
         $controller->signIn();
         break;
-    case 'sign-in-form':
+    case 'sign-in':
         $controller = new IndexController();
         $controller->displaySignInForm();
         break;
@@ -70,6 +70,10 @@ switch(Utils::request('action', null)) {
     case 'book-copy-add':
         $controller = new BookController();
         $controller->addCopyToUserLibrary();
+        break;
+    case 'book-copy-remove':
+        $controller = new BookController();
+        $controller->deleteCopy();
         break;
     case 'messagerie':
         $controller = new MessagerieController();

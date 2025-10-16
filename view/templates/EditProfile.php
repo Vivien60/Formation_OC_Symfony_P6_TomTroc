@@ -4,15 +4,15 @@ declare(strict_types=1);
 namespace view\templates;
 
 use model\User;
-use \view\layouts\Layout;
+use \view\layouts\AbstractLayout;
 
 class EditProfile extends AbstractHtmlTemplate
 {
-    public string $title = 'My profile';
+    public string $title = 'My account';
     private ?User $user = null;
     private ?bool $success = null;
 
-    public function __construct(Layout $layout)
+    public function __construct(AbstractLayout $layout)
     {
         parent::__construct($layout);
     }
@@ -46,19 +46,7 @@ HEADERS
             $classMessage = '';
         }
 
-        return
-        <<<MAIN
-            <div>
-            Look my edit form !
-            </div>
-            <form name="sign-up" method="POST" action="?action=update-account">
-                <input type="text" name="name" placeholder="Username" value="{$this->user?->username}">
-                <input type="text" name="email" placeholder="Email" value="{$this->user?->email}">
-                <input type="password" name="password" placeholder="Password">
-                <input type="submit" value="Edit">
-            </form>
-            <div class="{$classMessage}">{$message}</div>
-        MAIN;
+        return require dirname(__FILE__,2) . '/ui/editProfile.php';
     }
 
     public function successfull(bool $success): void

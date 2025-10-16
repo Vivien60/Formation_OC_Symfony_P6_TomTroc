@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace view\templates;
 
-use \view\layouts\Layout;
+use \view\layouts\AbstractLayout;
 
 class Index extends AbstractHtmlTemplate
 {
     public string $title = 'Home';
 
-    public function __construct(Layout $layout)
+    public function __construct(AbstractLayout $layout)
     {
         parent::__construct($layout);
     }
@@ -27,12 +27,6 @@ HEADERS
     }
     public function getMainContent(): string
     {
-        return
-        <<<MAIN
-            <div>
-            Hello World from PHP!
-            #view/templates/Index.php
-            </div>
-        MAIN;
+        return require_once dirname(__DIR__, 1).'/ui/homepage.php';
     }
 }

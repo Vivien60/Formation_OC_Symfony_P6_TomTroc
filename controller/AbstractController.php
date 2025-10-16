@@ -33,7 +33,7 @@ abstract class AbstractController
     public function redirectIfNotLoggedIn()
     {
         if(!$this->userConnected()) {
-            Utils::redirect('sign-in-form');
+            Utils::redirect('sign-in');
             exit();
         }
     }

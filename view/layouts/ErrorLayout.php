@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace view\layouts;
 
-class ErrorLayout extends Layout
+class ErrorLayout extends AbstractLayout
 {
     public function __construct()
     {

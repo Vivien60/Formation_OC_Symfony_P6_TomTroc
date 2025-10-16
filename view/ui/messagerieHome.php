@@ -20,13 +20,61 @@ echo "</pre>";
 ?>
 <div>
     <h1>Messagerie</h1>
-    Look my messagerie !
+    <nav>
+        <ul>
+            <li>
+                <div data-component="card">
+                    <img alt="avatar de l'utilisateur ---"
+                         src="assets/img/avatars/for-test.jpg" width="25">
+                    <div>
+                        <p><a class="card__link" href="#">%Nom%</a></p>
+                        <p>%HeureDernierMessage%</p>
+                    </div>
+                    <p>%DernierMessage%</p>
+                </div>
+            </li>
+            <li>
+                <div data-component="card">
+                    <img alt="avatar de l'utilisateur ---"
+                         src="assets/img/avatars/for-test.jpg" width="25">
+                    <div>
+                        <p><a class="card__link" href="#">%Nom%</a></p>
+                        <p>%HeureDernierMessage%</p>
+                    </div>
+                    <p>%DernierMessage%</p>
+                </div>
+            </li>
+            <li>
+                <div data-component="card">
+                    <img alt="avatar de l'utilisateur ---"
+                         src="assets/img/avatars/for-test.jpg" width="25">
+                    <div>
+                        <p><a class="card__link" href="#">%Nom%</a></p>
+                        <p>%HeureDernierMessage%</p>
+                    </div>
+                    <p>%DernierMessage%</p>
+                </div>
+            </li>
+        </ul>
+    </nav>
 </div>
-<p><?= Utils::convertDateToFrenchFormat(DateTime::createFromTimestamp(time())) ?></p>
-<div class="thread__container">
-    <h2>Conversation</h2>
-    <table class="thread__messages">
-
-
-    </table>
+<div>
+    <?= sprintf(require __DIR__.'/component/cardUser.php', '5', 'Nom') ?>
+    <div>
+        <div><p>%HeureDuMessage%</p></div>
+        <div><p>%Message%</p></div>
+    </div>
+    <div>
+        <div>
+            <img alt="mini avatar de l'utilisateur" src="assets/img/avatars/for-test.jpg">
+            <p>%HeureDuMessage%</p>
+        </div>
+        <div><p>%Message%</p></div>
+    </div>
+    <form>
+        <input type="text"
+               placeholder="Tapez votre message ici" aria-label="Tapez votre message ici"
+        >
+        <input type="submit" value="Envoyer">
+    </form>
 </div>

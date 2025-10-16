@@ -121,10 +121,12 @@ class UserController extends AbstractController
         }
         $id = intval(Utils::request('id', 0));
         $profile = User::fromId($id);
-        $view = new ReadProfile(new CONNectedLayout());
         if(!empty($profile)) {
+            $view = new ReadProfile(new CONNectedLayout());
             $view->setUser($profile);
             $view->setBookLibrary(BookCopy::fromOwner($profile));
+        } else  {
+            $view = $this->viewNotAllowed();
         }
         echo $view->render();
     }

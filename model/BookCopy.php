@@ -108,4 +108,10 @@ class BookCopy extends AbstractEntity
         ]);
         $this->id = (int)static::$db->getPDO()->lastInsertId();
     }
+
+    public function delete(): void
+    {
+        $sql = "delete from book_copy where id = :id";
+        static::$db->query($sql, ['id' => $this->id]);
+    }
 }

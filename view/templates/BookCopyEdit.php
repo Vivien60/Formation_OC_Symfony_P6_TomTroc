@@ -7,7 +7,7 @@ use model\BookCopy;
 use services\Utils;
 use \view\layouts\AbstractLayout;
 
-class BookCopyDetail extends AbstractHtmlTemplate
+class BookCopyEdit extends AbstractHtmlTemplate
 {
     public string $title = 'My profile';
     private ?BookCopy $book = null;
@@ -37,6 +37,6 @@ HEADERS
     public function getMainContent(): string
     {
         //$dateCrea = $this->book?Utils::convertDateToFrenchFormat($this->book?->createdAt):'';
-        return require_once dirname(__DIR__, 1).'/ui/bookCopyDetail.php';
+        return require_once dirname(__DIR__, 1).'/ui/bookCopyEdit.php';
     }
 }

@@ -11,8 +11,6 @@ class IndexController extends AbstractController
 {
     public function index() : void
     {
-        $this->redirectIfNotLoggedIn();
-        //Si l'utilisateur est connecté
         $layout = new NonConnectedLayout(); //Squelette de la page
         $view = new Index($layout);
         echo $view->render();
