@@ -27,6 +27,11 @@ body {
      */
 }
 
+.main-container {
+    width:              100%;
+    max-width:          90rem;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--second-family), sans-serif;
     font-weight: 400;
