@@ -6,7 +6,7 @@ use view\templates\AbstractHtmlTemplate;
 return <<<HTML
 
     <nav>
-        <ul>
+        <ul class="footer__list">
             <li><a href="#">Politique de confidentialité</a></li>
             <li><a href="#">Mentions légales</a></li>
             <li><a href="#">Tom Troc©</a></li>

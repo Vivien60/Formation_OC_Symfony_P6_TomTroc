@@ -1,0 +1,18 @@
+.main-container > footer {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.footer__list {
+    display:flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.main-container > footer, .footer__list {
+    gap: 2.5rem;
+}

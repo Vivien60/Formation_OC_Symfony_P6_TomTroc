@@ -8,6 +8,9 @@ use view\templates\AbstractHtmlTemplate;
  * //TODO : le $this pourrait indiquer une interface "WithUser" par ex.
  *      Ainsi, moins de paramètres à passer mais un appel à $this->qqch .
  *      Ou pas de param si on passe auss une interface "WithMode" pour le lien.
+ *      Pour la façon de faire présente, voir aussi pour utiliser des display:none,
+*       pour les élements à masquer
+ * Doc :
  * À utiliser dans un sprintf : paramètres, à passer dans l'ordre :
  * %linkToModifyAvatar% : lien de modification ou vide
  * %IdUser%

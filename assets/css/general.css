@@ -1,3 +1,10 @@
+@import "modules/header.css";
+@import "modules/footer.css";
+@import "modules/cardBook.css";
+
+@import "pages/homepage.css";
+
+
 /* Design System */
 :root {
     --gris-clair: #f5f3ef;
@@ -6,6 +13,7 @@
     --gris-foncé: #292929;
     --font-family: "Inter", sans-serif;
     --second-family: "Playfair Display", sans-serif;
+    --font-size: 0.88rem;
 
     --bg-color-light: #fff;
     --bg-color-medium: #faf9f7;
@@ -17,7 +25,7 @@ body {
     background-color: var(--bg-color-medium);
     font-family: var(--font-family), sans-serif;
     font-weight: 300;
-    font-size: 1rem;
+    font-size: var(--font-size);
     color: var(--gris-foncé);
     /*
     font-weight: var(--body-font-weight);
@@ -28,13 +36,14 @@ body {
 }
 
 .main-container {
-    width:              100%;
-    max-width:          90rem;
+    max-width: 90rem;
+    margin: 0 auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--second-family), sans-serif;
     font-weight: 400;
+    margin: 0;
 }
 
 h1 {
@@ -45,6 +54,12 @@ h1 {
 h2 {
     font-size: 2rem;
 }
+
+h3 {
+    font-size: 1rem;
+}
+
+
 
 .img-cover {
     object-fit: cover;
