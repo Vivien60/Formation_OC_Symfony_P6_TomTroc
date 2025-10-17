@@ -5,6 +5,8 @@ use services\Utils;
  * @var \view\templates\ReadProfile $this
  */
 
+
+$writeMessageLink = '<a href="?action=write-message">Ecrire un message</a>';
 $bigUserCard = require __DIR__.'/component/cardUserBig.php';
 $htmlBigUserCard = sprintf(
         $bigUserCard,
@@ -13,7 +15,7 @@ $htmlBigUserCard = sprintf(
         $this->user->username,
         Utils::convertDateToFrenchFormat($this->user->createdAt),
         count($this->user->library),
-        ''
+        $writeMessageLink
 );
 
 return <<<HTML

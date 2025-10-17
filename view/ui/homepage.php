@@ -8,7 +8,7 @@ use view\templates\AbstractHtmlTemplate;
 $card = require __DIR__.'/component/cardBook.php';
 $htmlCards = '';
 for($i = 0; $i < 4; $i++) {
-    $htmlCards .= sprintf($card, 'titre', 'desc', 'footer', 2);
+    $htmlCards .= sprintf($card, 'titre', 'desc', 'footer', 2, 'assets/img/books/book01.jpg');
 }
 
 return
@@ -25,7 +25,7 @@ return
             </div>
         </div>
         <img alt="photo with a man reading book between tons of book stacks"
-             src="assets/img/website/hamza-nouasria-unsplash.jpg">
+             src="assets/img/website/hamza-nouasria-unsplash.jpg" width="404">
     </section>
     
     <section class="lastBooks">
