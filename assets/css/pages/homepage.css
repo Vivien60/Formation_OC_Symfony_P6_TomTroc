@@ -1,0 +1,95 @@
+.ourValues__bloc, .hero, .lastBooks__bloc, .howToUse__bloc {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.lastBooks__bloc {
+    text-align: center;
+    background-color: var(--bg-color-medium);
+}
+
+.hero {
+    padding: 0 18.4375rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 6.375rem;
+}
+
+.hero > * {
+    flex: 3 0 0;
+}
+
+.hero__img-title {
+    flex:0 1 100%;
+    text-align: right;
+    padding-top: -6.375rem;
+}
+
+.lastBooks__bloc {
+    text-align: center;
+}
+
+.lastBooks__container-books {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 1.875rem;
+    padding: 3rem 0;
+}
+
+.lastBooks__footer {
+    padding: 0 18.4375rem;
+}
+
+.howToUse__header {
+    width:24.8125rem;
+    display: inline-block;
+}
+
+.howToUse__step-list {
+    list-style: none;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 1.875rem;
+    padding: 3rem 0;
+}
+
+.howToUse__step-list > * {
+    background-color: var(--bg-color-light);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 13.475rem;
+    height:8.6875rem;
+    padding: 2.75rem 1.09375rem;
+    border-radius: 0.62rem;
+}
+
+.ourValues__header-img {
+    object-fit: cover;
+    object-position: center -302px;
+    height:14.375rem;
+    width: 100%;
+}
+
+.ourValues__content, .ourValues__footer {
+    box-sizing: border-box;
+    margin: 0 auto 0 542px;
+    width: 26.75rem;
+}
+
+.ourValues__content {
+    text-align: left;
+    padding-right:2.25rem;
+}
+
+.ourValues__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.875rem;
+    padding: 3rem 0;
+}

@@ -4,7 +4,9 @@ use view\templates\AbstractHtmlTemplate;
 /**
  * @var AbstractHtmlTemplate $this
  */
-
+/**
+ * Mettre le nombre d'éléments dans le controller
+ */
 $card = require __DIR__.'/component/cardBook.php';
 $htmlCards = '';
 for($i = 0; $i < 4; $i++) {
@@ -12,7 +14,7 @@ for($i = 0; $i < 4; $i++) {
 }
 
 return
-<<<HTML
+    <<<HTML
     <section class="hero">
         <div>
             <div>
@@ -21,44 +23,46 @@ return
                     Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture. 
                     Nous croyons en la magie du partage de connaissances et d'histoires à travers les livres. 
                 </p>
-                <a>Découvrir</a>
+                <a class="bigButton" href=""">Découvrir</a>
             </div>
         </div>
-        <img alt="photo with a man reading book between tons of book stacks"
-             src="assets/img/website/hamza-nouasria-unsplash.jpg" width="404">
+        <div>
+            <img alt="photo with a man reading book between tons of book stacks"
+                 src="assets/img/website/hamza-nouasria-unsplash.jpg" width="404">
+            <div class="hero__img-title">Hamza</div>
+        </div>
     </section>
     
-    <section class="lastBooks">
+    <section class="lastBooks__bloc">
         <h2>Les derniers livres ajoutés</h2>
-        <div>
+        <div class="lastBooks__container-books">
             {$htmlCards}
         </div>
-        <footer><a>Voir tous les livres</a></footer>
+        <footer class="lastBooks__footer"><a class="bigButton" href="?action=available-list">Voir tous les livres</a></footer>
     </section>
     
-    <section class="howToUse">
-        <header>
+    <section class="howToUse__bloc">
+        <header class="howToUse__header">
             <div>
                 <h2>Comment ça marche ?</h2>
                 <p>Échanger des livres avec TomTroc c’est simple et amusant ! Suivez ces étapes pour commencer :</p>
             </div>
         </header>
-        <ul>
+        <ul class="howToUse__step-list">
             <li>Inscrivez-vous gratuitement sur notre plateforme.</li>
             <li>Ajoutez les livres que vous souhaitez échanger à votre profil.</li>
             <li>Parcourez les livres disponibles chez d'autres membres.</li>
             <li>Proposez un échange et discutez avec d'autres passionnés de lecture.</li>
         </ul>
-        <footer><a>Voir tous les livres</a></footer>
+        <footer><a href="?action=available-list" class="bigButton--light">Voir tous les livres</a></footer>
     </section>
     
-    <section class="ourValues">
-        <div>
-            <img 
-                alt="woman in a library searching for books. Books are placed in many stacks on shelves in relative disorder." 
-                src="assets/img/website/clay-banks-unsplash.jpg">
-        </div>
-        <div>
+    <section class="ourValues__bloc">
+        <img class="ourValues__header-img"
+            alt="woman in a library searching for books. Books are placed in many stacks on shelves in relative disorder." 
+            src="assets/img/website/clay-banks-unsplash.jpg"
+            >
+        <div class="ourValues__content">
             <div>
                 <h2>Nos valeurs</h2>
                 <p>
@@ -72,10 +76,10 @@ return
                     de partager leurs découvertes littéraires et d'échanger des livres qui attendent patiemment sur les étagères.
                 </p>
             </div>
-            <footer>
-                <p>L’équipe Tom Troc</p>
-                <img alt="stylised heart" src="assets/img/website/heart.svg">
-            </footer>
         </div>
+        <footer class="ourValues__footer">
+            <p>L’équipe Tom Troc</p>
+            <img alt="stylised heart" src="assets/img/website/heart.svg">
+        </footer>
     </section>
 HTML;

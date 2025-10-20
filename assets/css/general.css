@@ -22,7 +22,7 @@
 }
 
 body {
-    background-color: var(--bg-color-medium);
+    background-color: var(--bg-color-medium2);
     font-family: var(--font-family), sans-serif;
     font-weight: 300;
     font-size: var(--font-size);
@@ -59,17 +59,20 @@ h3 {
     font-size: 1rem;
 }
 
-
-
 .img-cover {
     object-fit: cover;
 }
 
 .bigButton, .bigButton--dark, .bigButton--light {
+    display: inline-block;
+    box-sizing: border-box;
     background-color: var(--vert-principal);
     border-radius: 0.62rem;
-    padding: 1.38rem 2.38rem;
-    height: 3.94rem;
+    padding: 1.25rem 2.38rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight:600;
+    font-size: 1rem;
 }
 
 .bigButton--dark {
@@ -77,8 +80,9 @@ h3 {
 }
 
 .bigButton--light {
-    background-color: #006D41;
+    background-color: transparent;
     color: var(--vert-principal);
+    border: 1px solid var(--vert-principal);
 }
 
 .formField, .formField--darker {
