@@ -21,13 +21,13 @@ use view\templates\AbstractHtmlTemplate;
  */
 return
 <<<BIGUSERCARD
-    <div>
-        <div>
-            <img alt="mon avatar" src="assets/img/avatars/for-test.jpg" width="135">
+    <div class="card card--user-big" data-component="card">
+        <div class="card__poster">
+            <img class="card__avatar" alt="mon avatar" src="assets/img/avatars/for-test.jpg" width="135">
             %1\$s
         </div>
         <hr>
-        <div>
+        <div class="card__content">
             <p>%3\$s</p>
             <p>Membre depuis %4\$s</p>
             <div>

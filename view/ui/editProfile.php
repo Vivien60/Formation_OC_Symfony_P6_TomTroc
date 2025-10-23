@@ -8,7 +8,7 @@ use view\templates\AbstractHtmlTemplate;
 
 $bigUserCard = require __DIR__.'/component/cardUserBig.php';
 $editLink = '<a href="#">modifier</a>';
-$writeMessageLink = '<a href="?action=write-message">Ecrire un message</a>';
+$writeMessageLink = '';
 $htmlBigUserCard = sprintf(
     $bigUserCard,
     $editLink,
@@ -21,11 +21,11 @@ $htmlBigUserCard = sprintf(
 return <<<HTML
 
 <h1>Mon compte</h1>
-<section class="userInfo">
+<div class="userInfo">
     {$htmlBigUserCard}
-    <div>
+    <div class="userInfo__form-container">
         <h3>Vos informations personnelles</h3>
-        <form>
+        <form class="form form--user-profile" method="post" action="?action=edit-profile-save">
             <label>
                 Adresse email
                 <input type="email" name="email" value="{$this->user->email}">
@@ -38,41 +38,41 @@ return <<<HTML
                 Pseudo
                 <input type="text" name="pseudo" value="{$this->user->username}">
             </label>
-            <input type="submit" value="Enregistrer">
+            <input type="submit" value="Enregistrer" class="bigButton--light">
         </form>
     </div>
-</section>
-<table class="library"">
-    <thead>
-        <tr>
-            <td>Photo</td>
-            <td>Titre</td>
-            <td>Auteur</td>
-            <td>Description</td>
-            <td>Disponibilité</td>
-            <td>Action</td>
-            <td>&nbsp;</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
-            <td>%Titre%</td>
-            <td>%Auteur%</td>
-            <td>%Description%</td>
-            <td><div>%Disponibilite%</div></td>
-            <td><a href="?action=book-edit-form">Editer</a></td>
-            <td><a href="?action=book-copy-remove">Supprimer</a></td>
-        </tr>
-        <tr>
-            <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
-            <td>%Titre%</td>
-            <td>%Auteur%</td>
-            <td>%Description%</td>
-            <td><div>%Disponibilite%</div></td>
-            <td><a href="?action=book-edit-form">Editer</a></td>
-            <td><a href="?action=book-copy-remove">Supprimer</a></td>
-        </tr>
-    </tbody>
-</table>
+    <table class="library">
+        <thead>
+            <tr>
+                <td>Photo</td>
+                <td>Titre</td>
+                <td>Auteur</td>
+                <td>Description</td>
+                <td>Disponibilité</td>
+                <td>Action</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
+                <td>%Titre%</td>
+                <td>%Auteur%</td>
+                <td>%Description%</td>
+                <td><div>%Disponibilite%</div></td>
+                <td><a href="?action=book-edit-form">Editer</a></td>
+                <td><a href="?action=book-copy-remove">Supprimer</a></td>
+            </tr>
+            <tr>
+                <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
+                <td>%Titre%</td>
+                <td>%Auteur%</td>
+                <td>%Description%</td>
+                <td><div>%Disponibilite%</div></td>
+                <td><a href="?action=book-edit-form">Editer</a></td>
+                <td><a href="?action=book-copy-remove">Supprimer</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 HTML;

@@ -20,31 +20,31 @@ $htmlBigUserCard = sprintf(
 
 return <<<HTML
 
-<section class="userInfo">
+<section class="userInfo userInfo--public">
     {$htmlBigUserCard}
+    <table class="library">
+        <thead>
+            <tr>
+                <td>Photo</td>
+                <td>Titre</td>
+                <td>Auteur</td>
+                <td>Description</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
+                <td>%Titre%</td>
+                <td>%Auteur%</td>
+                <td>%Description%</td>
+            </tr>
+            <tr>
+                <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
+                <td>%Titre%</td>
+                <td>%Auteur%</td>
+                <td>%Description%</td>
+            </tr>
+        </tbody>
+    </table>
 </section>
-<table class="library">
-    <thead>
-        <tr>
-            <td>Photo</td>
-            <td>Titre</td>
-            <td>Auteur</td>
-            <td>Description</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
-            <td>%Titre%</td>
-            <td>%Auteur%</td>
-            <td>%Description%</td>
-        </tr>
-        <tr>
-            <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
-            <td>%Titre%</td>
-            <td>%Auteur%</td>
-            <td>%Description%</td>
-        </tr>
-    </tbody>
-</table>
 HTML;
