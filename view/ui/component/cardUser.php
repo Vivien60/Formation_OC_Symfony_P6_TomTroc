@@ -12,7 +12,7 @@ return
         <div class="card__content">
             <span class="card__title">
                 <a class="card__link" href="?action=profile&id=%2\$s">%3\$s</a>
-            <span
+            </span>
         </div>
     </div>
 USERCARD;

@@ -57,7 +57,7 @@ Formulaire
     gap: 0.5rem;
 }
 
-hr {
+.card--user-big hr {
     width: auto;
     margin: 0 20%;
     align-self: stretch;

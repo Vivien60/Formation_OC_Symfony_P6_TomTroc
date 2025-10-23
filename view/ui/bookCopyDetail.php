@@ -6,7 +6,7 @@ use view\templates\AbstractHtmlTemplate;
  */
 
 $cardUser = require __DIR__.'/component/cardUser.php';
-$htmlCards = sprintf($cardUser, '1', 'pseudo');
+$htmlCards = sprintf($cardUser, 'card--user card--row', '1', 'pseudo');
 
 /**
  * TODO : ajouter le fil d'ariane (il est presque invisible)
@@ -14,22 +14,25 @@ $htmlCards = sprintf($cardUser, '1', 'pseudo');
 
 return
 <<<HTML
-<div><img src="assets/img/books/book02.jpg"></div>
-<div>
-    <header>
-        <h1>%TitreDuLivre%</h1>
-        <p>par %Auteur%</p>
+<div class="container container--book-detail">
+    <div class="container__poster">
+        <img class="container__full-img" src="assets/img/books/book02.jpg" alt="photo du livre prise par son propriétaire">
+    </div>
+    <div class="container__content">
+        <header>
+            <h1>%TitreDuLivre%</h1>
+            <p>par %Auteur%</p>
+        </header>
         <hr>
-    </header>
-    <hr>
-    <div>
-        <h2>Description</h2>
-        <p>%DescriptionDuLivre%</p>
+        <div>
+            <h2>Description</h2>
+            <p>%DescriptionDuLivre%</p>
+        </div>
+        <div>
+            <h2>Propriétaire</h2>
+            {$htmlCards}
+        </div>
+        <a class="bigButton" href="?action=write-message">Envoyer un message</a>
     </div>
-    <div>
-        <h2>Propriétaire</h2>
-        {$cardUser}
-    </div>
-    <a href="?action=write-message">Envoyer un message</a>
 </div>
 HTML;
