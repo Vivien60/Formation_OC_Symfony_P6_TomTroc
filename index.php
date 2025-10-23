@@ -5,12 +5,14 @@ session_start();
 require_once 'config/autoload.php';
 use config\Conf;
 use services\Utils;
-use controller\{BookController,
+use controller\{
+    BookController,
     ErrorController,
     IndexController,
     MessagerieController,
     ThreadController,
-    UserController};
+    UserController
+};
 
 Conf::getInstance()->deploy();
 switch(Utils::request('action', null)) {
