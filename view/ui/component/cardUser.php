@@ -6,11 +6,13 @@ use view\templates\AbstractHtmlTemplate;
  */
 
 return
-<<<USERCARD
-    <div data-component="card">
-        <div><img alt="avatar de l'utilisateur %2\$s" src="assets/img/avatars/for-test.jpg" width="25"></div>
-        <div>
-            <a class="card__link" href="?action=profile&id=%1\$s">%2\$s</a>
+    <<<USERCARD
+    <div data-component="card" class="card %1\$s">
+        <div class="card__poster"><img class="card__avatar" alt="avatar de l'utilisateur %3\$s" src="assets/img/avatars/for-test.jpg"></div>
+        <div class="card__content">
+            <span class="card__title">
+                <a class="card__link" href="?action=profile&id=%2\$s">%3\$s</a>
+            <span
         </div>
     </div>
 USERCARD;

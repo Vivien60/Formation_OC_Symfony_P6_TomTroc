@@ -1,0 +1,57 @@
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card--row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.card__poster {
+    /**
+    Tried 20% for flex-basis but turn out image is overflowing
+     */
+    flex: 0 0 3rem;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.card__avatar {
+    border-radius: 50%;
+    flex : 0 100%;
+    max-height: 100%;
+    max-width: 100%;
+    aspect-ratio: 1;
+}
+
+
+
+/**
+Maxi card user à gauche
+ */
+.card--user-big {
+    box-sizing: border-box;
+    height:35rem;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10rem;
+    background-color: var(--bg-color-light);
+}
+
+.card--user-big .card__poster {
+    align-items: center;
+}
+
+.card--user-big .card__content {
+    text-align: center;
+}
+
+/**
+card user normal
+ */
+.card--user {
+
+}
+

@@ -1,13 +1,13 @@
-.card-book__container {
+.card--book {
     width: 12.5rem;
     height: 20.25rem;
 }
-.card-book__poster {
+.card__poster--book {
     width:100%;
     height: 12.5rem;
 }
 
-.card-book__content {
+.card__content--book {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -18,11 +18,11 @@
     border-radius: 0 0 0.62rem 0.62rem;
 }
 
-.card-book__content--desc {
+.card__desc--book {
     height: 2.5rem;
 }
 
-.card-book__content--footer {
+.card__footer--book {
     height: 0.94rem;
     font-size: 0.62rem;
 }
