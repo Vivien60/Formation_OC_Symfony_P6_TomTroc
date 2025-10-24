@@ -6,28 +6,30 @@ use view\templates\SignInForm;
  */
 return
 <<<HTML
-    <div>
-        <form name="signup" method="post" action="?action=create-account">
-            <h1>Inscription</h1>
-            <label>
-                Pseudo
-                <input type="text" name="name" placeholder="pseudo">
-            </label>
-            <label>
-                Adresse email
-                <input type="email" name="email" placeholder="email">
-            </label>
-            <label>
-                Mot de passe
-                <input type="password" name="password" placeholder="mot de passe">
-            </label>
-            <input type="submit" value="S'inscrire">
-            <footer>
-                <p>Déjà inscrit ? <a href="?action=sign-in">Connectez-vous</a></p>
-            </footer>
-        </form>
-    </div>
-    <div>
-        <img alt="photo pleine de livres entassés" src="assets/img/website/marialaura-gionfriddo-50G3FvyQxX0.jpg">
+    <div class="container container--sign-in-up">
+        <div class="container container--form container--form-sign-in-up">
+            <form name="signup" method="post" action="?action=create-account">
+                <h1>Inscription</h1>
+                <label class="form__label">
+                    Pseudo
+                    <input class="form__field" type="text" name="name" placeholder="pseudo">
+                </label>
+                <label class="form__label">
+                    Adresse email
+                    <input class="form__field" type="email" name="email" placeholder="email">
+                </label>
+                <label class="form__label">
+                    Mot de passe
+                    <input class="form__field" type="password" name="password" placeholder="mot de passe">
+                </label>
+                <input class="bigButton" type="submit" value="S'inscrire">
+                <footer class="form__footer">
+                    <p>Déjà inscrit ? <a href="?action=sign-in">Connectez-vous</a></p>
+                </footer>
+            </form>
+        </div>
+        <div class="container__poster">
+            <img class="container__full-img" alt="photo pleine de livres entassés" src="assets/img/website/marialaura-gionfriddo-50G3FvyQxX0.jpg">
+        </div>
     </div>
 HTML;

@@ -3,14 +3,6 @@
     height: 100%;
 }
 
-.container--book-detail .container__poster {
-    box-sizing: border-box;
-    flex: 1 1 50%;
-    width:50%;
-    display: flex;
-    align-items: center;
-}
-
 .container--book-detail .container__full-img {
     object-fit: cover;
     width: 100%;

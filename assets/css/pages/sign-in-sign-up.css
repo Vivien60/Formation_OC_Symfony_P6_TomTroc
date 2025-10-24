@@ -1,0 +1,15 @@
+.container.container--sign-in-up {
+    flex-flow: row nowrap;
+}
+
+.container.container--form-sign-in-up {
+    background-color: var(--bg-color-medium2);
+}
+
+.container.container--sign-in-up .container__poster {
+    height: 55.375rem;
+}
+
+.container.container--sign-in-up .container__full-img {
+    max-height: 100%;
+}

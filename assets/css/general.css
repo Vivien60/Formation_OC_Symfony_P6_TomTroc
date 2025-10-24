@@ -1,13 +1,16 @@
 @import "modules/header.css";
 @import "modules/footer.css";
+@import "modules/form.css";
 @import "modules/card.css";
 @import "modules/cardBook.css";
+@import "modules/poster.css";
 
 @import "pages/homepage.css";
 @import "pages/messagerie.css";
 @import "pages/profile.css";
 @import "pages/book-copy-detail.css";
 @import "pages/book-copy-edit.css";
+@import "pages/sign-in-sign-up.css";
 
 
 /* Design System */
@@ -47,10 +50,8 @@ body {
 
 .main-container {
     box-sizing: border-box;
-    height: 100vh;
     max-width: 90rem;
     margin: 0 auto;
-    padding: 0 var(--main-padding-sides);
     display: flex;
     flex-flow: column nowrap;
 }
@@ -64,6 +65,7 @@ body {
 }
 
 .main-container > header, .container__header {
+    padding: 0 var(--main-padding-sides);
     flex: 0 0 auto;
 }
 
