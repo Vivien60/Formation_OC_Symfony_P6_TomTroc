@@ -12,7 +12,7 @@ return
         <a class="header__menu--logo" href="?action=home"><img alt="" src="assets/img/logo/extended.svg"></a>
         <ul class="header__list">
             <li><a href="?action=home">Accueil</a></li>
-            <li><a href="#">Nos livres à l’échange</a></li>
+            <li><a href="?action=available-list">Nos livres à l’échange</a></li>
         </ul>
     </div>
     <ul class="header__menu header__list">

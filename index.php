@@ -11,7 +11,7 @@ use controller\{
     IndexController,
     MessagerieController,
     ThreadController,
-    UserController
+    UserController,
 };
 
 Conf::getInstance()->deploy();

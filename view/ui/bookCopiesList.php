@@ -10,14 +10,18 @@ $htmlBookCard = sprintf($bookCard, 'titre', 'desc', 'footer', 2, 'assets/img/boo
 
 return
     <<<HTML
-<header>
-    <h1>Nos livres à l’échange</h1>
-    <img aria-hidden="true" alt="&#x1F50ED;" src="assets/img/icons/magnifying-glass.svg">
-    <input type="text" placeholder="Rechercher un livre">
-</header>
-<div>
-    $htmlBookCard
-    $htmlBookCard
-    $htmlBookCard
+<div class="container books-list-page">
+    <header class="books-list-page__header">
+        <h1>Nos livres à l’échange</h1>
+        <form class="form form--horizontal">
+            <img aria-hidden="true" alt="&#x1F50ED;" src="assets/img/icons/magnifying-glass.svg">
+            <input class="form__field" type="text" placeholder="Rechercher un livre">
+        </form>
+    </header>
+    <div class="books-list-page__list">
+        $htmlBookCard
+        $htmlBookCard
+        $htmlBookCard
+    </div>
 </div>
 HTML;

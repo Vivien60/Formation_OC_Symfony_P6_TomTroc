@@ -1,0 +1,18 @@
+.books-list-page {
+    width: 100%;
+    padding: 0 16.4375rem;
+}
+
+.books-list-page__header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.books-list-page__list {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    gap: 2.375rem;
+    padding: 4.5rem 0;
+}
