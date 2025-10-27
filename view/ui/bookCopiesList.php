@@ -14,8 +14,10 @@ return
     <header class="books-list-page__header">
         <h1>Nos livres à l’échange</h1>
         <form class="form form--horizontal">
-            <img aria-hidden="true" alt="&#x1F50ED;" src="assets/img/icons/magnifying-glass.svg">
-            <input class="form__field" type="text" placeholder="Rechercher un livre">
+            <label class="form__label field field--with-icon">
+                <img class="field__icon" aria-hidden="true" alt="&#x1F50ED;" src="assets/img/icons/magnifying-glass.svg">
+                <input class="field__input" type="text" placeholder="Rechercher un livre">
+            </label>
         </form>
     </header>
     <div class="books-list-page__list">

@@ -11,8 +11,8 @@
 
 .books-list-page__list {
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
+    flex-flow: row wrap;
+    justify-content: center;
     gap: 2.375rem;
     padding: 4.5rem 0;
 }
