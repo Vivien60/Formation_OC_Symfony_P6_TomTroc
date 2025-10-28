@@ -58,12 +58,15 @@
 /**
  * Form section (right side)
  */
-.container.container--form {
+.container--form {
     box-sizing: border-box;
     flex: 1 1 50%;
-    background-color: var(--bg-color-light);
     padding: 2rem;
     width: auto;
+}
+
+.container--form--light {
+    background-color: var(--bg-color-light);
 }
 
 .form.form--book-edit {

@@ -22,7 +22,7 @@
     --gris-foncé: #292929;
     --font-family: "Inter", sans-serif;
     --second-family: "Playfair Display", sans-serif;
-    --font-size: 0.88rem;
+    --font-size: 0.875rem;
 
     --bg-color-light: #fff;
     --bg-color-medium: #faf9f7;
@@ -38,7 +38,7 @@ body {
     margin: 0;
     background-color: var(--bg-color-medium2);
     font-family: var(--font-family), sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: var(--font-size);
     color: var(--gris-foncé);
     /*
@@ -70,10 +70,23 @@ body {
     flex: 0 0 auto;
 }
 
+.main-container > header {
+    position: fixed;
+    left: calc((100vw - 90rem) / 2);
+    right: calc((100vw - 90rem) / 2);
+    height: 5rem;
+    background-color: var(--bg-color-medium2);
+}
+
 .main-container > main, .container__main {
     flex: 1 0 auto;
     display: flex;
     flex-flow: column nowrap;
+}
+
+.main-container > main {
+    margin-top: 5rem;
+    background-color: var(--bg-color-medium);
 }
 
 .main-container > footer, .container__footer {
@@ -87,9 +100,13 @@ body {
     align-items: center;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--second-family), sans-serif;
-    font-weight: 400;
     margin: 0;
 }
 

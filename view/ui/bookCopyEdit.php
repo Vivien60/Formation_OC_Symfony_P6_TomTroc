@@ -15,7 +15,7 @@ return
         <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/book02.jpg"></div>
         <a class="photo-upload__action">Modifier la photo</a>
     </label>
-    <div class="container container--book-copy-edit container--form">
+    <div class="container container--book-copy-edit container--form container--form--light">
         <form class="form form--book-edit" name="book-copy-edit" method="post" action="?action=book-copy-save&id=%IdLivre%">
             <label class="form__label">
                 Titre
