@@ -1,9 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display');
+@import url('https://fonts.googleapis.com/css2?family=Inter');
+
+@import "modules/headings.css";
 @import "modules/header.css";
 @import "modules/footer.css";
 @import "modules/form.css";
 @import "modules/card.css";
 @import "modules/cardBook.css";
 @import "modules/poster.css";
+@import "modules/icons-and-badges.css";
 
 @import "pages/homepage.css";
 @import "pages/messagerie.css";
@@ -20,9 +25,10 @@
     --vert-principal: #00ac66;
     --gris-texte: #a6a6a6;
     --gris-foncé: #292929;
-    --font-family: "Inter", sans-serif;
-    --second-family: "Playfair Display", sans-serif;
+    --font-family: Inter;
+    --second-family: Playfair Display;
     --font-size: 0.875rem;
+    --font-weight-bold: 700;
 
     --bg-color-light: #fff;
     --bg-color-medium: #faf9f7;
@@ -35,6 +41,7 @@
 body {
     box-sizing: border-box;
     height: 100vh;
+    min-width: 90rem;
     margin: 0;
     background-color: var(--bg-color-medium2);
     font-family: var(--font-family), sans-serif;
@@ -71,9 +78,9 @@ body {
 }
 
 .main-container > header {
-    position: fixed;
-    left: calc((100vw - 90rem) / 2);
-    right: calc((100vw - 90rem) / 2);
+    /*position: fixed;
+    left: max(0rem, calc((100vw - 90rem) / 2));
+    right: max(0rem, calc((100vw - 90rem) / 2));*/
     height: 5rem;
     background-color: var(--bg-color-medium2);
 }
@@ -85,12 +92,24 @@ body {
 }
 
 .main-container > main {
-    margin-top: 5rem;
+    /*margin-top: 5rem;*/
     background-color: var(--bg-color-medium);
 }
 
 .main-container > footer, .container__footer {
     flex: 0 0 auto;
+}
+
+.main-container > footer {
+    height: 3.8125rem;
+    background-color: white;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2.5rem;
+    font-size: 0.75rem;
+    font-weight: 300;
 }
 
 .container__footer {

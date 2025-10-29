@@ -21,7 +21,7 @@ echo "</pre>";*/
 ?>
 <div class="messagerie__container">
     <div class="threads__list">
-        <h1>Messagerie</h1>
+        <h1 class="heading--form-pages">Messagerie</h1>
         <nav>
             <ul>
                 <li class="threads__item">

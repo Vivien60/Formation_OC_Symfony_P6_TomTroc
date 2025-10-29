@@ -20,7 +20,7 @@ $htmlBigUserCard = sprintf(
 );
 return <<<HTML
 
-<h1>Mon compte</h1>
+<h1 class="heading heading--form-pages">Mon compte</h1>
 <div class="userInfo">
     {$htmlBigUserCard}
     <div class="userInfo__form-container">

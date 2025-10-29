@@ -6,18 +6,18 @@ use view\templates\AbstractHtmlTemplate;
 //TODO : utiliser le logo sans texte et mettre le texte à coté
 return
     <<<HTML
-    <nav class="header__container">
-        <div class="header__menu">
-            <a class="header__menu--logo" href="?action=home"><img alt="" src="assets/img/logo/extended.svg"></a>
-            <ul class="header__list">
-                <li><a href="?action=home">Accueil</a></li>
-                <li><a href="?action=available-list">Nos livres à l’échange</a></li>
+    <nav class="header__container nav-bar">
+        <div class="nav-bar__section">
+            <a class="nav-bar__logo" href="?action=home"><img alt="" src="assets/img/logo/extended.svg"></a>
+            <ul class="nav-bar__section nav-bar__section--list">
+                <li class="nav-bar__item nav-bar__item--active"><a href="?action=home">Accueil</a></li>
+                <li class="nav-bar__item"><a href="?action=available-list">Nos livres à l’échange</a></li>
             </ul>
         </div>
-        <ul class="header__menu header__list">
-            <li><a href="?action=messagerie"><i aria-hidden="true" class="messagerie-icon"></i><span>Messagerie</span><span>1</span></a></li>
-            <li><a href="?action=edit-profile-form"><i aria-hidden="true" class="account-icon"></i>Mon compte</a></li>
-            <li><a href="?action=sign-in">Connexion</a></li>
+        <ul class="nav-bar__section nav-bar__section--list">
+            <li class="nav-bar__item"><a href="?action=messagerie"><img aria-hidden="true" class="icon icon--inline-text nav-bar__icon" src="assets/img/icons/messagerie.svg"><span>Messagerie</span><span class="badge badge--inline-text nav-bar__icon nav-bar__icon--right">1</span></a></li>
+            <li class="nav-bar__item"><a href="?action=edit-profile-form"><img aria-hidden="true" class="icon icon--inline-text nav-bar__icon" src="assets/img/icons/account.svg"><span>Mon compte</span></a></li>
+            <li class="nav-bar__item"><a href="?action=sign-in">Connexion</a></li>
         </ul>
     </nav>
 HTML;

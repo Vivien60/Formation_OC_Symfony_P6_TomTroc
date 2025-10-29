@@ -1,0 +1,20 @@
+.icon {
+}
+
+.icon--inline-text {
+    vertical-align: bottom;
+    padding : 0 0 0.1rem 0;
+}
+
+.badge {
+    background-color: black;
+    color: var(--gris-clair);
+    border-radius: 0.422rem;
+    padding: 0.1rem 0.2rem;
+    font-size: 0.5rem;
+    font-weight: 700;
+}
+
+.badge--inline-text {
+    vertical-align: middle;
+}
