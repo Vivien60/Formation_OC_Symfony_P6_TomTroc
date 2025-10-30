@@ -19,9 +19,8 @@ $htmlBigUserCard = sprintf(
     $writeMessageLink,
 );
 return <<<HTML
-
-<h1 class="heading heading--form-pages">Mon compte</h1>
 <div class="userInfo">
+    <h1 class="heading heading--form-pages">Mon compte</h1>
     {$htmlBigUserCard}
     <div class="userInfo__form-container">
         <h3>Vos informations personnelles</h3>

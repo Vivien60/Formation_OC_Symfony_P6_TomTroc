@@ -1,9 +1,14 @@
-.container.container--sign-in-up {
+.container--sign-in-up {
     flex-flow: row nowrap;
 }
 
-.container.container--form-sign-in-up {
+
+.container--form-sign-in-up {
    /* background-color: var(--bg-color-medium2);*/
+}
+
+.container--form-sign-in-up h1 {
+    margin: 6.125rem 0 0 0;
 }
 
 .container.container--sign-in-up .container__poster {

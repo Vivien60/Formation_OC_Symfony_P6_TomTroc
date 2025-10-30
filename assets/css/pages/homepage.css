@@ -20,6 +20,20 @@
     flex: 3 0 0;
 }
 
+.hero__content {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.hero h1 {
+    margin: 5rem 0 0.125rem 0;
+}
+
+.lastBooks__bloc h2 , .howToUse__bloc h2, .ourValues__bloc h2 {
+    margin: 5rem 0 1.5rem 0;
+}
+
 .hero__img-title {
     flex:0 1 100%;
     text-align: right;

@@ -7,8 +7,10 @@ use view\templates\AbstractHtmlTemplate;
 
 return
     <<<HTML
-<nav><a>&larr; retour</a></nav>
-<h1 class="heading--form-pages">Modifier les informations</h1>
+<div class="main-container__header main-container__header--book-copy-edit">
+    <nav><a>&larr; retour</a></nav>
+    <h1 class="heading--form-pages">Modifier les informations</h1>
+</div>
 <div class="container container--book-copy-edit">
     <label class="photo-upload">
         Photo

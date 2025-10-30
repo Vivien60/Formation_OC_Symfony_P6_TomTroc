@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display');
+@import url('https://fonts.googleapis.com/css2?family=Inter');
+
+@import "general.css";
+
+@import "modules/headings.css";
+@import "modules/header.css";
+@import "modules/footer.css";
+@import "modules/form.css";
+@import "modules/card.css";
+@import "modules/cardBook.css";
+@import "modules/poster.css";
+@import "modules/icons-and-badges.css";
+
+@import "pages/homepage.css";
+@import "pages/messagerie.css";
+@import "pages/profile.css";
+@import "pages/book-copy-detail.css";
+@import "pages/book-copy-edit.css";
+@import "pages/sign-in-sign-up.css";
+@import "pages/available-books.css";

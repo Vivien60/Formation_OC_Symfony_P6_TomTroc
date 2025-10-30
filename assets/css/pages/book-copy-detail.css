@@ -1,6 +1,10 @@
-.container.container--book-detail {
+.container--book-detail {
     flex-flow: row nowrap;
     height: 100%;
+}
+
+.container--book-detail h1 {
+    margin: 0 0 0 1rem;
 }
 
 .container--book-detail .container__full-img {

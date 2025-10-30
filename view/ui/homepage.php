@@ -16,7 +16,7 @@ for($i = 0; $i < 4; $i++) {
 return
     <<<HTML
     <section class="hero">
-        <div>
+        <div class="hero__content">
             <div>
                 <h1>Rejoignez nos lecteurs passionnés</h1>
                 <p>
