@@ -24,18 +24,18 @@ return <<<HTML
     {$htmlBigUserCard}
     <div class="userInfo__form-container">
         <h3>Vos informations personnelles</h3>
-        <form class="form form--user-profile" method="post" action="?action=edit-profile-save">
+        <form class="form form--user-profile form--coloured" method="post" action="?action=edit-profile-save">
             <label>
                 Adresse email
-                <input type="email" name="email" value="{$this->user->email}">
+                <input class="form__field" type="email" name="email" value="{$this->user->email}">
             </label>
             <label>
                 Mot de passe
-                <input type="password" name="password">
+                <input class="form__field"  type="password" name="password">
             </label>
             <label>
                 Pseudo
-                <input type="text" name="pseudo" value="{$this->user->username}">
+                <input class="form__field"  type="text" name="pseudo" value="{$this->user->username}">
             </label>
             <input type="submit" value="Enregistrer" class="bigButton--light">
         </form>

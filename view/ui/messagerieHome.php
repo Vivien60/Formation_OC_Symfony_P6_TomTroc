@@ -19,7 +19,7 @@ foreach($this->threads[0]?->getMessages() as $message) {
 }
 echo "</pre>";*/
 ?>
-<div class="messagerie__container">
+<div class="messagerie__container container container--with-space-on-sides">
     <div class="threads__list">
         <h1 class="heading--form-pages">Messagerie</h1>
         <nav>
@@ -73,10 +73,10 @@ echo "</pre>";*/
             </div>
         </div>
         <form class="container__footer">
-            <input type="text"
+            <input class="form__field" type="text"
                    placeholder="Tapez votre message ici" aria-label="Tapez votre message ici"
             >
-            <input type="submit" value="Envoyer" class="bigButton bigButton--messagerie">
+            <input type="submit" value="Envoyer" class="bigButton bigButton--inline">
         </form>
     </section>
 </div>

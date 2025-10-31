@@ -27,6 +27,10 @@
     width: 100%;
 }
 
+.form--coloured .form__field, .form--coloured .field__input {
+    background-color: var(--bg-color-dark);
+}
+
 .form__field:focus {
     outline: none;
     border-color: var(--vert-principal);

@@ -18,7 +18,7 @@ return
         <a class="photo-upload__action">Modifier la photo</a>
     </label>
     <div class="container container--book-copy-edit container--form container--form--light">
-        <form class="form form--book-edit" name="book-copy-edit" method="post" action="?action=book-copy-save&id=%IdLivre%">
+        <form class="form form--book-edit form--coloured" name="book-copy-edit" method="post" action="?action=book-copy-save&id=%IdLivre%">
             <label class="form__label">
                 Titre
                 <input class="form__field" name="title" type="text" value="%TitreDuLivre%">
