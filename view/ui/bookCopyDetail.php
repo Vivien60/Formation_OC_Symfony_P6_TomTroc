@@ -22,8 +22,8 @@ return
         <header>
             <h1>%TitreDuLivre%</h1>
             <p>par %Auteur%</p>
+            <hr class="line-separator">
         </header>
-        <hr>
         <div>
             <h2>Description</h2>
             <p>%DescriptionDuLivre%</p>
@@ -32,7 +32,7 @@ return
             <h2>Propriétaire</h2>
             {$htmlCards}
         </div>
-        <a class="bigButton" href="?action=write-message">Envoyer un message</a>
+        <a class="bigButton bigButon--max-size" href="?action=write-message">Envoyer un message</a>
     </div>
 </div>
 HTML;

@@ -170,6 +170,11 @@ li {
     margin-left: 1.255rem;
 }
 
+.bigButon--max-size {
+    width: 100%;
+    text-align: center;
+}
+
 .formField, .formField--darker {
     background-color: #fff;
     border: 1px solid #f0f0f0;
@@ -180,4 +185,13 @@ li {
 
 .formField--darker {
     background-color: var(--bg-color-dark);
+}
+
+.line-separator {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid var(--gris-texte);
+    margin: 1em 0;
+    padding: 0;
 }

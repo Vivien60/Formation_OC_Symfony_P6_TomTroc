@@ -3,8 +3,14 @@
     height: 100%;
 }
 
-.container--book-detail h1 {
-    margin: 0 0 0 1rem;
+.container--book-detail h2 {
+    font-weight: 800;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+}
+
+.container--book-detail header {
+    color : var(--gris-texte);
 }
 
 .container--book-detail .container__full-img {
@@ -27,5 +33,5 @@
 
 .container--book-detail .container__content hr {
     width: 3rem;
-    margin: 0;
+    margin: 2.5rem 0;
 }
