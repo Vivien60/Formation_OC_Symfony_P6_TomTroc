@@ -1,6 +1,10 @@
 .ourValues__bloc, .hero, .lastBooks__bloc, .howToUse__bloc {
     text-align: center;
-    margin: 0 auto;
+    margin: 0;
+}
+
+.hero, .howToUse__bloc, .ourValues__bloc {
+    background-color: var(--bg-color-medium2);
 }
 
 .lastBooks__bloc {
@@ -8,8 +12,21 @@
     background-color: var(--bg-color-medium);
 }
 
+.ourValues__bloc {
+    padding: 0 0 2.5rem 0;
+}
+
+.lastBooks__bloc {
+    text-align: center;
+    padding: 0 0 4rem 0;
+}
+
+.howToUse__bloc {
+    padding: 0 0 5rem 0;
+}
+
 .hero {
-    padding: 0 18.4375rem;
+    padding: 0 18.4375rem 4rem 18.4375rem;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -40,10 +57,6 @@
     padding-top: -6.375rem;
 }
 
-.lastBooks__bloc {
-    text-align: center;
-}
-
 .lastBooks__container-books {
     display: flex;
     flex-flow: row wrap;
@@ -59,6 +72,8 @@
 .howToUse__header {
     width:24.8125rem;
     display: inline-block;
+    color: var(--gris-texte);
+    font-size: 1rem;
 }
 
 .howToUse__step-list {
@@ -97,6 +112,7 @@
 .ourValues__content {
     text-align: left;
     padding-right:2.25rem;
+    font-weight: 300;
 }
 
 .ourValues__footer {
@@ -105,4 +121,6 @@
     justify-content: space-between;
     gap: 1.875rem;
     padding: 3rem 0;
+    color: var(--gris-texte);
+    font-style: italic;
 }
