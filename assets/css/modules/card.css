@@ -26,6 +26,10 @@
     aspect-ratio: 1;
 }
 
+.card__title {
+
+}
+
 
 
 /**
@@ -35,9 +39,13 @@ Maxi card user à gauche
     box-sizing: border-box;
     height:35rem;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding-bottom: 10rem;
     background-color: var(--bg-color-light);
+}
+
+.card--user-big .card__title {
+    font-size: 1.5rem;
 }
 
 .card--user-big .card__poster {
@@ -48,10 +56,19 @@ Maxi card user à gauche
     text-align: center;
 }
 
+.card--user-big .line-separator {
+    border-top: 1px solid var(--bg-color-medium2);
+}
+
+.library-legend-ctn {
+
+}
+
 /**
 card user normal
  */
 .card--user {
 
 }
+
 

@@ -118,6 +118,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: 2.25rem;
     color: #000;
+    font-weight: 400;
 }
 
 h2 {
@@ -175,6 +176,10 @@ li {
     text-align: center;
 }
 
+.bigButton--fixed-width {
+    width: 9.375rem;
+}
+
 .formField, .formField--darker {
     background-color: #fff;
     border: 1px solid #f0f0f0;
@@ -194,4 +199,18 @@ li {
     border-top: 1px solid var(--gris-texte);
     margin: 1em 0;
     padding: 0;
+}
+
+.grey {
+    color: var(--gris-texte);
+}
+
+.link--underlined {
+    text-decoration: underline;
+}
+
+.uppercase-mini-heading {
+    text-transform: uppercase;
+    font-size: 0.5rem;
+    font-weight: 600;
 }

@@ -20,22 +20,22 @@ use view\templates\AbstractHtmlTemplate;
  * %linkToWriteMessage%
  */
 return
-<<<BIGUSERCARD
-    <div class="card card--user-big" data-component="card">
+    <<<BIGUSERCARD
+    <div class="card card--user-big">
         <div class="card__poster">
             <img class="card__avatar" alt="mon avatar" src="assets/img/avatars/for-test.jpg" width="135">
             %1\$s
         </div>
-        <hr>
+        <hr class="line-separator">
         <div class="card__content">
-            <p>%3\$s</p>
-            <p>Membre depuis %4\$s</p>
-            <div>
-                <p>Bibliothèque</p>
-                <span>
+            <div class="card__title">%3\$s</div>
+            <div class="grey">Membre depuis %4\$s</div>
+            <div class="library-legend-ctn">
+                <div class="uppercase-mini-heading">Bibliothèque</div>
+                <div>
                     <i class="icon--books" aria-hidden="true"></i>
-                    <p>%5\$s livres</p>
-                </span>
+                    <span>%5\$s livres</span>
+                </div>
             </div>
             %6\$s
         </div>

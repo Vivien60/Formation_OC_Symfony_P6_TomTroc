@@ -6,7 +6,7 @@ use services\Utils;
  */
 
 
-$writeMessageLink = '<a href="?action=write-message">Ecrire un message</a>';
+$writeMessageLink = '<a class="bigButton bigButton--light bigButon--max-size" href="?action=write-message">Ecrire un message</a>';
 $bigUserCard = require __DIR__.'/component/cardUserBig.php';
 $htmlBigUserCard = sprintf(
         $bigUserCard,
@@ -20,7 +20,7 @@ $htmlBigUserCard = sprintf(
 
 return <<<HTML
 
-<section class="userInfo userInfo--public">
+<div class="userInfo container--with-space-on-sides userInfo--public">
     {$htmlBigUserCard}
     <table class="library">
         <thead>
@@ -46,5 +46,5 @@ return <<<HTML
             </tr>
         </tbody>
     </table>
-</section>
+</div>
 HTML;

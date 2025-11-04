@@ -2,6 +2,10 @@
 
 }
 
+.form--discreet-label {
+
+}
+
 .form__label {
     box-sizing: border-box;
     display: flex;
@@ -26,7 +30,6 @@
     color: var(--gris-foncé);
     width: 100%;
 }
-
 .form--coloured .form__field, .form--coloured .field__input {
     background-color: var(--bg-color-dark);
 }
@@ -71,4 +74,8 @@
 
 .field--with-icon .field__input {
     padding-left: 3rem;
+}
+
+.form--discreet-label .form__label {
+    color: var(--gris-texte);
 }
