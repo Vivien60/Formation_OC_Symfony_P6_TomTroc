@@ -7,6 +7,7 @@
     flex-flow: row nowrap;
     gap: 2rem;
     align-items: flex-start;
+    background-color: var(--bg-color-light);
 }
 
 .main-container__header--book-copy-edit {
@@ -29,7 +30,6 @@
     gap: 1rem;
     align-items: center;
     text-align: center;
-    background-color: var(--bg-color-light);
 }
 
 .container--book-detail .container__poster {
@@ -65,7 +65,14 @@
 /**
  * Form section (right side)
  */
-.container--form {
+.container__edit-book-copy {
+    box-sizing: border-box;
+    flex: 1 1 50%;
+    padding: 2rem;
+    width: auto;
+}
+
+.container__half-page h2 {
     box-sizing: border-box;
     flex: 1 1 50%;
     padding: 2rem;
@@ -76,7 +83,7 @@
     background-color: var(--bg-color-light);
 }
 
-.form.form--book-edit {
+.form--book-edit {
     box-sizing: border-box;
     display: flex;
     flex-flow: column nowrap;

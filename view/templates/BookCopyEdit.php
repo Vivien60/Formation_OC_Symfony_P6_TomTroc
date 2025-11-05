@@ -10,16 +10,16 @@ use \view\layouts\AbstractLayout;
 class BookCopyEdit extends AbstractHtmlTemplate
 {
     public string $title = 'My profile';
-    private ?BookCopy $book = null;
+    public array $helper = [];
 
-    public function __construct(AbstractLayout $layout)
+    public function __construct(AbstractLayout $layout, public readonly ?BookCopy $book = null)
     {
         parent::__construct($layout);
     }
 
-    public function setBook(?BookCopy $book): void
+    public function getBook(): ?BookCopy
     {
-        $this->book = $book;
+        return $this->book;
     }
 
     /**
@@ -36,7 +36,16 @@ HEADERS
 
     public function getMainContent(): string
     {
+        $this->prepareHelper();
         //$dateCrea = $this->book?Utils::convertDateToFrenchFormat($this->book?->createdAt):'';
         return require_once dirname(__DIR__, 1).'/ui/bookCopyEdit.php';
+    }
+
+    private function prepareHelper()
+    {
+        $this->helper['availabilityOptionState'] = [
+            '1' => $this->book?->availabilityStatus?'selected':'',
+            '0' => !$this->book?->availabilityStatus?'selected':''
+        ];
     }
 }

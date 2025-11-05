@@ -4,22 +4,17 @@ declare(strict_types=1);
 namespace view\templates;
 
 use model\BookCopy;
+use model\User;
 use services\Utils;
 use \view\layouts\AbstractLayout;
 
 class BookCopyDetail extends AbstractHtmlTemplate
 {
     public string $title = 'My profile';
-    private ?BookCopy $book = null;
 
-    public function __construct(AbstractLayout $layout)
+    public function __construct(AbstractLayout $layout, public readonly ?BookCopy $book = null, public readonly ?User $user = null)
     {
         parent::__construct($layout);
-    }
-
-    public function setBook(?BookCopy $book): void
-    {
-        $this->book = $book;
     }
 
     /**

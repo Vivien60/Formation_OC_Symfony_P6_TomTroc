@@ -100,6 +100,12 @@ body {
     align-items: center;
 }
 
+.container__half-page {
+    box-sizing: border-box;
+    flex: 1 1 50%;
+    width: auto;
+}
+
 .container--with-space-on-sides {
     padding : 0 var(--main-padding-sides);
 }

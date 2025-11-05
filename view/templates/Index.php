@@ -3,13 +3,18 @@ declare(strict_types=1);
 
 namespace view\templates;
 
+use model\BookCopy;
 use \view\layouts\AbstractLayout;
 
 class Index extends AbstractHtmlTemplate
 {
     public string $title = 'Home';
 
-    public function __construct(AbstractLayout $layout)
+    /**
+     * @param AbstractLayout $layout
+     * @var BookCopy[] $books
+     */
+    public function __construct(AbstractLayout $layout, public readonly array $books)
     {
         parent::__construct($layout);
     }

@@ -19,8 +19,8 @@ class BookController extends AbstractController
         //  Then it will alert the view the user should be logged in, or if it decides, it will redirect.
         $this->redirectIfNotLoggedIn();
         $refBook = intval(Utils::request('id', '0'));
-        $view = new BookCopyDetail(new ConnectedLayout());
-        $view->setBook( BookCopy::fromId($refBook) );
+        $bookCopy = BookCopy::fromId($refBook);
+        $view = new BookCopyDetail(new ConnectedLayout(), $bookCopy, $bookCopy->owner);
         echo $view->render();
     }
 
@@ -29,9 +29,13 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         $refBook = intval(Utils::request('id', '0'));
         $bookCopy = BookCopy::fromId($refBook);
-
-        $view = new BookCopyEdit(new ConnectedLayout());
-        $view->setBook($bookCopy);
+        if($bookCopy) {
+            if ($bookCopy->owner->id != $this->userConnected()->id) {
+                echo $this->viewNotAllowed()->render();
+                return;
+            }
+        }
+        $view = new BookCopyEdit(new ConnectedLayout(), $bookCopy);
         echo $view->render();
     }
 
@@ -52,8 +56,7 @@ class BookController extends AbstractController
                 echo $e->getMessage();
             }
         }
-        $view = new BookCopyEdit(new ConnectedLayout());
-        $view->setBook($bookCopy);
+        $view = new BookCopyEdit(new ConnectedLayout(), $bookCopy);
         echo $view->render();
     }
 

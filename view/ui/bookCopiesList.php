@@ -1,12 +1,15 @@
 <?php
 declare(strict_types=1);
-use view\templates\AbstractHtmlTemplate;
+use view\templates\BookCopiesAvailableList;
 /**
- * @var AbstractHtmlTemplate $this
+ * @var BookCopiesAvailableList $this
  */
 
 $bookCard = require __DIR__.'/component/cardBook.php';
-$htmlBookCard = sprintf($bookCard, 'titre', 'desc', 'footer', 2, 'assets/img/books/default.png');
+$htmlBookCards = '';
+foreach($this->books as $book) {
+    $htmlBookCards .= sprintf($bookCard, $book->title, $book->description, $book->owner->username, $book->id, 'assets/img/books/'.basename($book->image));
+}
 
 return
     <<<HTML
@@ -21,9 +24,7 @@ return
         </form>
     </header>
     <div class="books-list-page__list">
-        $htmlBookCard
-        $htmlBookCard
-        $htmlBookCard
+        $htmlBookCards
     </div>
 </div>
 HTML;

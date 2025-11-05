@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
 use services\Utils;
+use view\templates\ReadProfile;
+
 /**
- * @var \view\templates\ReadProfile $this
+ * @var ReadProfile $this
  */
 
 
@@ -18,6 +20,19 @@ $htmlBigUserCard = sprintf(
         $writeMessageLink
 );
 
+$libraryUserHTML = '';
+//TODO Vivien : make a method which returns only available books
+foreach ($this->library as $bookCopy) {
+    $libraryUserHTML .= <<<EOF
+<tr>
+                <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
+                <td class="library__book-info">{$bookCopy->title}</td>
+                <td class="library__book-info">{$bookCopy->auteur}</td>
+                <td class="library__book-info library__book-info--longdesc">{$bookCopy->description}</td>
+            </tr>
+EOF;
+}
+
 return <<<HTML
 
 <div class="userInfo container--with-space-on-sides userInfo--public">
@@ -32,18 +47,7 @@ return <<<HTML
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
-                <td>%Titre%</td>
-                <td>%Auteur%</td>
-                <td>%Description%</td>
-            </tr>
-            <tr>
-                <td><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
-                <td>%Titre%</td>
-                <td>%Auteur%</td>
-                <td>%Description%</td>
-            </tr>
+            {$libraryUserHTML}
         </tbody>
     </table>
 </div>

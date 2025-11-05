@@ -35,11 +35,19 @@ class User extends AbstractEntity
 
     public string $email = '';
 
-    protected static string $selectSql = "select id, name as username, email, password, DATE(created_at) as createdAt from user";
+    public string $avatar = '';
+
+    protected static string $selectSql = "select id, name as username, email, password, DATE(created_at) as createdAt, avatar from user";
 
     protected function __construct(array $fieldVals)
     {
         parent::__construct($fieldVals);
+    }
+
+    protected function hydrate(array $data): void
+    {
+        parent::hydrate($data);
+        $this->avatar = $this->avatar?:'default.png';
     }
 
     public static function fromEmail(string $email) : ?User

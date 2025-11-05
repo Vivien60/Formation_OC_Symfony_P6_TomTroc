@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
-use view\templates\AbstractHtmlTemplate;
+use view\templates\Index;
 /**
- * @var AbstractHtmlTemplate $this
+ * @var Index $this
  */
 /**
- * Mettre le nombre d'éléments dans le controller
+ * TODO Vivien: Mettre le nombre d'éléments dans le controller
  */
-$card = require __DIR__.'/component/cardBook.php';
-$htmlCards = '';
-for($i = 0; $i < 4; $i++) {
-    $htmlCards .= sprintf($card, 'titre', 'desc', 'footer', 2, 'assets/img/books/book01.jpg');
+$bookCard = require __DIR__.'/component/cardBook.php';
+$htmlBookCards = '';
+foreach($this->books as $book) {
+    $htmlBookCards .= sprintf($bookCard, $book->title, $book->description, $book->owner->username, $book->id, 'assets/img/books/'.basename($book->image));
 }
 
 return
@@ -36,7 +36,7 @@ return
     <section class="lastBooks__bloc">
         <h2>Les derniers livres ajoutés</h2>
         <div class="lastBooks__container-books">
-            {$htmlCards}
+            {$htmlBookCards}
         </div>
         <footer class="lastBooks__footer"><a class="bigButton" href="?action=available-list">Voir tous les livres</a></footer>
     </section>

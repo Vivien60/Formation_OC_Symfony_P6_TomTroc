@@ -11,26 +11,15 @@ use \view\layouts\AbstractLayout;
 class ReadProfile extends AbstractHtmlTemplate
 {
     public string $title = 'My profile';
-    public ?User $user = null;
     private ?bool $success = null;
-    /**
-     * @var null|BookCopy[]
-     */
-    private ?array $library = null;
 
-    public function __construct(AbstractLayout $layout)
+    /**
+     * @param AbstractLayout $layout
+     * @var $library null|BookCopy[]
+     */
+    public function __construct(AbstractLayout $layout, readonly ?User $user = null, readonly ?array $library = null)
     {
         parent::__construct($layout);
-    }
-
-    public function setUser(?User $user): void
-    {
-        $this->user = $user;
-    }
-
-    public function setBookLibrary(array $books): void
-    {
-        $this->library = $books;
     }
 
     /**

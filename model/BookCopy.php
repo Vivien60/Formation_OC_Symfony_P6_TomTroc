@@ -53,9 +53,11 @@ class BookCopy extends AbstractEntity
     /**
      * @return static[]
      */
-    public static function listAvailableBookCopies(): array
+    public static function listAvailableBookCopies(int $limit = 0): array
     {
         $sql = static::$selectSql." where availability_status = 1";
+        $limit = intval($limit);
+        $sql .= $limit > 0 ? " limit $limit" : "";
         $stmt = static::$db->query($sql);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(static::fromArray(...), $result);
@@ -69,6 +71,8 @@ class BookCopy extends AbstractEntity
     protected function hydrate(array $fieldVals) : void
     {
         parent::hydrate($fieldVals);
+        //WORKAROUND FOR IMAGE SAVED WITH PATH
+        $this->image = basename($this->image);
     }
 
     public static function fromArray(array $fieldVals) : static

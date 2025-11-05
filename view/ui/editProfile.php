@@ -18,7 +18,22 @@ $htmlBigUserCard = sprintf(
     count($this->user->library),
     $writeMessageLink,
 );
-$randomString = bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5)).' '.bin2hex(random_bytes(5));
+
+$libraryUserHTML = '';
+foreach ($this->user->library as $bookCopy) {
+    $badgeClass = $bookCopy->availabilityStatus == 1 ? 'badge--ok' : 'badge--nok';
+    $libraryUserHTML .= <<<EOF
+<tr>
+                <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
+                <td class="library__book-info">{$bookCopy->title}</td>
+                <td class="library__book-info">{$bookCopy->auteur}</td>
+                <td class="library__book-info library__book-info--longdesc">{$bookCopy->description}</td>
+                <td><div class="badge--long-size {$badgeClass}">{$bookCopy->availabilityLibelle}</div></td>
+                <td><a class="library__action library__action--edit" href="?action=book-copy-edit-form&id={$bookCopy->id}">Editer</a></td>
+                <td><a class="library__action library__action--delete" href="?action=book-copy-remove&id={$bookCopy->id}">Supprimer</a></td>
+            </tr>
+EOF;
+}
 
 return <<<HTML
 <div class="userInfo container--with-space-on-sides">
@@ -55,24 +70,7 @@ return <<<HTML
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
-                <td class="library__book-info">%Titre%</td>
-                <td class="library__book-info">%Auteur%</td>
-                <td class="library__book-info library__book-info--longdesc">%Description% {$randomString}</td>
-                <td><div class="badge--long-size badge--nok">%Disponibilite%</div></td>
-                <td><a class="library__action library__action--edit" href="?action=book-edit-form">Editer</a></td>
-                <td><a class="library__action library__action--delete" href="?action=book-copy-remove">Supprimer</a></td>
-            </tr>
-            <tr>
-                <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/book01.jpg" width="78"></td>
-                <td class="library__book-info">%Titre%</td>
-                <td class="library__book-info">%Auteur%</td>
-                <td class="library__book-info library__book-info--longdesc">%Description%</td>
-                <td><div class="badge--long-size badge--ok">%Disponibilite%</div></td>
-                <td><a class="library__action library__action--edit" href="?action=book-edit-form">Editer</a></td>
-                <td><a class="library__action library__action--delete" href="?action=book-copy-remove">Supprimer</a></td>
-            </tr>
+            $libraryUserHTML
         </tbody>
     </table>
 </div>

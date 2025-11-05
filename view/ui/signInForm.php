@@ -5,9 +5,9 @@ use view\templates\SignInForm;
  * @var SignInForm $this
  */
 return
-<<<HTML
+    <<<HTML
     <div class="container container--sign-in-up">
-        <div class="container container--form container--form-sign-in-up">
+        <div class="container container__half-page container--with-space-on-sides container--form-sign-in-up">
             <form class="form" name="login" method="post" action="?action=login">
                 <h1>Connexion</h1>
                 <label class="form__label">
