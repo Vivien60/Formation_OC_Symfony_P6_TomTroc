@@ -46,11 +46,16 @@ abstract class AbstractController
     protected function renderView(\view\templates\AbstractHtmlTemplate $view): string
     {
         // Inject global data into helper
+        $connected = false;
         $unreadMessages = 0;
         if ($this->userConnected()) {
             $unreadMessages = $this->userConnected()->getUnreadMessagesCount();
+            $connected = true;
         }
-        $view->addToHelper(['unread_messages_count' => $unreadMessages]);
+        $view->addToHelper([
+            'unread_messages_count' => $unreadMessages,
+            'connected' => $connected,
+        ]);
 
         return $view->render();
     }

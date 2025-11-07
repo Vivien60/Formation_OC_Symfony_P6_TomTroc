@@ -64,7 +64,7 @@ class UserController extends AbstractController
     public function signOut() : void
     {
         session_destroy();
-        echo 'session destroyed';
+        Utils::redirect('home');
     }
 
     /**
