@@ -21,7 +21,7 @@ class BookController extends AbstractController
         $refBook = intval(Utils::request('id', '0'));
         $bookCopy = BookCopy::fromId($refBook);
         $view = new BookCopyDetail(new ConnectedLayout(), $bookCopy, $bookCopy->owner);
-        echo $view->render();
+        echo $this->renderView($view);
     }
 
     public function displayBookCopyForEdition() : void
@@ -36,7 +36,7 @@ class BookController extends AbstractController
             }
         }
         $view = new BookCopyEdit(new ConnectedLayout(), $bookCopy);
-        echo $view->render();
+        echo $this->renderView($view);
     }
 
     public function saveCopy() : void
@@ -57,7 +57,7 @@ class BookController extends AbstractController
             }
         }
         $view = new BookCopyEdit(new ConnectedLayout(), $bookCopy);
-        echo $view->render();
+        echo $this->renderView($view);
     }
 
     public function deleteCopy() : void
@@ -98,7 +98,7 @@ class BookController extends AbstractController
             $bookCopies = BookCopy::listAvailableBookCopies();
             $view = new BookCopiesAvailableList(new ConnectedLayout());
             $view->books = $bookCopies;
-            echo $view->render();
+            echo $this->renderView($view);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

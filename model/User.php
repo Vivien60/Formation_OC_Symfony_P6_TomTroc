@@ -10,6 +10,10 @@ use services\DBManager;
 class User extends AbstractEntity
 {
     /**
+     * @var Thread[] $threads
+     */
+    public array $threads = [];
+    /**
      * @var BookCopy[] $library
      */
     public array $library = [] {
@@ -42,6 +46,23 @@ class User extends AbstractEntity
     protected function __construct(array $fieldVals)
     {
         parent::__construct($fieldVals);
+    }
+
+    public function getThreads()
+    {
+        if(empty($this->threads)) {
+            $this->threads = Thread::fromParticipant($this);
+        }
+        return $this->threads;
+    }
+
+    public function openThread(int $id = 0) : ?Thread
+    {
+        $this->getThreads();
+        if(empty($this->threads)) {
+            return null;
+        }
+        return Thread::openForUser($this, $id, $this->threads);
     }
 
     protected function hydrate(array $data): void
@@ -144,5 +165,21 @@ class User extends AbstractEntity
     public function retrieveLibrary()
     {
         $this->library = BookCopy::fromOwner($this);
+    }
+
+    public function getUnreadMessagesCount() : int
+    {
+        $sql = "select count(*) 
+                from 
+                    participer p
+                    inner join message m on p.thread_id = m.thread_id 
+                    left join message_status ms on m.id = ms.message_id 
+                where p.user_id = :id and (ms.status = 'unread' or ms.status IS NULL) ";
+        $stmt = static::$db->query(
+            $sql,
+            [
+                'id' => $this->id,
+            ]);
+        return intval($stmt->fetchColumn());
     }
 }

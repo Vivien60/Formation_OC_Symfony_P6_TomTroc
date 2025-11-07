@@ -14,21 +14,21 @@ class IndexController extends AbstractController
     {
         $layout = new NonConnectedLayout(); //Squelette de la page
         $view = new Index($layout, BookCopy::listAvailableBookCopies(4));
-        echo $view->render();
+        echo $this->renderView($view);
     }
 
     public function displaySignUpForm() : void
     {
         $layout = new NonConnectedLayout(); //Squelette de la page
         $view = new SignUpForm($layout); //Template de la page structuré par le layout
-        echo $view->render();
+        echo $this->renderView($view);
     }
 
     public function displaySignInForm()
     {
         $layout = new NonConnectedLayout();
         $view = new SignInForm($layout);
-        echo $view->render();
+        echo $this->renderView($view);
     }
 
 }

@@ -37,4 +37,21 @@ abstract class AbstractController
             exit();
         }
     }
+
+    /**
+     * Renders a view after injecting global data accessible to all views.
+     * @param \view\templates\AbstractHtmlTemplate $view
+     * @return string
+     */
+    protected function renderView(\view\templates\AbstractHtmlTemplate $view): string
+    {
+        // Inject global data into helper
+        $unreadMessages = 0;
+        if ($this->userConnected()) {
+            $unreadMessages = $this->userConnected()->getUnreadMessagesCount();
+        }
+        $view->addToHelper(['unread_messages_count' => $unreadMessages]);
+
+        return $view->render();
+    }
 }

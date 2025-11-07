@@ -6,7 +6,7 @@ use PDO;
 
 class Message extends AbstractEntity
 {
-    protected static string $selectSql = "select thread_id, `rank`, author, content, created_at from message";
+    protected static string $selectSql = "select id, thread_id, `rank`, author, content, created_at from message";
     public int $author = -1;
     public int $threadId = -1;
     public int $rank = -1;

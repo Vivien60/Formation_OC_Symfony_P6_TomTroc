@@ -12,32 +12,21 @@ use \view\layouts\AbstractLayout;
 class MessagerieHome extends AbstractHtmlTemplate
 {
     public string $title = 'Conversation avec %s';
-    private ?User $userConnected = null;
-    private ?Thread $thread;
 
     /**
-     * @var Thread[] $threads
+     * @param AbstractLayout $layout
+     * @param Thread[] $threads : list of threads where the user is involved
+     * @param Thread|null $thread : current thread selected on page
+     * @param User|null $userConnected
      */
-    private array $threads;
-
-    public function __construct(AbstractLayout $layout)
+    public function __construct(
+        AbstractLayout $layout,
+        public readonly array $threads,
+        public readonly ?Thread $thread,
+        public readonly ?User $dest = null,
+        public readonly ?User $userConnected = null)
     {
         parent::__construct($layout);
-    }
-
-    public function setUserConnected(?User $user): void
-    {
-        $this->userConnected = $user;
-    }
-
-    public function setThread(?Thread $thread): void
-    {
-        $this->thread = $thread;
-    }
-
-    public function setThreads(array $threads)
-    {
-        $this->threads = $threads;
     }
 
     /**
@@ -69,5 +58,13 @@ HEADERS
     {
         $this->title = sprintf($this->title, $this->userConnected?->username);
         return parent::render();
+    }
+
+    protected function prepareHelper() : void
+    {
+        $this->helper['availabilityOptionState'] = [
+            '1' => $this->book?->availabilityStatus?'selected':'',
+            '0' => !$this->book?->availabilityStatus?'selected':''
+        ];
     }
 }

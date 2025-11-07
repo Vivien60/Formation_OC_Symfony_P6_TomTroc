@@ -14,6 +14,8 @@ use controller\{
     UserController,
 };
 
+//TODO VIVIEN: protection failles XSS
+
 Conf::getInstance()->deploy();
 switch(Utils::request('action', null)) {
     case 'home':
@@ -94,7 +96,7 @@ switch(Utils::request('action', null)) {
         $controller->writeTo();
         break;
     case 'send-message':
-        $controller = new ThreadController();;
+        $controller = new ThreadController();
         $controller->send();
         break;
     default:

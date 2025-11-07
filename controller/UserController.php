@@ -30,7 +30,7 @@ class UserController extends AbstractController
             $user->toMemory();
         } catch (\Exception $e) {
             $view = new Error(new ErrorLayout(), $e);
-            echo $view->render();
+            echo $this->renderView($view);
             return;
         }
         Utils::redirect('edit-profile-form');
@@ -81,13 +81,13 @@ class UserController extends AbstractController
         $id = Utils::request('id',0);
         if($id && $user?->id !== $id) {
             $view = new NotAllowed(new ErrorLayout());
-            echo $view->render();
+            echo $this->renderView($view);
             return;
         }
         $layout = new ConnectedLayout();
         $view = new EditProfile($layout);
         $view->setUser($user);
-        echo $view->render();
+        echo $this->renderView($view);
     }
 
     public function update() : void
@@ -102,13 +102,13 @@ class UserController extends AbstractController
             $user->toMemory();
         } catch (\Exception $e) {
             $view = new Error(new ErrorLayout(), $e);
-            echo $view->render();
+            echo $this->renderView($view);
             return;
         }
         $view = new EditProfile(new ConnectedLayout());
         $view->successfull(true);
         $view->setUser($user);
-        echo $view->render();
+        echo $this->renderView($view);
 
     }
 
@@ -116,7 +116,7 @@ class UserController extends AbstractController
     {
         if($this->userConnected() === null) {
             $view = $this->viewNotAllowed();
-            echo $view->render();
+            echo $this->renderView($view);
             return;
         }
         $id = intval(Utils::request('id', 0));
@@ -126,6 +126,6 @@ class UserController extends AbstractController
         } else  {
             $view = $this->viewNotAllowed();
         }
-        echo $view->render();
+        echo $this->renderView($view);
     }
 }

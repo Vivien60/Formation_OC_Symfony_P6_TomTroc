@@ -30,6 +30,29 @@ class Thread extends AbstractEntity
         return $thread;
     }
 
+    public static function openForUser(User $user, int $id, array $threads = []) : ?static
+    {
+        $threadToOpen = null;
+        if(empty($threads)) {
+            $threads = static::fromParticipant($user);
+        }
+        if(empty($threads)) {
+            return null;
+        }
+        if($id === 0) {
+            $threadToOpen = $threads[0];
+        } else {
+            foreach($threads as $thread) {
+                if($thread->id === $id) {
+                    $threadToOpen = $thread;
+                    break;
+                }
+            }
+        }
+        $threadToOpen?->markAsRead($user);
+        return $threadToOpen;
+    }
+
     public function getParticipants()
     {
         if(empty($this->participants)) {
@@ -38,6 +61,17 @@ class Thread extends AbstractEntity
             $this->participants = array_map(static fn($participant) => User::fromId($participant['user_id']), $stmt->fetchAll());
         }
         return $this->participants;
+    }
+
+    /**
+     * Returns the other participants from the point of view of the user requesting thread.
+     * It means it returns the people who will receive his messages.
+     * @param User $userAsking
+     * @return array
+     */
+    public function otherParticipants(User $userAsking) : array
+    {
+        return array_filter($this->getParticipants(), static fn($participant) => $participant->id !== $userAsking->id);
     }
 
     /**
@@ -107,4 +141,16 @@ class Thread extends AbstractEntity
             static::$db->query($sql, ['threadId' => $this->id, 'userId' => $participant->id]);
         }
     }
+
+    private function markAsRead(User $user)
+    {
+        $sql = "insert into message_status (user_id, message_id, status)
+                values (:userId, :messageId, 'read') 
+                on duplicate key update status = 'read'";
+        foreach($this->getMessages() as $message) {
+            static::$db->query($sql, ['userId' => $user->id, 'messageId' => $message->id]);
+        }
+    }
+
+
 }

@@ -7,6 +7,7 @@ use view\layouts\AbstractLayout;
 
 abstract class AbstractHtmlTemplate
 {
+
     protected AbstractLayout $layout;
     /**
      * @var string[]
@@ -16,25 +17,34 @@ abstract class AbstractHtmlTemplate
 
     public string $footer = '';
     public string $contentHeader = '';
-
     public static string $baseUrl = '/';
+    /**
+     * Helper for UI. It will contain some formatted data that can be used in the UI.
+     * @var array $helper
+     */
+    public array $helper = [];
 
     /**
      * @param AbstractLayout $layout
      * @param string[] $headers
      */
-    public function __construct(AbstractLayout $layout, array $headers = [])
+    public function __construct(AbstractLayout $layout, array $headers = [], array $helper = [])
     {
         $this->layout = $layout;
         $this->headerHTML = $headers?:$this->defaultHeaderHtml();
-        //$this->contentHeader = sprintf($this->contentHeader, $this->title);
-        $this->contentHeader = include dirname(__DIR__) . '/ui/header.php';
-        $this->footer = include dirname(__DIR__) . '/ui/footer.php';
+        $this->helper = $helper;
     }
 
     public function render() : string
     {
+        $this->buildComposants();
         return $this->layout->buildPageFromTemplate($this);
+    }
+
+    protected function buildComposants(): void
+    {
+        $this->contentHeader = include dirname(__DIR__) . '/ui/header.php';
+        $this->footer = include dirname(__DIR__) . '/ui/footer.php';
     }
 
     abstract public function getMainContent() : string;
@@ -90,5 +100,24 @@ abstract class AbstractHtmlTemplate
     public static function setBaseUrl(string $baseUrl): void
     {
         static::$baseUrl = $baseUrl;
+    }
+
+    public function addToHelper(array $array): void
+    {
+        $this->helper = array_merge($this->helper, $array);
+    }
+
+    /**
+     * @TOVOERRIDE
+     * Build helper for UI. It contains some formatted data that can be used in the UI.
+     * @return void
+     */
+    protected function prepareHelper() : void
+    {
+    }
+
+    public function helper(string $valName) : mixed
+    {
+        return $this->helper[$valName];
     }
 }
