@@ -38,14 +38,14 @@ echo "</pre>";*/
                     <div data-component="card" class="<?= $classThread ?>">
                         <div class="card__poster">
                             <img class="card__avatar img-cover" alt="avatar de l'utilisateur ---"
-                                 src="assets/img/avatars/<?= $message->getAuthor()->avatar ?>" width="48">
+                                 src="assets/img/avatars/<?= $message?->getAuthor()->avatar ?>" width="48">
                         </div>
                         <div class="card__content">
                             <div class="card__header">
-                                <span class="card__title"><a class="card__link" href="?action=thread&id=1"><?= $message->getAuthor()->username ?></a></span>
-                                <span><?= Utils::convertDateAndTimeToTimeFormat($message->createdAt) ?></span>
+                                <span class="card__title"><a class="card__link" href="?action=messagerie&thread=<?= $thread->id ?>"><?= $message?->getAuthor()->username ?></a></span>
+                                <span><?= $message?Utils::convertDateAndTimeToTimeFormat($message->createdAt):'' ?></span>
                             </div>
-                            <div class="card__desc card__desc--oneline"><span><?= $message->content ?></span></div>
+                            <div class="card__desc card__desc--oneline"><span><?= $message?->content ?></span></div>
                         </div>
                     </div>
                 </li>

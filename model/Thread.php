@@ -26,7 +26,8 @@ class Thread extends AbstractEntity
     public static function openNewOne(array $participants) : static
     {
         $thread = new static(['created_at' => date("Y-m-d H:i:s")]);
-        $thread->participants = $participants;
+        $thread->participants = array_map(fn($participant) => User::fromId($participant), $participants);
+        $thread->create();
         return $thread;
     }
 
@@ -58,7 +59,7 @@ class Thread extends AbstractEntity
         if(empty($this->participants)) {
             $sql = "select user_id from participer where thread_id = :threadId";
             $stmt = static::$db->query($sql, ['threadId' => $this->id]);
-            $this->participants = array_map(static fn($participant) => User::fromId($participant['user_id']), $stmt->fetchAll());
+            $this->participants = array_map(fn($participant) => User::fromId($participant['user_id']), $stmt->fetchAll());
         }
         return $this->participants;
     }
@@ -71,7 +72,10 @@ class Thread extends AbstractEntity
      */
     public function otherParticipants(User $userAsking) : array
     {
-        return array_filter($this->getParticipants(), static fn($participant) => $participant->id !== $userAsking->id);
+        if(empty($this->getParticipants())) {
+            return [];
+        }
+        return array_filter($this->getParticipants(), fn($participant) => ($participant->id != $userAsking->id));
     }
 
     /**

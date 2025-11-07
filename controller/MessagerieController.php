@@ -4,6 +4,7 @@ namespace controller;
 
 use model\Thread;
 use model\User;
+use services\Utils;
 use view\templates\MessagerieHome;
 
 class MessagerieController extends AbstractController
@@ -12,7 +13,8 @@ class MessagerieController extends AbstractController
     {
         $this->redirectIfNotLoggedIn();
         $threads = $this->userConnected()->getThreads();
-        $threadToDisplay = $this->userConnected()->openThread();
+        $threadRequest = intval(Utils::request('thread', 0));
+        $threadToDisplay = $this->userConnected()->openThread($threadRequest);
         $view = new MessagerieHome(
             new \view\layouts\ConnectedLayout(),
             $threads,

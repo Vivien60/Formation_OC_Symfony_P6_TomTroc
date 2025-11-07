@@ -11,14 +11,16 @@ class ThreadController extends AbstractController
     public function writeTo(): void
     {
         $this->redirectIfNotLoggedIn();
-        $thread = Thread::openNewOne([$this->userConnected()->id, intval(Utils::request('to', 0))]);;
+        $thread = Thread::openNewOne(
+            [$this->userConnected()->id, intval(Utils::request('to', 0))]
+        );
         $threads = Thread::fromParticipant($this->userConnected());
-
+        $participants = $thread->otherParticipants($this->userConnected());
         $view = new MessagerieHome(
             new \view\layouts\ConnectedLayout(),
             $threads,
-            $threads[0],
-            $threads[0]->otherParticipants($this->userConnected())[0],
+            $thread,
+            array_shift($participants),
             $this->userConnected(),
         );
         echo $this->renderView($view);
@@ -32,14 +34,7 @@ class ThreadController extends AbstractController
         $thread->createNewMessage($content, $this->userConnected());
         $threads = Thread::fromParticipant($this->userConnected());
 
-        $view = new MessagerieHome(
-            new \view\layouts\ConnectedLayout(),
-            $threads,
-            $threads[0],
-            $threads[0]->otherParticipants($this->userConnected())[0],
-            $this->userConnected(),
-        );
-        echo $this->renderView($view);
+        Utils::redirect('messagerie', ['thread' => 10]);
     }
 
 }
