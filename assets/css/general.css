@@ -93,6 +93,19 @@ body {
     font-weight: 300;
 }
 
+.main-container__error-content {
+    margin-top: 5rem;
+}
+
+.container--error {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+
 .container__footer {
     display: flex;
     flex-flow: row nowrap;

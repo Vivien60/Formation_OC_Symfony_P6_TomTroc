@@ -28,12 +28,6 @@ HEADERS
     public function getMainContent(): string
     {
         $msg = $this->error->getMessage()??'inconnue';
-        return
-        <<<MAIN
-            <div>
-            Erreur : {$msg}
-            #from Error View
-            </div>
-        MAIN;
+        return require_once dirname(__DIR__, 1).'/ui/error.php';
     }
 }
