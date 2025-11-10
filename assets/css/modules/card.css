@@ -24,6 +24,7 @@
     max-height: 100%;
     max-width: 100%;
     aspect-ratio: 1;
+    object-fit: cover;
 }
 
 .card__title {
