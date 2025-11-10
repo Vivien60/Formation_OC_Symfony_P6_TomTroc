@@ -5,7 +5,6 @@ use view\templates\AbstractHtmlTemplate;
 /**
  * @var \view\templates\EditProfile $this
  */
-
 $bigUserCard = require __DIR__.'/component/cardUserBig.php';
 $editLink = '<a class="grey link--underlined" href="#">modifier</a>';
 $writeMessageLink = '';
@@ -17,6 +16,7 @@ $htmlBigUserCard = sprintf(
     Utils::convertDateToFrenchFormat($this->user->createdAt),
     count($this->user->library),
     $writeMessageLink,
+    $this->user->avatar,
 );
 
 $libraryUserHTML = '';

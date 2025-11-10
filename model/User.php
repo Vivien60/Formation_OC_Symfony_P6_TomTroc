@@ -41,7 +41,7 @@ class User extends AbstractEntity
 
     public string $avatar = '';
 
-    protected static string $selectSql = "select id, name as username, email, password, DATE(created_at) as createdAt, avatar from user";
+    protected static string $selectSql = "select id, name as username, email, password, avatar, DATE(created_at) as createdAt, avatar from user";
 
     protected function __construct(array $fieldVals)
     {
@@ -97,12 +97,13 @@ class User extends AbstractEntity
         if($this->identifyAnotherUser()) {
             throw new \Exception('Another user exist with this information');
         }
-        $sql = "update user set name = :username, email = :email, password = :password, created_at = :created_at where id = :id";
+        $sql = "update user set name = :username, email = :email, password = :password, avatar = :avatar, created_at = :created_at where id = :id";
         $stmt = static::$db->query($sql, [
             'id' => $this->id,
             'username' => $this->username,
             'email' => $this->email,
             'password' => $this->password,
+            'avatar' => $this->avatar,
             'created_at' => $this->createdAt->format("Y-m-d H:i:s")
         ]);
         $stmt->execute();
@@ -116,11 +117,12 @@ class User extends AbstractEntity
         if($this->identifyAnotherUser()) {
             throw new \Exception('User already registered');
         }
-        $sql = "insert into user (name, email, password, created_at) values (:username, :email, :password, NOW())";
+        $sql = "insert into user (name, email, password, avatar, created_at) values (:username, :email, :password, :avatar, NOW())";
         $stmt = static::$db->query($sql, [
             'username' => $this->username,
             'email' => $this->email,
             'password' => $this->password,
+            'avatar' => $this->avatar,
         ]);
         $this->id = (int)static::$db->getPDO()->lastInsertId();
     }

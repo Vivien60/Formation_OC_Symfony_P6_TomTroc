@@ -23,7 +23,7 @@ return
     <<<BIGUSERCARD
     <div class="card card--user-big">
         <div class="card__poster">
-            <img class="card__avatar" alt="mon avatar" src="assets/img/avatars/for-test.jpg" width="135">
+            <img class="card__avatar" alt="mon avatar" src="assets/img/avatars/%7\$s" width="135">
             %1\$s
         </div>
         <hr class="line-separator">
