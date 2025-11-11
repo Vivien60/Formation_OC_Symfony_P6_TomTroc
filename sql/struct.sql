@@ -44,7 +44,8 @@ CREATE TABLE book_copy (
 
 CREATE TABLE thread (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    created_at datetime NOT NULL DEFAULT (CURRENT_DATE)
+    created_at datetime NOT NULL DEFAULT (CURRENT_DATE),
+    updated_at datetime NOT NULL DEFAULT (CURRENT_DATE)
 );
 
 CREATE TABLE message (

@@ -51,7 +51,7 @@ class User extends AbstractEntity
     public function getThreads()
     {
         if(empty($this->threads)) {
-            $this->threads = Thread::fromParticipant($this);
+            $this->threads = Thread::lastThreadsUpdatedWithMessage($this);
         }
         return $this->threads;
     }
@@ -175,8 +175,8 @@ class User extends AbstractEntity
                 from 
                     participer p
                     inner join message m on p.thread_id = m.thread_id 
-                    left join message_status ms on m.id = ms.message_id 
-                where p.user_id = :id and (ms.status = 'unread' or ms.status IS NULL) ";
+                    left join message_status ms on m.id = ms.message_id and p.user_id = ms.user_id
+                where p.user_id = :id and (ms.status = 'unread' or ms.status IS NULL)";
         $stmt = static::$db->query(
             $sql,
             [

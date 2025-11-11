@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace model;
 
+use DateTime;
+use DateTimeInterface;
 use PDO;
 
 class Thread extends AbstractEntity
@@ -17,6 +19,21 @@ class Thread extends AbstractEntity
      */
     public array $messages = [];
 
+    /**
+     * @var Message|null $lastMessage
+     */
+    public ?Message $lastMessage = null;
+
+    public DateTimeInterface|string|null $updatedAt = null {
+        set {
+            if(!is_subclass_of($value, 'DateTimeInterface') && $value !== null) {
+                $this->updatedAt = new DateTime($value);
+            } else {
+                $this->updatedAt = $value;
+            }
+        }
+    }
+
 
     public function __construct(array $thread)
     {
@@ -25,7 +42,10 @@ class Thread extends AbstractEntity
 
     public static function openNewOne(array $participants) : static
     {
-        $thread = new static(['created_at' => date("Y-m-d H:i:s")]);
+        $thread = new static([
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
         $thread->participants = array_map(fn($participant) => User::fromId($participant), $participants);
         $thread->create();
         return $thread;
@@ -50,6 +70,7 @@ class Thread extends AbstractEntity
                 }
             }
         }
+        $threadToOpen->getMessages();
         $threadToOpen?->markAsRead($user);
         return $threadToOpen;
     }
@@ -79,6 +100,24 @@ class Thread extends AbstractEntity
     }
 
     /**
+     * List threads ordered from the most recent message received to the latest.
+     * Add the last Message to the list of threads returned.
+     * @param User $user
+     * @return array
+     */
+    public static function lastThreadsUpdatedWithMessage(User $user) : array
+    {
+        $threads = [];
+        $latestMessagesByThread = Message::latestByThreadsFor($user);
+        foreach($latestMessagesByThread as $latestMessage) {
+            $thread = Thread::fromId($latestMessage->threadId);
+            $thread->lastMessage = $latestMessage;
+            $threads[] = $thread;
+        }
+        return $threads;
+    }
+
+    /**
      * Returns the threads the user is participating in.
      * @param User $user
      * @return Thread[]
@@ -87,7 +126,8 @@ class Thread extends AbstractEntity
     {
         $sql = static::$selectSql." 
                     inner join participer p on thread.id = p.thread_id 
-                    where p.user_id = :userId";
+                    where p.user_id = :userId
+                    order by thread.updated_at desc";
         $stmt = static::$db->query($sql, ['userId' => $user->id]);
 
         return array_map(static::fromArray(...), $stmt->fetchAll());
@@ -109,8 +149,7 @@ class Thread extends AbstractEntity
 
     public function getLastMessage() : ?Message
     {
-        $this->getMessages();
-        return $this->getMessageAtRank(count($this->messages));
+        return $this->lastMessage;
     }
 
     public function getMessageAtRank(int $rank) : ?Message
@@ -121,20 +160,92 @@ class Thread extends AbstractEntity
         return $this->messages[$rank-1];
     }
 
-    public function createNewMessage($content, $author) : void
+    /**
+     * Creates a new message within the thread.
+     * Updates the thread's last update date.
+     *
+     * @param string $content The content of the message to be created.
+     * @param User $author The author of the message
+     * @return void
+     */
+    public function createNewMessage(string $content, User $author) : void
     {
         //TODO : Utiliser un repo pourrait permettre de laisser à Thread l'orchestration du rank
-        $message = new Message(['threadId' => $this->id, 'author' => $author->id,'content'=> $content, 'etat' => -1] );
+        $message = $this->createMessage($author, $content);
+        $this->addMessage($message);
+        $this->updateMessageStatus($message, $this->otherParticipants($author));
+        $this->updateLastDateModification();
+    }
+
+    /**
+     * @param User $author
+     * @param string $content
+     * @return Message
+     */
+    protected function createMessage(User $author, string $content): Message
+    {
+        $message = new Message([
+            'threadId' => $this->id,
+            'author' => $author->id,
+            'content' => $content,
+            'etat' => -1,
+        ]);
         $message->save();
+        return $message;
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateLastDateModification(): void
+    {
+        $this->updatedAt = date("Y-m-d H:i:s");
+        $this->save();
+    }
+
+    /**
+     * @param Message $message
+     * @return void
+     */
+    protected function addMessage(Message $message): void
+    {
         $this->getMessages();
         $this->messages[] = $message;
     }
 
+    /**
+     * Updates the status of a message for all participants except the author.
+     * @param Message $message The message object whose status needs to be updated.
+     * @param array $recipients An array of participants recipients
+     * @return void
+     */
+    private function updateMessageStatus(Message $message, array $recipients): void
+    {
+        foreach($recipients as $participant) {
+            $sql = "insert into message_status (user_id, message_id, status)
+                    values (:userId, :messageId, 'unread') 
+                    on duplicate key update status = 'unread'";
+            $stmt = static::$db->query($sql, ['userId' => $participant->id, 'messageId' => $message->id]);
+        }
+    }
+
     private function store() : void
     {
-        $sql = "insert into thread (created_at) values (:created_at)";
-        static::$db->query($sql, ['created_at' => $this->createdAt->format("Y-m-d H:i:s")]);
+        $sql = "insert into thread (created_at, updated_at) values (:created_at, :updated_at)";
+        static::$db->query($sql, [
+            'created_at' => $this->createdAt->format("Y-m-d H:i:s"),
+            'updated_at' => $this->updatedAt->format("Y-m-d H:i:s")
+        ]);
         $this->id = (int)static::$db->getPDO()->lastInsertId();
+    }
+
+    private function save()
+    {
+        $sql = "update thread set updated_at = :updated_at where id = :id";
+        static::$db->query($sql, [
+            'updated_at' => $this->updatedAt->format("Y-m-d H:i:s"),
+            'id' => $this->id
+        ]);
     }
 
     private function storeParticipants()
@@ -155,6 +266,4 @@ class Thread extends AbstractEntity
             static::$db->query($sql, ['userId' => $user->id, 'messageId' => $message->id]);
         }
     }
-
-
 }
