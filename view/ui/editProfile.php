@@ -54,24 +54,27 @@ return <<<HTML
                 Pseudo
                 <input class="form__field"  type="text" name="pseudo" value="{$this->user->username}">
             </label>
-            <input type="submit" value="Enregistrer" class="bigButton--light bigButton--fixed-width">
+            <input type="submit" value="Enregistrer" class="bigButton bigButton--light bigButton--fixed-width">
         </form>
     </div>
-    <table class="library">
-        <thead class="uppercase-mini-heading">
-            <tr>
-                <td>Photo</td>
-                <td>Titre</td>
-                <td>Auteur</td>
-                <td>Description</td>
-                <td>Disponibilité</td>
-                <td>Action</td>
-                <td>&nbsp;</td>
-            </tr>
-        </thead>
-        <tbody>
-            $libraryUserHTML
-        </tbody>
-    </table>
+    <div class="books-admin userInfo__new-book-container">
+        <table class="library">
+            <thead class="uppercase-mini-heading">
+                <tr>
+                    <td>Photo</td>
+                    <td>Titre</td>
+                    <td>Auteur</td>
+                    <td>Description</td>
+                    <td>Disponibilité</td>
+                    <td>Action</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </thead>
+            <tbody>
+                $libraryUserHTML
+            </tbody>
+        </table>
+        <a class="bigButton bigButton--light bigButton--mini new-book__button" href="?action=book-copy-edit-form">Ajouter un livre</a>
+    </div>
 </div>
 HTML;

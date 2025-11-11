@@ -72,7 +72,7 @@ class BookCopy extends AbstractEntity
     {
         parent::hydrate($fieldVals);
         //WORKAROUND FOR IMAGE SAVED WITH PATH
-        $this->image = basename($this->image);
+        $this->image = basename($this->image)?:'default.png';
     }
 
     public static function fromArray(array $fieldVals) : static
@@ -89,6 +89,18 @@ class BookCopy extends AbstractEntity
         $stmt = static::$db->query($sql, ['ownerId' => $owner->id]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(static::fromArray(...), $result);
+    }
+
+    public static function blank() : static
+    {
+        return new static([
+            'auteur' => '',
+            'title' => '',
+            'description' => '',
+            'availabilityStatus' => -1,
+            'image' => '',
+            'ownerId' => -1,
+        ]);
     }
 
     public function save() : void

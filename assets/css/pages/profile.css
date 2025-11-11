@@ -54,7 +54,6 @@ Formulaire
     display: flex;
     flex-flow: column nowrap;
     gap: 1rem;
-
 }
 
 .form--user-profile {
@@ -79,13 +78,40 @@ Formulaire
     align-self: stretch;
 }
 
+
+
+.userInfo--public > * {
+    flex: 1 1 auto;
+}
+
+.userInfo--public > *:first-child {
+    flex: 0 1 30%;
+}
+
 /**
-Table de livres poss&dés
+Bloc - gestion des livres
+ */
+.userInfo__new-book-container {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+}
+
+.books-admin {
+    background-color: var(--bg-color-light);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+/**
+Table de livres possédés
  */
 
 .library {
     background-color: var(--bg-color-light);
     border-spacing: 0;
+    width: 100%;
+    flex: 1 1 100%;
 }
 .library tr:nth-child(even) {
     background-color: var(--bg-color-dark);
@@ -113,11 +139,6 @@ Table de livres poss&dés
     -webkit-line-clamp: 3;
     overflow: hidden;
 }
-
-.userInfo--public > * {
-    flex: 1 1 auto;
-}
-
-.userInfo--public > *:first-child {
-    flex: 0 1 30%;
+.new-book__button {
+    text-align: center;
 }

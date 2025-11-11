@@ -14,7 +14,7 @@ return
 <div class="container container--book-copy-edit">
     <label class="photo-upload">
         Photo
-        <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/book02.jpg"></div>
+        <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->book?->image}"></div>
         <a class="photo-upload__action">Modifier la photo</a>
     </label>
     <div class="container container--book-copy-edit container__edit-book-copy container--form--light">

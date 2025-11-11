@@ -34,6 +34,8 @@ class BookController extends AbstractController
                 echo $this->viewNotAllowed()->render();
                 return;
             }
+        } else {
+            $bookCopy = BookCopy::blank();
         }
         $view = new BookCopyEdit(new ConnectedLayout(), $bookCopy);
         echo $this->renderView($view);

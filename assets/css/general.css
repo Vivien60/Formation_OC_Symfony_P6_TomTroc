@@ -199,6 +199,11 @@ li {
     width: 9.375rem;
 }
 
+.bigButton--mini {
+    padding: 0.5rem 1.25rem;
+    font-size: inherit;
+}
+
 .formField, .formField--darker {
     background-color: #fff;
     border: 1px solid #f0f0f0;
