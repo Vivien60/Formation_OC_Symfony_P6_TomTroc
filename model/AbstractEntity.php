@@ -75,4 +75,16 @@ abstract class AbstractEntity
             return null;
         return static::fromArray($result);
     }
+
+    /**
+     * Converts a camelCase property name into a snake_case field name.
+     * Useful for mapping entity property names to database column names.
+     * @param string $property The property name in camelCase format.
+     * @return string The corresponding field name in snake_case format.
+     */
+    protected static function propertyToField(string $property) : string
+    {
+        $fieldName = preg_replace_callback('/([[:upper:]])/', fn($matches) => '_'.strtolower($matches[0]), $property);
+        return $fieldName;
+    }
 }

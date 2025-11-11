@@ -34,6 +34,8 @@ class BookCopy extends AbstractEntity
     public int $ownerId = -1;
     protected static string $selectSql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy";
 
+    protected static $searchFieldsAllowed = ['auteur', 'title', 'description', 'availabilityStatus'];
+
     protected function __construct(array $fieldVals)
     {
         parent::__construct($fieldVals);
@@ -45,9 +47,7 @@ class BookCopy extends AbstractEntity
     public static function all(): array
     {
         $sql = static::$selectSql;
-        $stmt = static::$db->query($sql);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return array_map(static::fromArray(...), $result);
+        return self::queryBooks($sql);
     }
 
     /**
@@ -55,23 +55,74 @@ class BookCopy extends AbstractEntity
      */
     public static function listAvailableBookCopies(int $limit = 0): array
     {
-        $sql = static::$selectSql." where availability_status = 1";
-        $limit = intval($limit);
-        $sql .= $limit > 0 ? " limit $limit" : "";
-        $stmt = static::$db->query($sql);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return array_map(static::fromArray(...), $result);
+        $sql = static::buildAvailableBooksQuery([], $limit);
+        return self::queryBooks($sql);
     }
 
     public static function searchBooksForExchange(mixed $searchTerm, int $limit = 0)
     {
-        $sql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy where availability_status = 1 and title like :searchTerm or auteur like :searchTerm";
+        $searchParams = [
+            'auteur' => "%$searchTerm%",
+            'title' => "%$searchTerm%",
+        ];
+        $sql = static::buildAvailableBooksQuery($searchParams);
+        return self::queryBooks($sql, $searchParams);
+    }
+
+    private static function buildAvailableBooksQuery(array $searchParams, int $limit = 0) : string
+    {
+        $sqlBase = static::$selectSql." where availability_status = 1 and (%s)";
         $limit = intval($limit);
-        $sql .= $limit > 0 ? " limit $limit" : "";
-        $stmt = static::$db->query($sql, ['searchTerm' => "%$searchTerm%"]);
+        $sqlBase .= $limit > 0 ? " limit $limit" : "";
+        $sqlSearchPart = [];
+        $sqlSearchPart[] = "0=1"; //always false: avoid syntax error because of empty parenthesis
+        foreach($searchParams as $key => $value) {
+            if(!in_array($key, static::$searchFieldsAllowed)) {
+                continue;
+            }
+            $fieldName = static::propertyToField($key);
+            $sqlSearchPart[] = "$fieldName like :$key";
+        }
+        $sqlSearch = implode(" or ", $sqlSearchPart);
+        $sql = sprintf($sqlBase, $sqlSearch);
+        var_dump($sql);
+        return $sql;
+    }
+
+    /*
+    private function search() : array
+    {
+        $sql = static::$selectSql." where 1=1";
+        $searchParam = [];
+        foreach($this as $key => $value) {
+            if(!in_array($key, $this->searchFieldsAllowed)) {
+                continue;
+            }
+            if($value === '' || intval($value) === -1) {
+                continue;
+            }
+            $searchParam[$key] = $value;
+            $fieldName = $this->propertyToField($key);
+            $sql .= " and $fieldName like :$key";
+        }
+        var_dump($sql);
+        var_dump($searchParam);
+        $stmt = static::$db->query($sql, $searchParam);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(static::fromArray(...), $result);
     }
+*/
+    /**
+     * @param array|string $sql
+     * @return array
+     */
+    protected static function queryBooks(array|string $sql, array $params = []): array
+    {
+        $stmt = static::$db->query($sql, $params);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(static::fromArray(...), $result);
+    }
+
 
     public function modify(array $fieldVals) : void
     {
@@ -96,9 +147,7 @@ class BookCopy extends AbstractEntity
     public static function fromOwner(User $owner) : array
     {
         $sql = static::$selectSql." where user_id = :ownerId";
-        $stmt = static::$db->query($sql, ['ownerId' => $owner->id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return array_map(static::fromArray(...), $result);
+        return self::queryBooks($sql);
     }
 
     public static function blank() : static
