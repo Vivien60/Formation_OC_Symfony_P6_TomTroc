@@ -29,12 +29,13 @@ class ThreadController extends AbstractController
     public function send(): void
     {
         $this->redirectIfNotLoggedIn();
-        $thread = Thread::fromId(intval(Utils::request('thread', 0)));
+        $threadRef = intval(Utils::request('thread', 0));
+        $thread = Thread::fromId($threadRef);
         $content = Utils::request('content', '');
         $thread->createNewMessage($content, $this->userConnected());
         $threads = Thread::fromParticipant($this->userConnected());
 
-        Utils::redirect('messagerie', ['thread' => 10]);
+        Utils::redirect('messagerie', ['thread' => $threadRef ]);
     }
 
 }
