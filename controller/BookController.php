@@ -97,7 +97,12 @@ class BookController extends AbstractController
     {
         $this->redirectIfNotLoggedIn();
         try {
-            $bookCopies = BookCopy::listAvailableBookCopies();
+            $searchTerm = Utils::request('search');
+            if($searchTerm) {
+                $bookCopies = BookCopy::searchBooksForExchange($searchTerm);
+            } else {
+                $bookCopies = BookCopy::listAvailableBookCopies();
+            }
             $view = new BookCopiesAvailableList(new ConnectedLayout());
             $view->books = $bookCopies;
             echo $this->renderView($view);

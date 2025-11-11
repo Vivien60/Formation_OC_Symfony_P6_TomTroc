@@ -16,10 +16,10 @@ return
 <div class="container books-list-page">
     <header class="books-list-page__header">
         <h1>Nos livres à l’échange</h1>
-        <form class="form form--horizontal">
+        <form class="form form--horizontal" action="?action=available-list" method="POST">
             <label class="form__label field field--with-icon">
                 <img class="field__icon" aria-hidden="true" alt="&#x1F50ED;" src="assets/img/icons/magnifying-glass.svg">
-                <input class="field__input" type="text" placeholder="Rechercher un livre">
+                <input class="field__input" type="text" placeholder="Rechercher un livre" name="search">
             </label>
         </form>
     </header>

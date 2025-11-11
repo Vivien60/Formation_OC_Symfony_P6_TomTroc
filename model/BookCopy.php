@@ -63,6 +63,16 @@ class BookCopy extends AbstractEntity
         return array_map(static::fromArray(...), $result);
     }
 
+    public static function searchBooksForExchange(mixed $searchTerm, int $limit = 0)
+    {
+        $sql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy where availability_status = 1 and title like :searchTerm or auteur like :searchTerm";
+        $limit = intval($limit);
+        $sql .= $limit > 0 ? " limit $limit" : "";
+        $stmt = static::$db->query($sql, ['searchTerm' => "%$searchTerm%"]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(static::fromArray(...), $result);
+    }
+
     public function modify(array $fieldVals) : void
     {
         $this->hydrate($fieldVals);
