@@ -44,7 +44,13 @@ class BookController extends AbstractController
     public function saveCopy() : void
     {
         $this->redirectIfNotLoggedIn();
-        $bookCopy = BookCopy::fromId(intval(Utils::request('id', '0')));
+        $bookRef = intval(Utils::request('id', '0'));
+        if($bookRef == -1) {
+            $this->addCopyToUserLibrary();
+            return;
+        } else {
+            $bookCopy = BookCopy::fromId($bookRef);
+        }
         if($bookCopy) {
             if($bookCopy->owner->id != $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
@@ -58,8 +64,7 @@ class BookController extends AbstractController
                 echo $e->getMessage();
             }
         }
-        $view = new BookCopyEdit(new ConnectedLayout(), $bookCopy);
-        echo $this->renderView($view);
+        Utils::redirect('book-copy-edit-form', ['id' => $bookCopy->id]);
     }
 
     public function deleteCopy() : void
@@ -77,6 +82,7 @@ class BookController extends AbstractController
                 echo $e->getMessage();
             }
         }
+        Utils::redirect('edit-profile-form');
     }
 
     public function addCopyToUserLibrary() : void
@@ -89,8 +95,7 @@ class BookController extends AbstractController
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
-        echo "Ajout d'un livre à ma librairie";
-        var_dump($bookCopy);
+        Utils::redirect('book-copy-edit-form', ['id' => $bookCopy->id]);
     }
 
     public function listBooksForExchange() : void

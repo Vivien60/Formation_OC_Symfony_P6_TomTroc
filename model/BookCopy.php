@@ -85,7 +85,6 @@ class BookCopy extends AbstractEntity
         }
         $sqlSearch = implode(" or ", $sqlSearchPart);
         $sql = sprintf($sqlBase, $sqlSearch);
-        var_dump($sql);
         return $sql;
     }
 
@@ -112,16 +111,6 @@ class BookCopy extends AbstractEntity
         return array_map(static::fromArray(...), $result);
     }
 */
-    /**
-     * @param array|string $sql
-     * @return array
-     */
-    protected static function queryBooks(array|string $sql, array $params = []): array
-    {
-        $stmt = static::$db->query($sql, $params);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return array_map(static::fromArray(...), $result);
-    }
 
 
     public function modify(array $fieldVals) : void
@@ -147,7 +136,7 @@ class BookCopy extends AbstractEntity
     public static function fromOwner(User $owner) : array
     {
         $sql = static::$selectSql." where user_id = :ownerId";
-        return self::queryBooks($sql);
+        return self::queryBooks($sql, ['ownerId' => $owner->id]);
     }
 
     public static function blank() : static
@@ -210,5 +199,17 @@ class BookCopy extends AbstractEntity
     {
         $sql = "delete from book_copy where id = :id";
         static::$db->query($sql, ['id' => $this->id]);
+    }
+
+
+    /**
+     * @param array|string $sql
+     * @return array
+     */
+    protected static function queryBooks(array|string $sql, array $params = []): array
+    {
+        $stmt = static::$db->query($sql, $params);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(static::fromArray(...), $result);
     }
 }
