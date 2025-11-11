@@ -128,4 +128,26 @@ class UserController extends AbstractController
         }
         echo $this->renderView($view);
     }
+
+    public function addImage()
+    {
+        $this->redirectIfNotLoggedIn();
+        $user = User::fromMemory();
+        $id = intval(Utils::request('id',0));
+        if($id && $user?->id !== $id) {
+            $view = new NotAllowed(new ErrorLayout());
+            echo $this->renderView($view);
+            return;
+        }
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], dirname(__FILE__,2).'/assets/img/avatars/' . $_FILES['image']['name']))
+            throw new \Exception("Echec de l'upload de l'image");
+
+        $user->avatar = $_FILES['image']['name'];
+        try {
+            $user->save();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        Utils::redirect('edit-profile-form',);
+    }
 }

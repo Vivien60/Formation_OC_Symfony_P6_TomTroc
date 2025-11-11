@@ -6,7 +6,14 @@ use view\templates\AbstractHtmlTemplate;
  * @var \view\templates\EditProfile $this
  */
 $bigUserCard = require __DIR__.'/component/cardUserBig.php';
-$editLink = '<a class="grey link--underlined" href="#">modifier</a>';
+$editLink = <<<UPLOAD_LINK
+    <form class="avatar-upload" method="post" action="?action=profile-upload-avatar&id={$this->user?->id}" enctype="multipart/form-data" data-component="form">
+        <label>
+            <a class="grey link--underlined avatar-upload__action form-sync-action" data-sync-target="avatar-upload__input">modifier</a>
+            <input class="browse-file avatar-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
+        </label>
+    </form>
+UPLOAD_LINK;
 $writeMessageLink = '';
 $htmlBigUserCard = sprintf(
     $bigUserCard,

@@ -16,7 +16,7 @@ return
         <label>
             Photo
             <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->book?->image}"></div>
-            <input class="photo-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
+            <input class="browse-file photo-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
             <a class="photo-upload__action form-sync-action" data-sync-target="photo-upload__input">Modifier la photo</a>
         </label>
     </form>

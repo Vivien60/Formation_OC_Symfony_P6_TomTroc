@@ -103,6 +103,10 @@ switch(Utils::request('action', null)) {
         $controller = new BookController();
         $controller->addImage();
         break;
+    case 'profile-upload-avatar':
+        $controller = new UserController();
+        $controller->addImage();
+        break;
     default:
         $controller = new ErrorController();
         $controller->pageNotFound();

@@ -57,6 +57,7 @@ let formEnhancement = function() {
 
             let submitOnChange = form.querySelector('.form-submit-change');
             if (submitOnChange) {
+                console.log('submitOnChange', submitOnChange);
                 submitOnChange.addEventListener('change', function (ev) {
                     form.submit();
                 })
@@ -66,3 +67,4 @@ let formEnhancement = function() {
 }
 
 document.addEventListener('DOMContentLoaded', cardEnhancement);
+document.addEventListener('DOMContentLoaded', formEnhancement);
