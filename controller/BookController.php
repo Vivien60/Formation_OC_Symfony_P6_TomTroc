@@ -115,4 +115,25 @@ class BookController extends AbstractController
             echo $e->getMessage();
         }
     }
+
+    public function addImage()
+    {
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], dirname(__FILE__,2).'/assets/img/books/' . $_FILES['image']['name']))
+            throw new \Exception("Echec de l'upload de l'image");
+
+        $bookCopy = BookCopy::fromId(intval(Utils::request('id', '0')));
+        if($bookCopy) {
+            if($bookCopy->owner->id != $this->userConnected()->id) {
+                echo $this->viewNotAllowed()->render();
+                return;
+            }
+            $bookCopy->image = $_FILES['image']['name'];
+            try {
+                $bookCopy->save();
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+        Utils::redirect('book-copy-edit-form', ['id' => $bookCopy->id]);
+    }
 }

@@ -103,3 +103,7 @@
     background-color: var(--vert-principal);
     opacity: 0.9;
 }
+
+.photo-upload__input {
+    display: none;
+}

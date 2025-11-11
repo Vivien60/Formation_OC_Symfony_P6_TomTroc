@@ -99,6 +99,10 @@ switch(Utils::request('action', null)) {
         $controller = new ThreadController();
         $controller->send();
         break;
+    case 'book-copy-upload-photo':
+        $controller = new BookController();
+        $controller->addImage();
+        break;
     default:
         $controller = new ErrorController();
         $controller->pageNotFound();

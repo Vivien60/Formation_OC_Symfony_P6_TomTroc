@@ -12,11 +12,14 @@ return
     <h1 class="heading--form-pages">Modifier les informations</h1>
 </div>
 <div class="container container--book-copy-edit">
-    <label class="photo-upload">
-        Photo
-        <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->book?->image}"></div>
-        <a class="photo-upload__action">Modifier la photo</a>
-    </label>
+    <form class="photo-upload__form photo-upload" method="post" action="?action=book-copy-upload-photo&id={$this->book?->id}" enctype="multipart/form-data" data-component="form">
+        <label>
+            Photo
+            <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->book?->image}"></div>
+            <input class="photo-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
+            <a class="photo-upload__action form-sync-action" data-sync-target="photo-upload__input">Modifier la photo</a>
+        </label>
+    </form>
     <div class="container container--book-copy-edit container__edit-book-copy container--form--light">
         <form class="form form--user-profile form--book-edit form--coloured" name="book-copy-edit" method="post" action="?action=book-copy-save&id={$this->book?->id}">
             <label class="form__label">

@@ -143,4 +143,12 @@ class Utils
         return null;
     }
 
+    public static function stripExtension(mixed $name)
+    {
+        if (is_string($name)) {
+            return preg_replace('/\.[^.]+$/', '', $name);
+        }
+        return $name;
+    }
+
 }
