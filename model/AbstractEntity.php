@@ -77,6 +77,16 @@ abstract class AbstractEntity
     }
 
     /**
+     * @return static[]
+     */
+    public static function all(): array
+    {
+        $stmt = static::$db->query(static::$selectSql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(static::fromArray(...), $result);
+    }
+
+    /**
      * Converts a camelCase property name into a snake_case field name.
      * Useful for mapping entity property names to database column names.
      * @param string $property The property name in camelCase format.

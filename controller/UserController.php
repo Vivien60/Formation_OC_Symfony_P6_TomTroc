@@ -49,8 +49,7 @@ class UserController extends AbstractController
         $email = Utils::request('email');
         $password = Utils::request('password');
 
-        if(User::authenticate($email, $password)){
-            $user = User::fromEmail($email);
+        if($user = User::authenticate($email, $password)){
             $user->toMemory();
             Utils::redirect('edit-profile-form');
         } else {

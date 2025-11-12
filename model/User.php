@@ -117,6 +117,7 @@ class User extends AbstractEntity
         if($this->identifyAnotherUser()) {
             throw new \Exception('User already registered');
         }
+        $this->hashPassword();
         $sql = "insert into user (name, email, password, avatar, created_at) values (:username, :email, :password, :avatar, NOW())";
         $stmt = static::$db->query($sql, [
             'username' => $this->username,
@@ -132,15 +133,20 @@ class User extends AbstractEntity
         $_SESSION['user'] = $this->id;
     }
 
-    public static function authenticate($email, $password) : bool
+    public static function authenticate($email, $password) : ?static
     {
-        $stmt = static::$db->query(
-            "select count(*) as nb from user where email like :email and password like :password",
-            ['email' => $email, 'password' => $password]
-        );
-        $nb = $stmt->fetchColumn();
-        return $nb > 0;
+        $user = User::fromEmail($email);
+        if (!$user) {
+            return null;
+        }
+
+        if (!password_verify($password, $user->password)) {
+            return null;
+        }
+
+        return $user;
     }
+
 
     protected function identifyAnotherUser(): bool
     {
@@ -183,5 +189,11 @@ class User extends AbstractEntity
                 'id' => $this->id,
             ]);
         return intval($stmt->fetchColumn());
+    }
+
+    public function hashPassword()
+    {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        return $this->password;
     }
 }
