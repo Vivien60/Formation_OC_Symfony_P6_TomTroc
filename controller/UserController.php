@@ -5,6 +5,7 @@ namespace controller;
 
 use model\BookCopy;
 use model\User;
+use services\MediaManager;
 use services\Utils;
 use view\layouts\ConnectedLayout;
 use view\layouts\ErrorLayout;
@@ -139,10 +140,14 @@ class UserController extends AbstractController
             echo $this->renderView($view);
             return;
         }
-        if (!move_uploaded_file($_FILES['image']['tmp_name'], dirname(__FILE__,2).'/assets/img/avatars/' . $_FILES['image']['name']))
-            throw new \Exception("Echec de l'upload de l'image");
-
-        $user->avatar = $_FILES['image']['name'];
+        try {
+            $mediaMng = new MediaManager('image', $user);
+            $mediaMng->handleFile();
+        } catch (\Exception $e) {
+            echo $this->renderView($this->viewNotAllowed());
+            return;
+        }
+        $user->avatar = $mediaMng->filename();
         try {
             $user->save();
         } catch (\Exception $e) {

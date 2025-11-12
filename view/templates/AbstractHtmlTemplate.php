@@ -120,4 +120,16 @@ abstract class AbstractHtmlTemplate
     {
         return $this->helper[$valName];
     }
+
+    /**
+     * Escape HTML entities for safe output in views.
+     * Protects against XSS (Cross-Site Scripting) attacks.
+     *
+     * @param string $string The string to escape
+     * @return string The escaped string with special characters converted to HTML entities
+     */
+    public function e(string $string): string
+    {
+        return \services\Utils::filterInput($string);
+    }
 }
