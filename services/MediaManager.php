@@ -7,9 +7,10 @@ use model\AbstractEntity;
 
 class MediaManager
 {
-    public ?MediaDirectory $path = null;
-    public array $fileInfo = [];
-    private string $filePath = '';
+    protected array $fileInfo = [];
+    protected ?MediaPath $pathParts = null;
+    public string $filePath;
+    private string $extension;
 
     /**
      * Initialize the class with the media filename and the linked entity.
@@ -22,7 +23,9 @@ class MediaManager
     public function __construct(public string $filename, public AbstractEntity $linkedTo)
     {
         $this->fileInfo = $_FILES[$filename];
-        $this->path = new MediaDirectory($linkedTo);
+        $this->filePath = $_FILES[$filename]['tmp_name'];
+        $this->pathParts = new MediaPath($linkedTo);
+        $this->extension = pathinfo($this->fileInfo['name'], PATHINFO_EXTENSION);
     }
 
     /**
@@ -34,38 +37,19 @@ class MediaManager
     public function handleFile() : static
     {
         $this->performSecurityCheck();
-        $this->getFilepath();
         if(!$this->storeFile()) {
             throw new \Exception("Echec de sauvegarde du fichier");
         }
         return $this;
     }
 
-    public function getFilepath() : string
-    {
-        if(empty($this->filePath)) {
-            $this->filePath = $this->path . '/' . $this->fileInfo['name'];
-        }
-        return $this->filePath;
-    }
-
-    public function filename() : string
-    {
-        return basename($this->getFilepath());
-    }
-
-    private function storeFile() : bool
-    {
-        return move_uploaded_file($this->fileInfo['tmp_name'], $this->path . '/' . $this->fileInfo['name']);
-    }
-
-    private function performSecurityCheck()
+    protected function performSecurityCheck()
     {
         $extension = pathinfo($this->fileInfo['name'], PATHINFO_EXTENSION);
         switch($this->fileInfo['type']) {
             case 'image/jpeg':
                 $ok = in_array($extension, ['jpg', 'jpeg', 'png']);
-            break;
+                break;
             default:
                 $ok = false;
         }
@@ -75,4 +59,27 @@ class MediaManager
         return $ok;
     }
 
+    protected function makeFilepath() : void
+    {
+        $this->filePath = $this->pathParts->dir.DIRECTORY_SEPARATOR.$this->pathParts->name.'.'.$this->extension;
+    }
+
+    protected function storeFile() : bool
+    {
+        $this->makeFilepath();
+        return $this->moveToFinalDest();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function moveToFinalDest(): bool
+    {
+        return move_uploaded_file($this->fileInfo['tmp_name'], $this->filePath);
+    }
+
+    public function filename() : string
+    {
+        return basename($this->filePath);
+    }
 }

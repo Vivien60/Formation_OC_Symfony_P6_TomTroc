@@ -5,9 +5,10 @@ namespace services;
 
 use model\AbstractEntity;
 
-class MediaDirectory implements \Stringable
+class MediaPath
 {
-    public string $path;
+    public string $dir;
+    public string $name;
 
     /**
      * @param AbstractEntity $linkedTo
@@ -15,34 +16,31 @@ class MediaDirectory implements \Stringable
      */
     public function __construct(public AbstractEntity $linkedTo)
     {
-        $this->getDirectory();
+        $this->getPathParts();
     }
 
     /**
      * @return string
      * @throws \Exception
      */
-    public function getDirectory() : string
+    public function getPathParts() : string
     {
-        if(!empty($this->path))
-            return $this->path;
+        if(!empty($this->dir))
+            return $this->dir;
 
         $type = get_class($this->linkedTo);
         switch($type) {
             case \model\BookCopy::class:
-                $this->path =  __DIR__ . "/../assets/img/books/";
+                $this->dir =  __DIR__ . "/../assets/img/books/";
+                $this->name = 'book'.sprintf('%03d', $this->linkedTo->id);
                 break;
             case \model\User::class:
-                $this->path =  __DIR__ . "/../assets/img/avatars/";
+                $this->dir =  __DIR__ . "/../assets/img/avatars/";
+                $this->name = 'user'.sprintf('%03d', $this->linkedTo->id);
                 break;
             default:
                 throw new \Exception("No path found for entity of type $type.");
         }
-        return $this->path;
-    }
-
-    public function __toString(): string
-    {
-        return $this->path;
+        return $this->dir;
     }
 }

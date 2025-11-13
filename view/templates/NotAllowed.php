@@ -9,7 +9,7 @@ class NotAllowed extends AbstractHtmlTemplate
 {
     public string $title = 'Not allowed';
 
-    public function __construct(AbstractLayout $layout)
+    public function __construct(AbstractLayout $layout, public readonly ?\Exception $error = null)
     {
         parent::__construct($layout);
     }
@@ -31,7 +31,7 @@ HEADERS
         <<<MAIN
             <div>
             Not allowed
-            #from Not allowed View
+            Erreur : {$this->error?->getMessage()}
             </div>
         MAIN;
     }

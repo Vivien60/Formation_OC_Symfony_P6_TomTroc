@@ -20,9 +20,9 @@ abstract class AbstractController
     /**
      * @return \view\templates\NotAllowed
      */
-    protected function viewNotAllowed(): \view\templates\NotAllowed
+    protected function viewNotAllowed(?\Exception $e = null): \view\templates\NotAllowed
     {
-        $view = new \view\templates\NotAllowed(new \view\layouts\NonConnectedLayout());
+        $view = new \view\templates\NotAllowed(new \view\layouts\NonConnectedLayout(), $e);
         return $view;
     }
 

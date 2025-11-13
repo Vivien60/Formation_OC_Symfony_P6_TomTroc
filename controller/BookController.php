@@ -130,7 +130,7 @@ class BookController extends AbstractController
                 $mediaMng = new MediaManager('image', $bookCopy);
                 $mediaMng->handleFile();
             } catch (\Exception $e) {
-                echo $this->renderView($this->viewNotAllowed());
+                echo $this->renderView($this->viewNotAllowed($e));
                 return;
             }
             $bookCopy->image = $mediaMng->filename();
