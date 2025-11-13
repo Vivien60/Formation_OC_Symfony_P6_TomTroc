@@ -128,8 +128,8 @@ abstract class AbstractHtmlTemplate
      * @param string $string The string to escape
      * @return string The escaped string with special characters converted to HTML entities
      */
-    public function e(string $string): string
+    public function e(mixed $string): string
     {
-        return \services\Utils::filterInput($string);
+        return \services\Utils::filterInput((string)$string);
     }
 }

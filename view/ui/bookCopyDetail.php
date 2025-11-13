@@ -6,7 +6,7 @@ use view\templates\BookCopyDetail;
  */
 
 $cardUser = require __DIR__.'/component/cardUser.php';
-$htmlCards = sprintf($cardUser, 'card--user card--row', $this->user->id, $this->user->username, $this->user->avatar);
+$htmlCards = sprintf($cardUser, 'card--user card--row', $this->user->id, $this->e($this->user->username), $this->user->avatar);
 
 /**
  * TODO : ajouter le fil d'ariane (il est presque invisible)
@@ -20,13 +20,13 @@ return
     </div>
     <div class="container__content">
         <header>
-            <h1>{$this->book->title}</h1>
-            <p>par {$this->book->auteur}</p>
+            <h1>{$this->e($this->book->title)}</h1>
+            <p>par {$this->e($this->book->auteur)}</p>
             <hr class="line-separator">
         </header>
         <div>
             <h2>Description</h2>
-            <p>{$this->book->description}</p>
+            <p>{$this->e($this->book->description)}</p>
         </div>
         <div>
             <h2>Propriétaire</h2>

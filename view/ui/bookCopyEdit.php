@@ -15,24 +15,24 @@ return
     <form class="photo-upload__form photo-upload" method="post" action="?action=book-copy-upload-photo&id={$this->book?->id}" enctype="multipart/form-data" data-component="form">
         <label>
             Photo
-            <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->book?->image}"></div>
+            <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->e($this->book?->image)}"></div>
             <input class="browse-file photo-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
             <a class="photo-upload__action form-sync-action" data-sync-target="photo-upload__input">Modifier la photo</a>
         </label>
     </form>
     <div class="container container--book-copy-edit container__edit-book-copy container--form--light">
-        <form class="form form--user-profile form--book-edit form--coloured" name="book-copy-edit" method="post" action="?action=book-copy-save&id={$this->book?->id}">
+        <form class="form form--user-profile form--book-edit form--coloured" name="book-copy-edit" method="post" action="?action=book-copy-save&id={$this->e($this->book?->id)}">
             <label class="form__label">
                 Titre
-                <input class="form__field" name="title" type="text" value="{$this->book?->title}">
+                <input class="form__field" name="title" type="text" value="{$this->e($this->book?->title)}">
             </label>
             <label class="form__label">
                 Auteur
-                <input class="form__field" name="auteur" type="text" value="{$this->book?->auteur}">
+                <input class="form__field" name="auteur" type="text" value="{$this->e($this->book?->auteur)}">
             </label>
             <label class="form__label">
                 Commentaire
-                <textarea class="form__field form__field--textarea" name="description">{$this->book?->description}</textarea>
+                <textarea class="form__field form__field--textarea" name="description">{$this->e($this->book?->description)}</textarea>
             </label>
             <label class="form__label">
                 Disponibilité

@@ -43,10 +43,10 @@ echo "</pre>";*/
                             </div>
                             <div class="card__content">
                                 <div class="card__header">
-                                    <span class="card__title"><a class="card__link" href="?action=messagerie&thread=<?= $thread->id ?>"><?= $dest->username ?></a></span>
+                                    <span class="card__title"><a class="card__link" href="?action=messagerie&thread=<?= $thread->id ?>"><?= $this->e($dest->username) ?></a></span>
                                     <span><?= $message?Utils::convertDateAndTimeToTimeFormat($message->createdAt):'' ?></span>
                                 </div>
-                                <div class="card__desc card__desc--oneline"><span><?= $message?->content ?></span></div>
+                                <div class="card__desc card__desc--oneline"><span><?= $this->e($message?->content) ?></span></div>
                             </div>
                         </div>
                     </li>
@@ -60,7 +60,7 @@ echo "</pre>";*/
                     require __DIR__.'/component/cardUser.php',
                     'card--user card--row',
                     $this->dest?->id,
-                    $this->dest?->username,
+                    $this->e($this->dest?->username),
                     $this->dest?->avatar
             ) ?></header>
         <div class="container__main">
@@ -83,7 +83,7 @@ echo "</pre>";*/
                         <?=$avatarImg?>
                         <p><?= Utils::convertDateAndTimeToNumericFormat($message->createdAt) ?></p>
                     </div>
-                    <div class="message-container__message"><?= $message->content ?></div>
+                    <div class="message-container__message"><?= $this->e($message->content) ?></div>
                 </div>
                 <?php endforeach;
             endif;

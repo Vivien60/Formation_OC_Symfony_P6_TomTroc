@@ -19,7 +19,7 @@ $htmlBigUserCard = sprintf(
     $bigUserCard,
     $editLink,
     $this->user->id,
-    $this->user->username,
+    $this->e($this->user->username),
     Utils::convertDateToFrenchFormat($this->user->createdAt),
     count($this->user->library),
     $writeMessageLink,
@@ -32,9 +32,9 @@ foreach ($this->user->library as $bookCopy) {
     $libraryUserHTML .= <<<EOF
 <tr>
                 <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
-                <td class="library__book-info">{$bookCopy->title}</td>
-                <td class="library__book-info">{$bookCopy->auteur}</td>
-                <td class="library__book-info library__book-info--longdesc">{$bookCopy->description}</td>
+                <td class="library__book-info">{$this->e($bookCopy->title)}</td>
+                <td class="library__book-info">{$this->e($bookCopy->auteur)}</td>
+                <td class="library__book-info library__book-info--longdesc">{$this->e($bookCopy->description)}</td>
                 <td><div class="badge--long-size {$badgeClass}">{$bookCopy->availabilityLibelle}</div></td>
                 <td><a class="library__action library__action--edit" href="?action=book-copy-edit-form&id={$bookCopy->id}">Editer</a></td>
                 <td><a class="library__action library__action--delete" href="?action=book-copy-remove&id={$bookCopy->id}">Supprimer</a></td>
@@ -51,7 +51,7 @@ return <<<HTML
         <form class="form form--user-profile form--coloured form--discreet-label" method="post" action="?action=edit-profile-save">
             <label class="form__label">
                 Adresse email
-                <input class="form__field" type="email" name="email" value="{$this->user->email}">
+                <input class="form__field" type="email" name="email" value="{$this->e($this->user->email)}">
             </label>
             <label class="form__label">
                 Mot de passe
@@ -59,7 +59,7 @@ return <<<HTML
             </label>
             <label class="form__label">
                 Pseudo
-                <input class="form__field"  type="text" name="pseudo" value="{$this->user->username}">
+                <input class="form__field"  type="text" name="pseudo" value="{$this->e($this->user->username)}">
             </label>
             <input type="submit" value="Enregistrer" class="bigButton bigButton--light bigButton--fixed-width">
         </form>
