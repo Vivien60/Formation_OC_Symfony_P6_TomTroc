@@ -14,7 +14,7 @@ foreach($this->threads as $thread) {
     echo $thread->id."\n";
     echo $thread->getLastMessage()->getAuthor()->username, ':', $thread->getLastMessage()->content."\n";
 }
-echo "\nThread : {$this->threads[0]->id}\n";
+echo "\nThread : {$this->e($this->threads[0]->id)}\n";
 foreach($this->threads[0]?->getMessages() as $message) {
     echo $message->getAuthor()->username, ':', $message->content."\n";
 }
@@ -27,6 +27,7 @@ echo "</pre>";*/
             <ul>
                 <?php
                 foreach($this->threads as $thread) :
+                    $dest = $thread->otherParticipants()[0];
                     $message = $thread->getLastMessage();
                     if($thread->id === $this->thread?->id) {
                         $classThread="card card--row card--thread card--active";
@@ -38,11 +39,11 @@ echo "</pre>";*/
                         <div data-component="card" class="<?= $classThread ?>">
                             <div class="card__poster">
                                 <img class="card__avatar img-cover" alt="avatar de l'utilisateur ---"
-                                     src="assets/img/avatars/<?= $message?->getAuthor()->avatar ?>" width="48">
+                                     src="assets/img/avatars/<?= $dest->avatar ?>" width="48">
                             </div>
                             <div class="card__content">
                                 <div class="card__header">
-                                    <span class="card__title"><a class="card__link" href="?action=messagerie&thread=<?= $thread->id ?>"><?= $message?->getAuthor()->username ?></a></span>
+                                    <span class="card__title"><a class="card__link" href="?action=messagerie&thread=<?= $thread->id ?>"><?= $dest->username ?></a></span>
                                     <span><?= $message?Utils::convertDateAndTimeToTimeFormat($message->createdAt):'' ?></span>
                                 </div>
                                 <div class="card__desc card__desc--oneline"><span><?= $message?->content ?></span></div>

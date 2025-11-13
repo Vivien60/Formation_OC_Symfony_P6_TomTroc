@@ -19,7 +19,7 @@ class MessagerieController extends AbstractController
             new \view\layouts\ConnectedLayout(),
             $threads,
             $threadToDisplay,
-            $threadToDisplay?->otherParticipants($this->userConnected())[0],
+            $threadToDisplay?->otherParticipants()[0],
             $this->userConnected(),
         );
         echo $this->renderView($view);

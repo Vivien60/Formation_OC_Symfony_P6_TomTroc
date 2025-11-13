@@ -33,11 +33,24 @@ class Thread extends AbstractEntity
             }
         }
     }
+    /**
+     * Cache of other participants : the ones who will receive messages sended by current user.
+     * @var User[]
+     */
+    private array $otherParticipants = [];
 
 
-    public function __construct(array $thread)
+    public function __construct(array $thread, public ?User $currentUser = null )
     {
         parent::__construct($thread);
+    }
+
+    protected function hydrate(array $data): void
+    {
+        parent::hydrate($data);
+        if(!empty($this->currentUser)) {
+            $this->otherParticipants();
+        }
     }
 
     public static function openNewOne(array $participants) : static
@@ -91,12 +104,15 @@ class Thread extends AbstractEntity
      * @param User $userAsking
      * @return array
      */
-    public function otherParticipants(User $userAsking) : array
+    public function otherParticipants() : array
     {
-        if(empty($this->getParticipants())) {
+        if(empty($this->getParticipants()) || empty($this->currentUser)) {
             return [];
         }
-        return array_filter($this->getParticipants(), fn($participant) => ($participant->id != $userAsking->id));
+        if(empty($this->otherParticipants)) {
+            $this->otherParticipants = array_filter($this->getParticipants(), fn($participant) => ($participant->id != $this->currentUser->id));
+        }
+        return $this->otherParticipants;
     }
 
     /**
@@ -112,6 +128,7 @@ class Thread extends AbstractEntity
         foreach($latestMessagesByThread as $latestMessage) {
             $thread = Thread::fromId($latestMessage->threadId);
             $thread->lastMessage = $latestMessage;
+            $thread->currentUser = $user;
             $threads[] = $thread;
         }
         return $threads;
