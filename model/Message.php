@@ -123,4 +123,17 @@ class Message extends AbstractEntity
         $this->id = (int)static::$db->getPDO()->lastInsertId();
         static::$db->getPDO()->commit();
     }
+
+    public function validate(): bool
+    {
+        if (empty($this->content)) {
+            throw new \Exception('Le message ne peut pas être vide.');
+        }
+
+        if (mb_strlen($this->content) > 500) {
+            throw new \Exception('Le message ne peut pas dépasser 500 caractères.');
+        }
+
+        return true;
+    }
 }

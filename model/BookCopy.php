@@ -212,4 +212,25 @@ class BookCopy extends AbstractEntity
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(static::fromArray(...), $result);
     }
+
+    public function validate(): bool
+    {
+        if (empty($this->title) || strlen($this->title) > 255) {
+            throw new \Exception('Le titre est obligatoire et ne doit pas dépasser 255 caractères');
+        }
+
+        if (empty($this->auteur) || strlen($this->auteur) > 255) {
+            throw new \Exception('L\'auteur est obligatoire et ne doit pas dépasser 255 caractères');
+        }
+
+        if (strlen($this->description) > 1000) {
+            throw new \Exception('La description ne doit pas dépasser 1000 caractères');
+        }
+
+        if (!in_array($this->availabilityStatus, [0, 1], true)) {
+            throw new \Exception('Statut de disponibilité invalide');
+        }
+
+        return true;
+    }
 }

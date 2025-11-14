@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace controller;
 
+use view\layouts\ErrorLayout;
+use view\templates\Error;
 use model\Thread;
 use services\Utils;
 use view\templates\MessagerieHome;
@@ -32,7 +34,13 @@ class ThreadController extends AbstractController
         $threadRef = intval(Utils::request('thread', 0));
         $thread = Thread::fromId($threadRef);
         $content = Utils::request('content', '');
-        $thread->createNewMessage($content, $this->userConnected());
+        try {
+            $thread->createNewMessage($content, $this->userConnected());
+        } catch (\Exception $e) {
+            $view = new Error(new ErrorLayout(), $e);
+            echo $this->renderView($view);
+            return;
+        }
         $threads = Thread::fromParticipant($this->userConnected());
 
         Utils::redirect('messagerie', ['thread' => $threadRef ]);

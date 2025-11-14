@@ -59,6 +59,9 @@ class BookController extends AbstractController
             }
             $bookCopy->owner = $this->userConnected();
             $bookCopy->modify($_REQUEST);
+            if(!$this->validation($bookCopy))
+                return;
+
             try {
                 $bookCopy->save();
             } catch (\Exception $e) {
@@ -91,6 +94,8 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         $bookCopy = BookCopy::fromArray($_REQUEST);
         $bookCopy->owner = $this->userConnected();
+        if(!$this->validation($bookCopy))
+            return;
         try {
             $bookCopy->create();
         } catch (\Exception $e) {

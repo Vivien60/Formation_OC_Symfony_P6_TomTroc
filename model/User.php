@@ -65,6 +65,13 @@ class User extends AbstractEntity
         return Thread::openForUser($this, $id, $this->threads);
     }
 
+    public function newPassword(string $password)
+    {
+        $this->password = $password;
+        $this->validatePassword();
+        $this->hashPassword();
+    }
+
     protected function hydrate(array $data): void
     {
         parent::hydrate($data);
@@ -195,5 +202,52 @@ class User extends AbstractEntity
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         return $this->password;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function validate(): bool
+    {
+        $this->validateEmail();
+        $this->validateUsername();
+        $this->validatePassword();
+        return true;
+    }
+
+    private function validatePassword()
+    {
+        if ($this->password !== null &&
+            (strlen($this->password) < 8 || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', $this->password))) {
+            throw new \Exception(
+                'Les mots de passe doivent contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre'
+            );
+        }
+    }
+
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    protected function validateUsername(): void
+    {
+        if (strlen($this->username) < 3 || strlen($this->username) > 50 ||
+            !preg_match('/^[\p{L}0-9_-]+$/', $this->username)) {
+            throw new \Exception(
+                "Les noms d'utilisateurs doivent contenir entre 3 et 50 caractères, et uniquement des lettres accentuées ou non, des chiffres, des tirets et des underscores"
+            );
+        }
+    }
+
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    protected function validateEmail(): void
+    {
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            throw new \Exception("Format d'email invalide");
+        }
     }
 }

@@ -29,4 +29,9 @@ class Participant extends AbstractEntity
     {
 
     }
+
+    public function validate(): bool
+    {
+        return true;
+    }
 }

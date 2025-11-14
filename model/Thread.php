@@ -207,6 +207,7 @@ class Thread extends AbstractEntity
             'content' => $content,
             'etat' => -1,
         ]);
+        $message->validate();
         $message->save();
         return $message;
     }
@@ -282,5 +283,11 @@ class Thread extends AbstractEntity
         foreach($this->getMessages() as $message) {
             static::$db->query($sql, ['userId' => $user->id, 'messageId' => $message->id]);
         }
+    }
+
+
+    public function validate(): bool
+    {
+        return true;
     }
 }

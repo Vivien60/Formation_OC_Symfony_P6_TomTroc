@@ -48,7 +48,7 @@ return <<<HTML
     {$htmlBigUserCard}
     <div class="userInfo__form-container">
         <h3>Vos informations personnelles</h3>
-        <form class="form form--user-profile form--coloured form--discreet-label" method="post" action="?action=edit-profile-save">
+        <form class="form form--user-profile form--coloured form--discreet-label" method="post" action="?action=update-account">
             <label class="form__label">
                 Adresse email
                 <input class="form__field" type="email" name="email" value="{$this->e($this->user->email)}">

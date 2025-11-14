@@ -2,8 +2,11 @@
 declare(strict_types=1);
 namespace controller;
 
+use model\AbstractEntity;
 use model\User;
 use services\Utils;
+use view\layouts\ErrorLayout;
+use view\templates\Error;
 
 abstract class AbstractController
 {
@@ -58,5 +61,23 @@ abstract class AbstractController
         ]);
 
         return $view->render();
+    }
+
+
+    /**
+     * @param AbstractEntity $entity
+     * @return bool
+     */
+    protected function validation(AbstractEntity $entity): bool
+    {
+        try {
+            $entity->validate();
+        } catch (\Exception $e) {
+            $view = new Error(new ErrorLayout(), $e);
+            echo $this->renderView($view);
+            return false;
+        }
+
+        return true;
     }
 }

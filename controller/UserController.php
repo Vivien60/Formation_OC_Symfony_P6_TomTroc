@@ -26,6 +26,8 @@ class UserController extends AbstractController
             'password' => $password,
             'email' => $email,
         ]);
+        if(!$this->validation($user))
+            return;
         try {
             $user->create();
             $user->toMemory();
@@ -94,10 +96,12 @@ class UserController extends AbstractController
     {
         $this->redirectIfNotLoggedIn();
         $user = $this->userConnected();
-        $user->email = Utils::request('email');
-        $user->username = Utils::request('name');
-        $user->password  = Utils::request('password');
         try {
+            $user->email = Utils::request('email', '');
+            $user->username = Utils::request('pseudo', '');
+            $user->newPassword(Utils::request('password', ''));
+            if(!$this->validation($user))
+                return;
             $user->save();
             $user->toMemory();
         } catch (\Exception $e) {

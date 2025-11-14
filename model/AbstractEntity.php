@@ -97,4 +97,11 @@ abstract class AbstractEntity
         $fieldName = preg_replace_callback('/([[:upper:]])/', fn($matches) => '_'.strtolower($matches[0]), $property);
         return $fieldName;
     }
+
+    /**
+     * Validates the current instance based on specific criteria defined in the implementation.
+     * Validation can include checking for data types, data format (email) and other constraints.
+     * @return bool True if the validation succeeds, false otherwise.
+     */
+    public abstract function validate() : bool;
 }
