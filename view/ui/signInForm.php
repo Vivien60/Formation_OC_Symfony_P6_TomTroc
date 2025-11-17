@@ -10,6 +10,7 @@ return
         <div class="container container__half-page container--with-space-on-sides container--form-sign-in-up">
             <form class="form" name="login" method="post" action="?action=login">
                 <h1>Connexion</h1>
+                {$this->getCsrfField()}
                 <label class="form__label">
                     Adresse email
                     <input class="form__field" type="email" name="email" placeholder="email">

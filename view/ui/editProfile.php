@@ -8,6 +8,7 @@ use view\templates\AbstractHtmlTemplate;
 $bigUserCard = require __DIR__.'/component/cardUserBig.php';
 $editLink = <<<UPLOAD_LINK
     <form class="avatar-upload" method="post" action="?action=profile-upload-avatar&id={$this->user?->id}" enctype="multipart/form-data" data-component="form">
+        {$this->getCsrfField()}
         <label>
             <a class="grey link--underlined avatar-upload__action form-sync-action" data-sync-target="avatar-upload__input">modifier</a>
             <input class="browse-file avatar-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
@@ -49,6 +50,7 @@ return <<<HTML
     <div class="userInfo__form-container">
         <h3>Vos informations personnelles</h3>
         <form class="form form--user-profile form--coloured form--discreet-label" method="post" action="?action=update-account">
+            {$this->getCsrfField()}
             <label class="form__label">
                 Adresse email
                 <input class="form__field" type="email" name="email" value="{$this->e($this->user->email)}">

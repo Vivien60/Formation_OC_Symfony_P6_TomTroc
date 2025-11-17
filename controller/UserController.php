@@ -26,7 +26,7 @@ class UserController extends AbstractController
             'password' => $password,
             'email' => $email,
         ]);
-        if(!$this->validation($user))
+        if(!$this->performSecurityChecks() || !$this->validation($user))
             return;
         try {
             $user->create();
@@ -48,6 +48,8 @@ class UserController extends AbstractController
      */
     public function signIn() : void
     {
+        if(!$this->performSecurityChecks())
+            return;
         $email = Utils::request('email');
         $password = Utils::request('password');
 
@@ -95,6 +97,8 @@ class UserController extends AbstractController
     public function update() : void
     {
         $this->redirectIfNotLoggedIn();
+        if(!$this->performSecurityChecks())
+            return;
         $user = $this->userConnected();
         try {
             $user->email = Utils::request('email', '');
@@ -118,11 +122,7 @@ class UserController extends AbstractController
 
     public function readProfile() : void
     {
-        if($this->userConnected() === null) {
-            $view = $this->viewNotAllowed();
-            echo $this->renderView($view);
-            return;
-        }
+        $this->redirectIfNotLoggedIn();
         $id = intval(Utils::request('id', 0));
         $profile = User::fromId($id);
         if(!empty($profile)) {
@@ -136,6 +136,8 @@ class UserController extends AbstractController
     public function addImage()
     {
         $this->redirectIfNotLoggedIn();
+        if(!$this->performSecurityChecks())
+            return;
         $user = User::fromMemory();
         $id = intval(Utils::request('id',0));
         if($id && $user?->id !== $id) {
@@ -147,7 +149,7 @@ class UserController extends AbstractController
             $mediaMng = new MediaManager('image', $user);
             $mediaMng->handleFile();
         } catch (\Exception $e) {
-            echo $this->renderView($this->viewNotAllowed());
+            echo $this->renderViewNotAllowed;
             return;
         }
         $user->avatar = $mediaMng->filename();

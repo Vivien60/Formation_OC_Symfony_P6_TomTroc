@@ -18,6 +18,7 @@ abstract class AbstractHtmlTemplate
     public string $footer = '';
     public string $contentHeader = '';
     public static string $baseUrl = '/';
+
     /**
      * Helper for UI. It will contain some formatted data that can be used in the UI.
      * @var array $helper

@@ -6,8 +6,9 @@ namespace view\templates;
 use model\User;
 use \view\layouts\AbstractLayout;
 
-class SignUpForm extends AbstractHtmlTemplate
+class SignUpForm extends AbstractHtmlTemplate implements WithForm
 {
+    public string $csrfToken = '';
     public string $title = 'Home';
     private ?User $user = null;
     private bool $success = false;
@@ -45,5 +46,10 @@ HEADERS
     public function successfull(bool $success): void
     {
         $this->success = $success;
+    }
+
+    public function getCsrfField(): string
+    {
+        return require_once dirname(__DIR__, 1).'/ui/component/csrfField.php';
     }
 }

@@ -13,6 +13,7 @@ return
 </div>
 <div class="container container--book-copy-edit">
     <form class="photo-upload__form photo-upload" method="post" action="?action=book-copy-upload-photo&id={$this->book?->id}" enctype="multipart/form-data" data-component="form">
+        {$this->getCsrfField()}
         <label>
             Photo
             <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->e($this->book?->image)}"></div>
@@ -22,6 +23,7 @@ return
     </form>
     <div class="container container--book-copy-edit container__edit-book-copy container--form--light">
         <form class="form form--user-profile form--book-edit form--coloured" name="book-copy-edit" method="post" action="?action=book-copy-save&id={$this->e($this->book?->id)}">
+            <input type="hidden" name="csrf" value="{$this->csrfToken}" />
             <label class="form__label">
                 Titre
                 <input class="form__field" name="title" type="text" value="{$this->e($this->book?->title)}">

@@ -6,8 +6,9 @@ namespace view\templates;
 use model\User;
 use \view\layouts\AbstractLayout;
 
-class EditProfile extends AbstractHtmlTemplate
+class EditProfile extends AbstractHtmlTemplate implements WithForm
 {
+    public string $csrfToken = '';
     public string $title = 'My account';
     private ?User $user = null;
     private ?bool $success = null;
@@ -52,5 +53,10 @@ HEADERS
     public function successfull(bool $success): void
     {
         $this->success = $success;
+    }
+
+    public function getCsrfField(): string
+    {
+        return require dirname(__DIR__, 1).'/ui/component/csrfField.php';
     }
 }

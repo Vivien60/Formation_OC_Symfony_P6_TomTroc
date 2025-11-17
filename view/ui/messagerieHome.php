@@ -90,6 +90,7 @@ echo "</pre>";*/
             ?>
         </div>
         <form class="container__footer" action="?action=send-message&thread=<?= $this->thread?->id ?>" method="post">
+            {$this->getCsrfField()}
             <input class="form__field" type="text" name="content"
                    placeholder="Tapez votre message ici" aria-label="Tapez votre message ici"
             >

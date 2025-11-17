@@ -9,8 +9,9 @@ use model\User;
 use services\Utils;
 use \view\layouts\AbstractLayout;
 
-class MessagerieHome extends AbstractHtmlTemplate
+class MessagerieHome extends AbstractHtmlTemplate implements WithForm
 {
+    public string $csrfToken = '';
     public string $title = 'Conversation avec %s';
 
     /**
@@ -66,5 +67,10 @@ HEADERS
             '1' => $this->book?->availabilityStatus?'selected':'',
             '0' => !$this->book?->availabilityStatus?'selected':''
         ];
+    }
+
+    public function getCsrfField(): string
+    {
+        return require_once dirname(__DIR__, 1).'/ui/component/csrfField.php';
     }
 }

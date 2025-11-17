@@ -7,8 +7,9 @@ use model\BookCopy;
 use services\Utils;
 use \view\layouts\AbstractLayout;
 
-class BookCopyEdit extends AbstractHtmlTemplate
+class BookCopyEdit extends AbstractHtmlTemplate implements WithForm
 {
+    public string $csrfToken = '';
     public string $title = 'My profile';
 
     public function __construct(AbstractLayout $layout, public readonly ?BookCopy $book = null)
@@ -46,5 +47,10 @@ HEADERS
             '1' => $this->book?->availabilityStatus?'selected':'',
             '0' => !$this->book?->availabilityStatus?'selected':''
         ];
+    }
+
+    public function getCsrfField(): string
+    {
+        return require_once dirname(__DIR__, 1).'/ui/component/csrfField.php';
     }
 }

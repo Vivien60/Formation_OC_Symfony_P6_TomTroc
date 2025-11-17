@@ -27,11 +27,12 @@ HEADERS
     }
     public function getMainContent(): string
     {
+        $errorMsg = $this->error ? "Erreur : ".$this->error->getMessage():'';
         return
         <<<MAIN
             <div>
             Not allowed
-            Erreur : {$this->error?->getMessage()}
+            {$errorMsg}
             </div>
         MAIN;
     }

@@ -9,6 +9,7 @@ return
     <div class="container container--sign-in-up">
         <div class="container container__half-page container--with-space-on-sides container--form-sign-in-up">
             <form name="signup" method="post" action="?action=create-account">
+                {$this->getCsrfField()}
                 <h1>Inscription</h1>
                 <label class="form__label">
                     Pseudo

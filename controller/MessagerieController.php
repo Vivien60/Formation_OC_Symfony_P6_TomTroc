@@ -12,6 +12,8 @@ class MessagerieController extends AbstractController
     public function home()
     {
         $this->redirectIfNotLoggedIn();
+        if(!$this->performSecurityChecks())
+            return;
         $threads = $this->userConnected()->getThreads();
         $threadRequest = intval(Utils::request('thread', 0));
         $threadToDisplay = $this->userConnected()->openThread($threadRequest);
