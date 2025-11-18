@@ -35,7 +35,6 @@ abstract class AbstractLayout
 
     public function __toString() : string
     {
-        $toto = print_r($_SESSION['csrf_token'], true);
         return <<<HTML
         <!DOCTYPE html>
         <html lang="fr">
@@ -52,7 +51,6 @@ abstract class AbstractLayout
             </main>
             <footer>
                 {$this->template->getFooter()}
-                {$toto}
             </footer>
         </div>
         </body>

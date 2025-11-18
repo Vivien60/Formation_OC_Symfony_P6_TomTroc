@@ -67,6 +67,8 @@ class User extends AbstractEntity
 
     public function newPassword(string $password)
     {
+        if(empty($password))
+            return;
         $this->password = $password;
         $this->validatePassword();
         $this->hashPassword();
