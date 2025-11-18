@@ -220,7 +220,7 @@ class User extends AbstractEntity
 
     private function validatePassword()
     {
-        if ($this->password !== null &&
+        if ($this->password === null ||
             (strlen($this->password) < 8 || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', $this->password))) {
             throw new \Exception(
                 'Les mots de passe doivent contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre'

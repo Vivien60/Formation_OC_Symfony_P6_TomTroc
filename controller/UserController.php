@@ -54,6 +54,8 @@ class UserController extends AbstractController
         $password = Utils::request('password');
 
         if($user = User::authenticate($email, $password)){
+            $_SESSION = array();
+            session_regenerate_id(true);
             $user->toMemory();
             Utils::redirect('edit-profile-form');
         } else {
@@ -67,6 +69,8 @@ class UserController extends AbstractController
      */
     public function signOut() : void
     {
+        $_SESSION = array();
+        session_regenerate_id(true);
         session_destroy();
         Utils::redirect('home');
     }
