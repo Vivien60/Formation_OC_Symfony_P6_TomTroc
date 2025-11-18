@@ -4,6 +4,7 @@ namespace services;
 
 use \DateTime, \IntlDateFormatter;
 use model\User;
+use Stringable;
 
 /**
  * Classe utilitaire : cette classe ne contient que des méthodes statiques qui peuvent être appelées
@@ -12,6 +13,8 @@ use model\User;
  */
 class Utils
 {
+    public static string $debugFile = '';
+
     /**
      * Convertit une date vers le format de type "Samedi 15 juillet 2023" en francais.
      * @param DateTime $date : la date à convertir.
@@ -149,6 +152,22 @@ class Utils
             return preg_replace('/\.[^.]+$/', '', $name);
         }
         return $name;
+    }
+
+    /**
+     * Logs a given value into a debug file if a debug file is defined.
+     * The log will include a timestamp in the format 'Y-m-d H:i:s'.
+     * @param mixed $value : the value to be logged. It will be serialized into a string representation.
+     * @return void : this method does not return a value.
+     */
+    public static function trace(mixed $value) : void
+    {
+        if(static::$debugFile == '') return;
+        $formatLog = "[%s] %s\n";
+        $date = date('Y-m-d H:i:s');
+        $message = print_r($value, true);
+        $logMessage = sprintf($formatLog, $date, $message);
+        file_put_contents(static::$debugFile, $logMessage, FILE_APPEND | LOCK_EX);
     }
 
 }

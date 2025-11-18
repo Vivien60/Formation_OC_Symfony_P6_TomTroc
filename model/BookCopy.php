@@ -88,31 +88,6 @@ class BookCopy extends AbstractEntity
         return $sql;
     }
 
-    /*
-    private function search() : array
-    {
-        $sql = static::$selectSql." where 1=1";
-        $searchParam = [];
-        foreach($this as $key => $value) {
-            if(!in_array($key, $this->searchFieldsAllowed)) {
-                continue;
-            }
-            if($value === '' || intval($value) === -1) {
-                continue;
-            }
-            $searchParam[$key] = $value;
-            $fieldName = $this->propertyToField($key);
-            $sql .= " and $fieldName like :$key";
-        }
-        var_dump($sql);
-        var_dump($searchParam);
-        $stmt = static::$db->query($sql, $searchParam);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return array_map(static::fromArray(...), $result);
-    }
-*/
-
-
     public function modify(array $fieldVals) : void
     {
         $this->hydrate($fieldVals);

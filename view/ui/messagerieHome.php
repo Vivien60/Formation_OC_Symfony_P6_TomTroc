@@ -6,19 +6,6 @@ use view\templates\MessagerieHome;
 /**
  * @var MessagerieHome $this
  */
-/*
-echo "<pre>";
-var_dump($this->userConnected);
-var_dump($this->threads);
-foreach($this->threads as $thread) {
-    echo $thread->id."\n";
-    echo $thread->getLastMessage()->getAuthor()->username, ':', $thread->getLastMessage()->content."\n";
-}
-echo "\nThread : {$this->e($this->threads[0]->id)}\n";
-foreach($this->threads[0]?->getMessages() as $message) {
-    echo $message->getAuthor()->username, ':', $message->content."\n";
-}
-echo "</pre>";*/
 ?>
 <div class="messagerie__container container container--with-space-on-sides">
     <div class="threads__list">

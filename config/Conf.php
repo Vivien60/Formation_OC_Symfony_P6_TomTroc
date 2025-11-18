@@ -6,6 +6,7 @@ use model\AbstractEntity;
 use model\BookCopy;
 use model\User;
 use services\DBManager;
+use services\Utils;
 use view\templates\AbstractHtmlTemplate;
 
 class Conf extends \config\AbstractConf
@@ -26,5 +27,6 @@ class Conf extends \config\AbstractConf
         DBManager::$bddConfig = $this->_config['bddConfig'];
         AbstractHtmlTemplate::setBaseUrl($this->_config['baseUrl']);
         AbstractEntity::$db = DBManager::getInstance();
+        Utils::$debugFile = dirname(__FILE__, 2) . '/logs/debug.log';
     }
 }
