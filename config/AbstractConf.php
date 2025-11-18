@@ -17,10 +17,10 @@ abstract class AbstractConf
 
     public static function getInstance(array $config = []): static
     {
-        if (static::$instance !== null) {
-            return static::$instance;
+        if (static::$instance === null) {
+            static::$instance = new static($config);
         }
-        return new static($config);
+        return static::$instance;
     }
 
     protected abstract function defaultConfig(): array;
