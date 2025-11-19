@@ -169,14 +169,6 @@ class Thread extends AbstractEntity
         return $this->lastMessage;
     }
 
-    public function getMessageAtRank(int $rank) : ?Message
-    {
-        $this->getMessages();
-        if(empty($this->messages))
-            return null;
-        return $this->messages[$rank-1];
-    }
-
     /**
      * Creates a new message within the thread.
      * Updates the thread's last update date.
@@ -201,11 +193,13 @@ class Thread extends AbstractEntity
      */
     protected function createMessage(User $author, string $content): Message
     {
+        //Prévoir, lors du passage à l'échelle, que le rank pourra être en double. Normalement, pas besoin d'afficher un message en séparé, mais bon.
         $message = new Message([
             'threadId' => $this->id,
             'author' => $author->id,
             'content' => $content,
             'etat' => -1,
+            'rank' => count($this->getMessages()) + 1,
         ]);
         $message->validate();
         $message->save();

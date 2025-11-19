@@ -104,24 +104,14 @@ class Message extends AbstractEntity
      */
     public function save() : void
     {
-        //TODO : voir pour déplacer la récupération de rank dans thread
-        static::$db->getPDO()->beginTransaction();
-
-        $sql = "SELECT COALESCE(MAX(`rank`), -1) + 1 as next_rank 
-              FROM message WHERE thread_id = :threadId FOR UPDATE";
-        $nextRank = static::$db->query($sql, ['threadId' => $this->thread->id])
-            ->fetchColumn();
-
         $sql = "insert into message (thread_id, `rank`, author, content, created_at) values (:threadId, :rank, :authorId, :content, NOW())";
         static::$db->query($sql, [
             'threadId' => $this->thread->id,
             'authorId' => $this->authorInstance->id,
             'content' => $this->content,
-            'rank' => $nextRank
+            'rank' => $this->rank
         ]);
-        $this->rank = $nextRank;
         $this->id = (int)static::$db->getPDO()->lastInsertId();
-        static::$db->getPDO()->commit();
     }
 
     public function validate(): bool
