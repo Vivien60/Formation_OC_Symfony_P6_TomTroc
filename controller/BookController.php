@@ -62,7 +62,13 @@ class BookController extends AbstractController
                 return;
             }
             $bookCopy->owner = $this->userConnected();
-            $bookCopy->modify($_REQUEST);
+            $bookCopyValues = [
+                'title' => Utils::request('title', ''),
+                'auteur' => Utils::request('auteur', ''),
+                'description' => Utils::request('description', ''),
+                'availability' => Utils::request('availability', 0),
+            ];
+            $bookCopy->modify($bookCopyValues);
             if(!$this->validation($bookCopy))
                 return;
 
