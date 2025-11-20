@@ -20,7 +20,7 @@ class BookCopy extends AbstractEntity
             return $this->owner;
         }
     }
-    public string $auteur = '';
+    public string $author = '';
     public string $title = '';
     public string $description = '';
     public int $availabilityStatus = -1 {
@@ -32,9 +32,9 @@ class BookCopy extends AbstractEntity
     public string $availabilityLibelle = '';
     public string $image = '';
     public int $ownerId = -1;
-    protected static string $selectSql = "select id, title, auteur, availability_status, image, description, created_at, user_id from book_copy";
+    protected static string $selectSql = "select id, title, author, availability_status, image, description, created_at, user_id from book_copy";
 
-    protected static $searchFieldsAllowed = ['auteur', 'title', 'description', 'availabilityStatus'];
+    protected static $searchFieldsAllowed = ['author', 'title', 'description', 'availabilityStatus'];
 
     protected function __construct(array $fieldVals)
     {
@@ -62,7 +62,7 @@ class BookCopy extends AbstractEntity
     public static function searchBooksForExchange(mixed $searchTerm, int $limit = 0)
     {
         $searchParams = [
-            'auteur' => "%$searchTerm%",
+            'author' => "%$searchTerm%",
             'title' => "%$searchTerm%",
         ];
         $sql = static::buildAvailableBooksQuery($searchParams);
@@ -117,7 +117,7 @@ class BookCopy extends AbstractEntity
     public static function blank() : static
     {
         return new static([
-            'auteur' => '',
+            'author' => '',
             'title' => '',
             'description' => '',
             'availabilityStatus' => -1,
@@ -132,13 +132,13 @@ class BookCopy extends AbstractEntity
             throw new \Exception('Book not found');
         }
         $sql = "update book_copy 
-                set auteur = :auteur, title = :title, description = :description, 
+                set author = :author, title = :title, description = :description, 
                     created_at = :created_at, availability_status = :availability, 
                     image = :image, user_id = :ownerId where id = :id";
         $stmt = static::$db->query($sql, [
             'id' => $this->id,
             'title' => $this->title,
-            'auteur' => $this->auteur,
+            'author' => $this->author,
             'description' => $this->description,
             'created_at' => $this->createdAt->format("Y-m-d H:i:s"),
             'availability' => $this->availabilityStatus,
@@ -156,10 +156,10 @@ class BookCopy extends AbstractEntity
         if(User::fromId($this->ownerId) === null) {
             throw new \Exception('User not found');
         }
-        $sql = "insert into book_copy (auteur, title, description, created_at, availability_status, user_id, image) 
-                values (:auteur, :title, :description, :created_at, :availability, :ownerId, :image)";
+        $sql = "insert into book_copy (author, title, description, created_at, availability_status, user_id, image) 
+                values (:author, :title, :description, :created_at, :availability, :ownerId, :image)";
         $stmt = static::$db->query($sql, [
-            'auteur' => $this->auteur,
+            'author' => $this->author,
             'title' => $this->title,
             'description' => $this->description,
             'created_at' => $this->createdAt->format("Y-m-d H:i:s"),
@@ -194,7 +194,7 @@ class BookCopy extends AbstractEntity
             throw new \Exception('Le titre est obligatoire et ne doit pas dépasser 255 caractères');
         }
 
-        if (empty($this->auteur) || strlen($this->auteur) > 255) {
+        if (empty($this->author) || strlen($this->author) > 255) {
             throw new \Exception('L\'auteur est obligatoire et ne doit pas dépasser 255 caractères');
         }
 

@@ -34,7 +34,7 @@ foreach ($this->user->library as $bookCopy) {
 <tr>
                 <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
                 <td class="library__book-info">{$this->e($bookCopy->title)}</td>
-                <td class="library__book-info">{$this->e($bookCopy->auteur)}</td>
+                <td class="library__book-info">{$this->e($bookCopy->author)}</td>
                 <td class="library__book-info library__book-info--longdesc">{$this->e($bookCopy->description)}</td>
                 <td><div class="badge--long-size {$badgeClass}">{$bookCopy->availabilityLibelle}</div></td>
                 <td><a class="library__action library__action--edit" href="?action=book-copy-edit-form&id={$bookCopy->id}">Editer</a></td>

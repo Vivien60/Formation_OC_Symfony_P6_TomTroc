@@ -21,7 +21,7 @@ return
     <div class="container__content">
         <header>
             <h1>{$this->e($this->book->title)}</h1>
-            <p>par {$this->e($this->book->auteur)}</p>
+            <p>par {$this->e($this->book->author)}</p>
             <hr class="line-separator">
         </header>
         <div>

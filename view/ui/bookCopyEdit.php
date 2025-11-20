@@ -30,7 +30,7 @@ return
             </label>
             <label class="form__label">
                 Auteur
-                <input class="form__field" name="auteur" type="text" value="{$this->e($this->book?->auteur)}">
+                <input class="form__field" name="author" type="text" value="{$this->e($this->book?->author)}">
             </label>
             <label class="form__label">
                 Commentaire

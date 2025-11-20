@@ -4,7 +4,7 @@ insert into user (id, name, email, created_at, password) values
     (3,'Prométhée', 'promethee@ohtrys.com', NOW(), 'test');
 
 -- Insertion des copies de livres
-INSERT INTO book_copy (title, auteur, availability_status, image, description, user_id) VALUES
+INSERT INTO book_copy (title, author, availability_status, image, description, user_id) VALUES
     ('Esther', 'Alabaster', 1, './assets/img/books/book01.jpg',
      'Le Livre d\'Esther: Curieux et excitant, l\'éclat d\'Esther est dans son mystérieux et unique mélange de hasard et de providence divine. Bien que son complot
     paraisse aléatoire, et rempli de hasard au début, c\'est une invitation à le voir comme une rencontre fatidique avec Dieu. C\'est un encouragement pour nous tous, d\'observer et d\'écouter - avec curiosité et

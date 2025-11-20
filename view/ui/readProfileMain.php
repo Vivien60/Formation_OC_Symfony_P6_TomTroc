@@ -27,7 +27,7 @@ foreach ($this->library as $bookCopy) {
 <tr>
                 <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
                 <td class="library__book-info">{$this->e($bookCopy->title)}</td>
-                <td class="library__book-info">{$this->e($bookCopy->auteur)}</td>
+                <td class="library__book-info">{$this->e($bookCopy->author)}</td>
                 <td class="library__book-info library__book-info--longdesc">{$this->e($bookCopy->description)}</td>
             </tr>
 EOF;
