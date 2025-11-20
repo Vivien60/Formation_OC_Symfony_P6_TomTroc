@@ -46,10 +46,10 @@ CREATE TABLE message (
             ON DELETE RESTRICT
 );
 
-CREATE TABLE participer (
+CREATE TABLE participate (
     user_id INT NOT NULL,
     thread_id INT NOT NULL,
-    etat TINYINT NOT NULL,
+    status TINYINT NOT NULL,
     PRIMARY KEY (user_id, thread_id),
     CONSTRAINT `fk_participant_user`
         FOREIGN KEY (`user_id`)

@@ -188,7 +188,7 @@ class User extends AbstractEntity
     {
         $sql = "select count(*) 
                 from 
-                    participer p
+                    participate p
                     inner join message m on p.thread_id = m.thread_id 
                     left join message_status ms on m.id = ms.message_id and p.user_id = ms.user_id
                 where p.user_id = :id and (ms.status = 'unread' or ms.status IS NULL)";

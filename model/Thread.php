@@ -91,7 +91,7 @@ class Thread extends AbstractEntity
     public function getParticipants()
     {
         if(empty($this->participants)) {
-            $sql = "select user_id from participer where thread_id = :threadId";
+            $sql = "select user_id from participate where thread_id = :threadId";
             $stmt = static::$db->query($sql, ['threadId' => $this->id]);
             $this->participants = array_map(fn($participant) => User::fromId($participant['user_id']), $stmt->fetchAll());
         }
@@ -142,7 +142,7 @@ class Thread extends AbstractEntity
     public static function fromParticipant(User $user) : array
     {
         $sql = static::$selectSql." 
-                    inner join participer p on thread.id = p.thread_id 
+                    inner join participate p on thread.id = p.thread_id 
                     where p.user_id = :userId
                     order by thread.updated_at desc";
         $stmt = static::$db->query($sql, ['userId' => $user->id]);
@@ -198,7 +198,7 @@ class Thread extends AbstractEntity
             'threadId' => $this->id,
             'author' => $author->id,
             'content' => $content,
-            'etat' => -1,
+            'status' => -1,
             'rank' => count($this->getMessages()) + 1,
         ]);
         $message->validate();
@@ -262,7 +262,7 @@ class Thread extends AbstractEntity
 
     private function storeParticipants()
     {
-        $sql = "insert into participer (thread_id, user_id, etat) values (:threadId, :userId, 1)";
+        $sql = "insert into participate (thread_id, user_id, status) values (:threadId, :userId, 1)";
         foreach($this->participants as $participant)
         {
             static::$db->query($sql, ['threadId' => $this->id, 'userId' => $participant->id]);

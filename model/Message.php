@@ -46,7 +46,7 @@ class Message extends AbstractEntity
     public static function latestByThreadsFor(User $user) : array
     {
         $sql = static::$selectSql."
-                    inner join participer p on m.thread_id = p.thread_id  and p.user_id = :userId
+                    inner join participate p on m.thread_id = p.thread_id  and p.user_id = :userId
                     inner join (
                         select max(message.id) as id from message group by message.thread_id
                     ) last_message on m.id = last_message.id

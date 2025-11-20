@@ -6,7 +6,7 @@ use PDO;
 
 class Participant extends AbstractEntity
 {
-    static string $selectSql = "select thread_id, user_id, etat from participer";
+    static string $selectSql = "select thread_id, user_id, status from participate";
 
     public int $etat = 1;
 
