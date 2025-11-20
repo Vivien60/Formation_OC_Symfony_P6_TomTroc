@@ -1,4 +1,4 @@
-insert into user (id, name, email, created_at, password) values
+insert into user (id, username, email, created_at, password) values
     (1,'Thor', 'thor@valhala.com', NOW(), 'test'),
     (2,'Hercule', 'hercule@olympe.com', NOW(), 'test'),
     (3,'Prométhée', 'promethee@ohtrys.com', NOW(), 'test');

@@ -1,6 +1,6 @@
 CREATE TABLE user (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name varchar(255) NOT NULL,
+    username varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     avatar varchar(255) NOT NULL DEFAULT '',

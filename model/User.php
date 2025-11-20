@@ -41,7 +41,7 @@ class User extends AbstractEntity
 
     public string $avatar = '';
 
-    protected static string $selectSql = "select id, name as username, email, password, avatar, DATE(created_at) as createdAt, avatar from user";
+    protected static string $selectSql = "select id, username, email, password, avatar, DATE(created_at) as createdAt, avatar from user";
 
     protected function __construct(array $fieldVals)
     {
@@ -106,7 +106,7 @@ class User extends AbstractEntity
         if($this->identifyAnotherUser()) {
             throw new \Exception('Another user exist with this information');
         }
-        $sql = "update user set name = :username, email = :email, password = :password, avatar = :avatar, created_at = :created_at where id = :id";
+        $sql = "update user set username = :username, email = :email, password = :password, avatar = :avatar, created_at = :created_at where id = :id";
         $stmt = static::$db->query($sql, [
             'id' => $this->id,
             'username' => $this->username,
@@ -127,7 +127,7 @@ class User extends AbstractEntity
             throw new \Exception('User already registered');
         }
         $this->hashPassword();
-        $sql = "insert into user (name, email, password, avatar, created_at) values (:username, :email, :password, :avatar, NOW())";
+        $sql = "insert into user (username, email, password, avatar, created_at) values (:username, :email, :password, :avatar, NOW())";
         $stmt = static::$db->query($sql, [
             'username' => $this->username,
             'email' => $this->email,
@@ -159,7 +159,7 @@ class User extends AbstractEntity
 
     protected function identifyAnotherUser(): bool
     {
-        $sql = "select * from user where (email = :email or name = :username) and id != :id";
+        $sql = "select * from user where (email = :email or username = :username) and id != :id";
         $stmt = static::$db->query(
             $sql,
             [

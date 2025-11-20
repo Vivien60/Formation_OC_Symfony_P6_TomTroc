@@ -18,7 +18,7 @@ class UserController extends AbstractController
 {
     public function signUp() : void
     {
-        $username = Utils::request('name');
+        $username = Utils::request('username');
         $password = Utils::request('password');
         $email = Utils::request('email');
         $user = User::fromArray([
@@ -117,11 +117,7 @@ class UserController extends AbstractController
             echo $this->renderView($view);
             return;
         }
-        $view = new EditProfile(new ConnectedLayout());
-        $view->successfull(true);
-        $view->setUser($user);
-        echo $this->renderView($view);
-
+        Utils::redirect('edit-profile-form');
     }
 
     public function readProfile() : void
@@ -130,7 +126,7 @@ class UserController extends AbstractController
         $id = intval(Utils::request('id', 0));
         $profile = User::fromId($id);
         if(!empty($profile)) {
-            $view = new ReadProfile(new CONNectedLayout(), $profile, BookCopy::fromOwner($profile));
+            $view = new ReadProfile(new ConnectedLayout(), $profile, BookCopy::fromOwner($profile));
         } else  {
             $view = $this->viewNotAllowed();
         }

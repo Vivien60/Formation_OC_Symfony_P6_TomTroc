@@ -14,7 +14,7 @@ erDiagram
 
     USER {
         int id PK
-        string name
+        string username
         string email
         string password
         datetime created_at
