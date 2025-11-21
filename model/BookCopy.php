@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace model;
 
 use DateTime;
+use model\enum\BookAvailabilityStatus;
 use PDO;
 use services\DBManager;
 
@@ -23,13 +24,18 @@ class BookCopy extends AbstractEntity
     public string $author = '';
     public string $title = '';
     public string $description = '';
-    public int $availabilityStatus = -1 {
+    public BookAvailabilityStatus|int $availabilityStatus = -1 {
         set {
-           $this->availabilityStatus = $value;
-           $this->availabilityLibelle = $value? 'Disponible' : 'Indisponible';
+            if(is_int($value)) {
+                $status = BookAvailabilityStatus::from($value);
+            } else {
+                $status = $value;
+            }
+            $this->availabilityStatus = $status->value;
+            $this->availabilityStatusLabel = $status->label();
         }
     }
-    public string $availabilityLibelle = '';
+    public string $availabilityStatusLabel = '';
     public string $image = '';
     public int $ownerId = -1;
     protected static string $selectSql = "select id, title, author, availability_status, image, description, created_at, user_id from book_copy";
@@ -120,7 +126,6 @@ class BookCopy extends AbstractEntity
             'author' => '',
             'title' => '',
             'description' => '',
-            'availabilityStatus' => -1,
             'image' => '',
             'ownerId' => -1,
         ]);
@@ -200,10 +205,6 @@ class BookCopy extends AbstractEntity
 
         if (strlen($this->description) > 1000) {
             throw new \Exception('La description ne doit pas dépasser 1000 caractères');
-        }
-
-        if (!in_array($this->availabilityStatus, [0, 1], true)) {
-            throw new \Exception('Statut de disponibilité invalide');
         }
 
         return true;

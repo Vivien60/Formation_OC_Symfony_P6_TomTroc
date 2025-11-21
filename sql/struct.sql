@@ -49,14 +49,12 @@ CREATE TABLE message (
 CREATE TABLE participate (
     user_id INT NOT NULL,
     thread_id INT NOT NULL,
-    status TINYINT NOT NULL,
     PRIMARY KEY (user_id, thread_id),
     CONSTRAINT `fk_participant_user`
         FOREIGN KEY (`user_id`)
             REFERENCES `user` (`id`)
             ON DELETE RESTRICT,
-    CONSTRAINT `fk_participant_thread`
-        FOREIGN KEY (`thread_id`)
+    CONSTRAINT `fk_participant_thread`Couchbase\View;
             REFERENCES `thread` (`id`)
             ON DELETE RESTRICT
 );

@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace controller;
 
-use Couchbase\View;
 use model\AbstractEntity;
 use model\User;
 use services\CsrfToken;

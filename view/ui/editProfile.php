@@ -36,7 +36,7 @@ foreach ($this->user->library as $bookCopy) {
                 <td class="library__book-info">{$this->e($bookCopy->title)}</td>
                 <td class="library__book-info">{$this->e($bookCopy->author)}</td>
                 <td class="library__book-info library__book-info--longdesc">{$this->e($bookCopy->description)}</td>
-                <td><div class="badge--long-size {$badgeClass}">{$bookCopy->availabilityLibelle}</div></td>
+                <td><div class="badge--long-size {$badgeClass}">{$bookCopy->availabilityStatusLabel}</div></td>
                 <td><a class="library__action library__action--edit" href="?action=book-copy-edit-form&id={$bookCopy->id}">Editer</a></td>
                 <td><a class="library__action library__action--delete" href="?action=book-copy-remove&id={$bookCopy->id}">Supprimer</a></td>
             </tr>
