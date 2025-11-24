@@ -77,20 +77,22 @@ class BookCopy extends AbstractEntity
 
     private static function buildAvailableBooksQuery(array $searchParams, int $limit = 0) : string
     {
-        $sqlBase = static::$selectSql." where availability_status = 1 and (%s)";
+        $sqlBase = static::$selectSql." where availability_status = %s and (%s)";
         $limit = intval($limit);
         $sqlBase .= $limit > 0 ? " limit $limit" : "";
-        $sqlSearchPart = [];
-        $sqlSearchPart[] = "0=1"; //always false: avoid syntax error because of empty parenthesis
-        foreach($searchParams as $key => $value) {
-            if(!in_array($key, static::$searchFieldsAllowed)) {
-                continue;
+        if(empty($searchParams)) {
+            $sqlSearchPart = ["1=1"];
+        } else {
+            foreach($searchParams as $key => $value) {
+                if(!in_array($key, static::$searchFieldsAllowed)) {
+                    continue;
+                }
+                $fieldName = static::propertyToField($key);
+                $sqlSearchPart[] = "$fieldName like :$key";
             }
-            $fieldName = static::propertyToField($key);
-            $sqlSearchPart[] = "$fieldName like :$key";
         }
         $sqlSearch = implode(" or ", $sqlSearchPart);
-        $sql = sprintf($sqlBase, $sqlSearch);
+        $sql = sprintf($sqlBase, BookAvailabilityStatus::AVAILABLE->value, $sqlSearch);
         return $sql;
     }
 
@@ -184,6 +186,7 @@ class BookCopy extends AbstractEntity
 
     /**
      * @param array|string $sql
+     * @param array $params
      * @return array
      */
     protected static function queryBooks(array|string $sql, array $params = []): array
