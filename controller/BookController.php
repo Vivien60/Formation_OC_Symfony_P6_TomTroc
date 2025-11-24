@@ -50,13 +50,10 @@ class BookController extends AbstractController
         if(!$this->performSecurityChecks())
             return;
         $bookRef = intval(Utils::request('id', '0'));
-        if($bookRef == -1) {
+        if($bookRef == 0) {
             $this->addCopyToUserLibrary();
-            return;
         } else {
             $bookCopy = BookCopy::fromId($bookRef);
-        }
-        if($bookCopy) {
             if($bookCopy->owner->id != $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
                 return;
@@ -66,7 +63,7 @@ class BookController extends AbstractController
                 'title' => Utils::request('title', ''),
                 'author' => Utils::request('author', ''),
                 'description' => Utils::request('description', ''),
-                'availability' => Utils::request('availability', 0),
+                'availabilityStatus' => Utils::request('availability', 0),
             ];
             $bookCopy->modify($bookCopyValues);
             if(!$this->validation($bookCopy))
@@ -115,7 +112,6 @@ class BookController extends AbstractController
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
-        Utils::redirect('book-copy-edit-form', ['id' => $bookCopy->id]);
     }
 
     public function listBooksForExchange() : void

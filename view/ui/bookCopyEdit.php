@@ -38,7 +38,7 @@ return
             </label>
             <label class="form__label">
                 Disponibilité
-                <select class="form__field form__field--select" name="availabilityStatus">
+                <select class="form__field form__field--select" name="availability">
                     <option value="1" {$this->helper['availabilityOptionState'][1]} >disponible</option>
                     <option value="0" {$this->helper['availabilityOptionState'][0]}>Indisponible</option>
                 </select>

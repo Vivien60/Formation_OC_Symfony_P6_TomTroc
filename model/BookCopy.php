@@ -6,6 +6,7 @@ use DateTime;
 use model\enum\BookAvailabilityStatus;
 use PDO;
 use services\DBManager;
+use services\Utils;
 
 class BookCopy extends AbstractEntity
 {
