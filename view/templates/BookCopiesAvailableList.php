@@ -5,12 +5,14 @@ namespace view\templates;
 use model\BookCopy;
 use view\layouts\ConnectedLayout;
 
-class BookCopiesAvailableList extends AbstractHtmlTemplate
+class BookCopiesAvailableList extends AbstractHtmlTemplate implements WithForm
 {
     /**
      * @var BookCopy[] $books
      */
     public array $books;
+    public string $csrfToken;
+
     /**
      * @param ConnectedLayout $param
      */
@@ -22,5 +24,10 @@ class BookCopiesAvailableList extends AbstractHtmlTemplate
     public function getMainContent(): string
     {
         return require_once dirname(__DIR__, 1).'/ui/bookCopiesList.php';
+    }
+
+    public function getCsrfField(): string
+    {
+        return require_once dirname(__DIR__, 1).'/ui/component/csrfField.php';
     }
 }

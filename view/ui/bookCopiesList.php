@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
-use view\templates\BookCopiesAvailableList;
+use view\templates\{WithForm, BookCopiesAvailableList};
+
 /**
- * @var BookCopiesAvailableList $this
+ * @var WithForm|BookCopiesAvailableList $this
  */
 
 $bookCard = require __DIR__.'/component/cardBook.php';
@@ -18,6 +19,7 @@ return
         <h1>Nos livres à l’échange</h1>
         <form class="form form--horizontal" action="?action=available-list" method="POST">
             <label class="form__label field field--with-icon">
+                {$this->getCsrfField()}
                 <img class="field__icon" aria-hidden="true" alt="&#x1F50ED;" src="assets/img/icons/magnifying-glass.svg">
                 <input class="field__input" type="text" placeholder="Rechercher un livre" name="search">
             </label>
