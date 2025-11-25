@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace model;
 
 use DateTime;
+use model\enum\MessageStatus;
 use PDO;
 use services\DBManager;
 
@@ -191,11 +192,12 @@ class User extends AbstractEntity
                     participate p
                     inner join message m on p.thread_id = m.thread_id 
                     left join message_status ms on m.id = ms.message_id and p.user_id = ms.user_id
-                where p.user_id = :id and (ms.status = 'unread' or ms.status IS NULL)";
+                where p.user_id = :id and (ms.status = :readStatus or ms.status IS NULL)";
         $stmt = static::$db->query(
             $sql,
             [
                 'id' => $this->id,
+                'readStatus' => MessageStatus::UNREAD->value
             ]);
         return intval($stmt->fetchColumn());
     }

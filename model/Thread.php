@@ -4,7 +4,7 @@ namespace model;
 
 use DateTime;
 use DateTimeInterface;
-use PDO;
+use model\enum\MessageStatus;
 
 class Thread extends AbstractEntity
 {
@@ -91,7 +91,7 @@ class Thread extends AbstractEntity
     public function getParticipants()
     {
         if(empty($this->participants)) {
-            $sql = "select user_id from participer where thread_id = :threadId";
+            $sql = "select user_id from participate where thread_id = :threadId";
             $stmt = static::$db->query($sql, ['threadId' => $this->id]);
             $this->participants = array_map(fn($participant) => User::fromId($participant['user_id']), $stmt->fetchAll());
         }
@@ -142,7 +142,7 @@ class Thread extends AbstractEntity
     public static function fromParticipant(User $user) : array
     {
         $sql = static::$selectSql." 
-                    inner join participer p on thread.id = p.thread_id 
+                    inner join participate p on thread.id = p.thread_id 
                     where p.user_id = :userId
                     order by thread.updated_at desc";
         $stmt = static::$db->query($sql, ['userId' => $user->id]);
@@ -169,14 +169,6 @@ class Thread extends AbstractEntity
         return $this->lastMessage;
     }
 
-    public function getMessageAtRank(int $rank) : ?Message
-    {
-        $this->getMessages();
-        if(empty($this->messages))
-            return null;
-        return $this->messages[$rank-1];
-    }
-
     /**
      * Creates a new message within the thread.
      * Updates the thread's last update date.
@@ -190,7 +182,7 @@ class Thread extends AbstractEntity
         //TODO : Utiliser un repo pourrait permettre de laisser à Thread l'orchestration du rank
         $message = $this->createMessage($author, $content);
         $this->addMessage($message);
-        $this->updateMessageStatus($message, $this->otherParticipants($author));
+        $this->addMessageStatus($message, $this->otherParticipants($author));
         $this->updateLastDateModification();
     }
 
@@ -198,20 +190,22 @@ class Thread extends AbstractEntity
      * @param User $author
      * @param string $content
      * @return Message
+     * @throws \Exception
      */
     protected function createMessage(User $author, string $content): Message
     {
+        //Prévoir, lors du passage à l'échelle, que le rank pourra être en double. Normalement, pas besoin d'afficher un message en séparé, mais bon.
         $message = new Message([
             'threadId' => $this->id,
             'author' => $author->id,
             'content' => $content,
-            'etat' => -1,
+            'status' => -1,
+            'rank' => count($this->getMessages()) + 1,
         ]);
         $message->validate();
         $message->save();
         return $message;
     }
-
     /**
      * @return void
      */
@@ -237,13 +231,15 @@ class Thread extends AbstractEntity
      * @param array $recipients An array of participants recipients
      * @return void
      */
-    private function updateMessageStatus(Message $message, array $recipients): void
+    private function addMessageStatus(Message $message, array $recipients): void
     {
         foreach($recipients as $participant) {
             $sql = "insert into message_status (user_id, message_id, status)
-                    values (:userId, :messageId, 'unread') 
-                    on duplicate key update status = 'unread'";
-            $stmt = static::$db->query($sql, ['userId' => $participant->id, 'messageId' => $message->id]);
+                    values (:userId, :messageId, :status) 
+                    on duplicate key update status = :status";
+            $stmt = static::$db->query($sql, [
+                'userId' => $participant->id, 'messageId' => $message->id, 'status' => MessageStatus::UNREAD->value
+            ]);
         }
     }
 
@@ -268,7 +264,7 @@ class Thread extends AbstractEntity
 
     private function storeParticipants()
     {
-        $sql = "insert into participer (thread_id, user_id, etat) values (:threadId, :userId, 1)";
+        $sql = "insert into participate (thread_id, user_id) values (:threadId, :userId)";
         foreach($this->participants as $participant)
         {
             static::$db->query($sql, ['threadId' => $this->id, 'userId' => $participant->id]);
@@ -278,10 +274,10 @@ class Thread extends AbstractEntity
     private function markAsRead(User $user)
     {
         $sql = "insert into message_status (user_id, message_id, status)
-                values (:userId, :messageId, 'read') 
-                on duplicate key update status = 'read'";
+                values (:userId, :messageId, :readStatus) 
+                on duplicate key update status = :readStatus";
         foreach($this->getMessages() as $message) {
-            static::$db->query($sql, ['userId' => $user->id, 'messageId' => $message->id]);
+            static::$db->query($sql, ['userId' => $user->id, 'messageId' => $message->id, 'readStatus' => MessageStatus::READ->value]);
         }
     }
 
