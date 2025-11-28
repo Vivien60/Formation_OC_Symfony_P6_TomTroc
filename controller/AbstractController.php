@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace controller;
 
 use model\AbstractEntity;
+use model\AbstractEntityManager;
 use model\User;
 use services\CsrfToken;
 use services\Utils;
@@ -14,6 +15,7 @@ use view\templates\WithForm;
 abstract class AbstractController
 {
     private ?User $userConnected = null;
+    protected ?AbstractEntityManager $entityManager = null;
 
     protected function userConnected() : ?User
     {

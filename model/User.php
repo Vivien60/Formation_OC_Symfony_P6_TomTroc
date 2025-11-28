@@ -52,7 +52,7 @@ class User extends AbstractEntity
     public function getThreads()
     {
         if(empty($this->threads)) {
-            $this->threads = Thread::lastThreadsUpdatedWithMessage($this);
+            $this->threads = Thread::getManager()->recentThreadsWithMessage($this);
         }
         return $this->threads;
     }
@@ -73,6 +73,12 @@ class User extends AbstractEntity
         $this->password = $password;
         $this->validatePassword();
         $this->hashPassword();
+    }
+
+    public function addThread(Thread $thread): void
+    {
+        $this->getThreads();
+        $this->threads[] = $thread;
     }
 
     protected function hydrate(array $data): void

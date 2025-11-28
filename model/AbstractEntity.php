@@ -28,6 +28,8 @@ abstract class AbstractEntity
      */
     protected static string $selectSql;
 
+    public static ?AbstractEntityManager $manager;
+
     public function __construct($data)
     {
         if (!empty($data)) {
@@ -104,4 +106,9 @@ abstract class AbstractEntity
      * @return bool True if the validation succeeds, false otherwise.
      */
     public abstract function validate() : bool;
+
+    //TODO Vivien : make this function abstract when very entity manager is implemented
+    static protected function getManager() : AbstractEntityManager {
+        return static::$manager;
+    }
 }

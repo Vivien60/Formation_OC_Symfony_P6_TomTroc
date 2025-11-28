@@ -3,7 +3,10 @@ declare(strict_types=1);
 namespace config;
 
 use model\AbstractEntity;
+use model\AbstractEntityManager;
 use model\BookCopy;
+use model\Thread;
+use model\ThreadManager;
 use model\User;
 use services\DBManager;
 use services\Utils;
@@ -24,9 +27,24 @@ class Conf extends \config\AbstractConf
 
     public function deploy(): void
     {
+        $this->deployGeneral();
+        $this->deployManagers();
+    }
+
+    /**
+     * @return void
+     */
+    protected function deployGeneral(): void
+    {
         DBManager::$bddConfig = $this->_config['bddConfig'];
         AbstractHtmlTemplate::setBaseUrl($this->_config['baseUrl']);
         AbstractEntity::$db = DBManager::getInstance();
+        AbstractEntityManager::$db = DBManager::getInstance();
         Utils::$debugFile = dirname(__FILE__, 2) . '/logs/debug.log';
+    }
+
+    protected function deployManagers() : void
+    {
+        Thread::$manager = new ThreadManager();
     }
 }

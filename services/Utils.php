@@ -165,7 +165,11 @@ class Utils
         if(static::$debugFile == '') return;
         $formatLog = "[%s] %s\n";
         $date = date('Y-m-d H:i:s');
-        $message = print_r($value, true);
+        if(!is_string($value)) {
+            $message = print_r($value, true);
+        } else {
+            $message = $value;
+        }
         $logMessage = sprintf($formatLog, $date, $message);
         file_put_contents(static::$debugFile, $logMessage, FILE_APPEND | LOCK_EX);
     }

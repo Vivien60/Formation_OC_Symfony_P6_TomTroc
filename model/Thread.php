@@ -5,6 +5,7 @@ namespace model;
 use DateTime;
 use DateTimeInterface;
 use model\enum\MessageStatus;
+use services\Utils;
 
 class Thread extends AbstractEntity
 {
@@ -12,18 +13,33 @@ class Thread extends AbstractEntity
     /**
      * @var User[] $participants
      */
-    public array $participants;
-
+    public ?array $participants = null {
+        get {
+            if($this->participants === null)
+                $this->loadParticipants();
+            return $this->participants;
+        }
+    }
+    /**
+     * Cache of other participants: the ones who will receive messages sended by current user.
+     * @var User[]
+     */
+    public ?array $otherParticipants = null {
+        get {
+            if($this->otherParticipants === null) {
+                $this->filterOtherParticipants();
+            }
+            return $this->otherParticipants;
+        }
+    }
     /**
      * @var Message[] $messages
      */
     public array $messages = [];
-
     /**
      * @var Message|null $lastMessage
      */
     public ?Message $lastMessage = null;
-
     public DateTimeInterface|string|null $updatedAt = null {
         set {
             if(!is_subclass_of($value, 'DateTimeInterface') && $value !== null) {
@@ -33,11 +49,6 @@ class Thread extends AbstractEntity
             }
         }
     }
-    /**
-     * Cache of other participants : the ones who will receive messages sended by current user.
-     * @var User[]
-     */
-    private array $otherParticipants = [];
 
 
     public function __construct(array $thread, public ?User $currentUser = null )
@@ -48,112 +59,88 @@ class Thread extends AbstractEntity
     protected function hydrate(array $data): void
     {
         parent::hydrate($data);
-        if(!empty($this->currentUser)) {
-            $this->otherParticipants();
-        }
     }
 
-    public static function openNewOne(array $participants) : static
+    public static function create(array $participants) : static
     {
         $thread = new static([
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         $thread->participants = array_map(fn($participant) => User::fromId($participant), $participants);
-        $thread->create();
+        static::getManager()->create($thread);
         return $thread;
     }
 
     public static function openForUser(User $user, int $id, array $threads = []) : ?static
     {
-        $threadToOpen = null;
-        if(empty($threads)) {
-            $threads = static::fromParticipant($user);
-        }
-        if(empty($threads)) {
-            return null;
-        }
         if($id === 0) {
-            $threadToOpen = $threads[0];
+            $threadToOpen = static::defaultThreadToOpen($user, $threads);
         } else {
-            foreach($threads as $thread) {
-                if($thread->id === $id) {
-                    $threadToOpen = $thread;
-                    break;
-                }
-            }
+            $threadToOpen = static::findFromArrayAndRef($threads, $id);
         }
-        $threadToOpen->getMessages();
-        $threadToOpen?->markAsRead($user);
+        $threadToOpen->currentUser = $user;
+        $threadToOpen->markAsRead($user);
         return $threadToOpen;
     }
 
-    public function getParticipants()
+    protected static function defaultThreadToOpen(User $user, array $threads) : ?static
     {
-        if(empty($this->participants)) {
-            $sql = "select user_id from participate where thread_id = :threadId";
-            $stmt = static::$db->query($sql, ['threadId' => $this->id]);
-            $this->participants = array_map(fn($participant) => User::fromId($participant['user_id']), $stmt->fetchAll());
+        if(empty($threads)) {
+            $threads = static::getManager()->fromParticipant($user);
         }
+        return empty($threads) ? null : $threads[0];
+    }
+
+    /**
+     * @param array $threads
+     * @param int $id
+     * @return Thread|null
+     */
+    protected static function findFromArrayAndRef(array $threads, int $id): ?static
+    {
+        $threadToOpen = null;
+        foreach ($threads as $thread) {
+            if ($thread->id === $id) {
+                $threadToOpen = $thread;
+                break;
+            }
+        }
+        return $threadToOpen;
+    }
+
+    /**
+     * @param mixed $threadToOpen
+     * @param User $user
+     * @return void
+     */
+    protected function markAsRead(User $user): void
+    {
+        static::getManager()->persistReadStatusForThread($this, $user);
+    }
+
+    /**
+     * @return array|User[]|null[]
+     */
+    private function loadParticipants() : array
+    {
+        Utils::trace(__METHOD__);
+        $this->participants = self::getManager()->loadParticipants($this);
         return $this->participants;
     }
 
     /**
-     * Returns the other participants from the point of view of the user requesting thread.
-     * It means it returns the people who will receive his messages.
-     * @param User $userAsking
-     * @return array
+     * Load the other participants from the point of view of the user requesting thread.
+     * It means it will contain the people who will receive his messages.
      */
-    public function otherParticipants() : array
+    public function filterOtherParticipants() : array
     {
-        if(empty($this->getParticipants()) || empty($this->currentUser)) {
-            return [];
-        }
-        if(empty($this->otherParticipants)) {
-            $this->otherParticipants = array_filter($this->getParticipants(), fn($participant) => ($participant->id != $this->currentUser->id));
+        if(empty($this->currentUser)) {
+            $this->otherParticipants = [];
+        } else {
+            $this->otherParticipants = array_values(array_filter($this->participants, fn($participant) => ($participant->id != $this->currentUser->id)));
         }
         return $this->otherParticipants;
-    }
-
-    /**
-     * List threads ordered from the most recent message received to the latest.
-     * Add the last Message to the list of threads returned.
-     * @param User $user
-     * @return array
-     */
-    public static function lastThreadsUpdatedWithMessage(User $user) : array
-    {
-        $threads = [];
-        $latestMessagesByThread = Message::latestByThreadsFor($user);
-        foreach($latestMessagesByThread as $latestMessage) {
-            $thread = Thread::fromId($latestMessage->threadId);
-            $thread->lastMessage = $latestMessage;
-            $thread->currentUser = $user;
-            $threads[] = $thread;
-        }
-        return $threads;
-    }
-
-    /**
-     * Returns the threads the user is participating in.
-     * @param User $user
-     * @return Thread[]
-     */
-    public static function fromParticipant(User $user) : array
-    {
-        $sql = static::$selectSql." 
-                    inner join participate p on thread.id = p.thread_id 
-                    where p.user_id = :userId
-                    order by thread.updated_at desc";
-        $stmt = static::$db->query($sql, ['userId' => $user->id]);
-
-        return array_map(static::fromArray(...), $stmt->fetchAll());
-    }
-
-    public function create() : void
-    {
-        $this->store();
-        $this->storeParticipants();
     }
 
     public function getMessages() : array
@@ -182,7 +169,7 @@ class Thread extends AbstractEntity
         //TODO : Utiliser un repo pourrait permettre de laisser à Thread l'orchestration du rank
         $message = $this->createMessage($author, $content);
         $this->addMessage($message);
-        $this->addMessageStatus($message, $this->otherParticipants($author));
+        $this->addMessageStatus($message, $this->filterOtherParticipants($author));
         $this->updateLastDateModification();
     }
 
@@ -212,7 +199,7 @@ class Thread extends AbstractEntity
     protected function updateLastDateModification(): void
     {
         $this->updatedAt = date("Y-m-d H:i:s");
-        $this->save();
+        static::getManager()->save($this);
     }
 
     /**
@@ -243,47 +230,13 @@ class Thread extends AbstractEntity
         }
     }
 
-    private function store() : void
-    {
-        $sql = "insert into thread (created_at, updated_at) values (:created_at, :updated_at)";
-        static::$db->query($sql, [
-            'created_at' => $this->createdAt->format("Y-m-d H:i:s"),
-            'updated_at' => $this->updatedAt->format("Y-m-d H:i:s")
-        ]);
-        $this->id = (int)static::$db->getPDO()->lastInsertId();
-    }
-
-    private function save()
-    {
-        $sql = "update thread set updated_at = :updated_at where id = :id";
-        static::$db->query($sql, [
-            'updated_at' => $this->updatedAt->format("Y-m-d H:i:s"),
-            'id' => $this->id
-        ]);
-    }
-
-    private function storeParticipants()
-    {
-        $sql = "insert into participate (thread_id, user_id) values (:threadId, :userId)";
-        foreach($this->participants as $participant)
-        {
-            static::$db->query($sql, ['threadId' => $this->id, 'userId' => $participant->id]);
-        }
-    }
-
-    private function markAsRead(User $user)
-    {
-        $sql = "insert into message_status (user_id, message_id, status)
-                values (:userId, :messageId, :readStatus) 
-                on duplicate key update status = :readStatus";
-        foreach($this->getMessages() as $message) {
-            static::$db->query($sql, ['userId' => $user->id, 'messageId' => $message->id, 'readStatus' => MessageStatus::READ->value]);
-        }
-    }
-
-
     public function validate(): bool
     {
         return true;
+    }
+
+    protected static function getManager(): ThreadManager
+    {
+        return static::$manager;
     }
 }

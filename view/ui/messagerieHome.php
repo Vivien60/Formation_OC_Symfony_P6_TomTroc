@@ -14,7 +14,7 @@ use view\templates\MessagerieHome;
             <ul>
                 <?php
                 foreach($this->threads as $thread) :
-                    $dest = $thread->otherParticipants()[0];
+                    $dest = $thread->otherParticipants[0];
                     $message = $thread->getLastMessage();
                     if($thread->id === $this->thread?->id) {
                         $classThread="card card--row card--thread card--active";
