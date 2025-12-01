@@ -146,7 +146,7 @@ class Thread extends AbstractEntity
     public function getMessages() : array
     {
         if(empty($this->messages)) {
-            $this->messages = Message::fromThread($this);
+            $this->messages = MessageManager::fromThread($this);
         }
         return $this->messages;
     }
@@ -169,7 +169,7 @@ class Thread extends AbstractEntity
         //TODO : Utiliser un repo pourrait permettre de laisser à Thread l'orchestration du rank
         $message = $this->createMessage($author, $content);
         $this->addMessage($message);
-        $this->addMessageStatus($message, $this->filterOtherParticipants($author));
+        static::getManager()->addMessageStatus($message, $this->filterOtherParticipants($author));
         $this->updateLastDateModification();
     }
 
@@ -190,9 +190,11 @@ class Thread extends AbstractEntity
             'rank' => count($this->getMessages()) + 1,
         ]);
         $message->validate();
-        $message->save();
+        $manager = new MessageManager();
+        $manager->save($message);
         return $message;
     }
+
     /**
      * @return void
      */
@@ -212,30 +214,15 @@ class Thread extends AbstractEntity
         $this->messages[] = $message;
     }
 
-    /**
-     * Updates the status of a message for all participants except the author.
-     * @param Message $message The message object whose status needs to be updated.
-     * @param array $recipients An array of participants recipients
-     * @return void
-     */
-    private function addMessageStatus(Message $message, array $recipients): void
-    {
-        foreach($recipients as $participant) {
-            $sql = "insert into message_status (user_id, message_id, status)
-                    values (:userId, :messageId, :status) 
-                    on duplicate key update status = :status";
-            $stmt = static::$db->query($sql, [
-                'userId' => $participant->id, 'messageId' => $message->id, 'status' => MessageStatus::UNREAD->value
-            ]);
-        }
-    }
-
     public function validate(): bool
     {
         return true;
     }
 
-    protected static function getManager(): ThreadManager
+    /**
+     * @return ThreadManager
+     */
+    protected static function getManager(): AbstractEntityManager
     {
         return static::$manager;
     }

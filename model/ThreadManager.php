@@ -2,10 +2,7 @@
 declare(strict_types=1);
 namespace model;
 
-use DateTime;
-use DateTimeInterface;
 use model\enum\MessageStatus;
-use services\Utils;
 
 class ThreadManager extends AbstractEntityManager
 {
@@ -37,7 +34,7 @@ class ThreadManager extends AbstractEntityManager
     public function recentThreadsWithMessage(User $user) : array
     {
         $threads = [];
-        $latestMessagesByThread = Message::latestByThreadsFor($user);
+        $latestMessagesByThread = MessageManager::latestByThreadsFor($user);
         foreach($latestMessagesByThread as $latestMessage) {
             $thread = $this->fromId($latestMessage->threadId);
             $thread->lastMessage = $latestMessage;
@@ -105,5 +102,23 @@ class ThreadManager extends AbstractEntityManager
     {
         $this->store($thread);
         $this->storeParticipants($thread);
+    }
+
+    /**
+     * Updates the status of a message for all participants except the author.
+     * @param Message $message The message object whose status needs to be updated.
+     * @param array $recipients An array of participants recipients
+     * @return void
+     */
+    public function addMessageStatus(Message $message, array $recipients): void
+    {
+        foreach($recipients as $participant) {
+            $sql = "insert into message_status (user_id, message_id, status)
+                    values (:userId, :messageId, :status) 
+                    on duplicate key update status = :status";
+            $stmt = static::$db->query($sql, [
+                'userId' => $participant->id, 'messageId' => $message->id, 'status' => MessageStatus::UNREAD->value
+            ]);
+        }
     }
 }

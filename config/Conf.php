@@ -5,6 +5,7 @@ namespace config;
 use model\AbstractEntity;
 use model\AbstractEntityManager;
 use model\BookCopy;
+use model\MessageManager;
 use model\Thread;
 use model\ThreadManager;
 use model\User;
