@@ -6,6 +6,7 @@ use DateTime;
 use DateTimeInterface;
 use PDO;
 use services\DBManager;
+use services\Utils;
 
 abstract class AbstractEntityManager
 {
@@ -17,23 +18,24 @@ abstract class AbstractEntityManager
      */
     protected static string $selectSql;
 
-    public function __construct()
+    public function __construct(protected string $entityClass)
     {
     }
 
-    public static function fromArray(array $fieldVals) : static
+    public function fromArray(array $fieldVals) : AbstractEntity
     {
-        return new static($fieldVals);
+        return $this->entityClass::fromArray($fieldVals);
     }
 
-    public function fromId(int $id) : ?Thread
+    public function fromId(int $id) : ?AbstractEntity
     {
         $sql = static::$selectSql . " where id = :id";
         $stmt = static::$db->query($sql, ['id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        Utils::trace($result);
         if(empty($result['id']))
             return null;
-        return Thread::fromArray($result);
+        return $this->fromArray($result);
     }
 
     /**

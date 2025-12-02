@@ -124,7 +124,6 @@ class Thread extends AbstractEntity
      */
     private function loadParticipants() : array
     {
-        Utils::trace(__METHOD__);
         $this->participants = self::getManager()->loadParticipants($this);
         return $this->participants;
     }

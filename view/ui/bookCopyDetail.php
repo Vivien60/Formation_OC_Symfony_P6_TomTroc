@@ -32,7 +32,7 @@ return
             <h2>Propriétaire</h2>
             {$htmlCards}
         </div>
-        <a class="bigButton bigButon--max-size" href="?action=write-message&to={$this->book->ownerId}">Envoyer un message</a>
+        <a class="bigButton bigButon--max-size" href="?action=write-message&to={$this->book->userId}">Envoyer un message</a>
     </div>
 </div>
 HTML;

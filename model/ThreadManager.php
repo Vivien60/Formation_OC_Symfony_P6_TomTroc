@@ -10,7 +10,7 @@ class ThreadManager extends AbstractEntityManager
 
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct(Thread::class);
     }
 
     public function openNewOne(array $participants) : Thread
@@ -57,7 +57,7 @@ class ThreadManager extends AbstractEntityManager
                     order by thread.updated_at desc";
         $stmt = static::$db->query($sql, ['userId' => $user->id]);
 
-        return array_map(static::fromArray(...), $stmt->fetchAll());
+        return array_map(Thread::fromArray(...), $stmt->fetchAll());
     }
 
     public function store(Thread $thread) : void

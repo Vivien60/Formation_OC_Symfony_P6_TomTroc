@@ -14,7 +14,7 @@ class MessageManager extends AbstractEntityManager
 
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct(Message::class);
     }
 
     /**

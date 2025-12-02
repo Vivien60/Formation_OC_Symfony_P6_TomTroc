@@ -188,7 +188,8 @@ class User extends AbstractEntity
 
     public function retrieveLibrary()
     {
-        $this->library = BookCopy::fromOwner($this);
+        $bookManager = new BookCopyManager();
+        $this->library = $bookManager->fromOwner($this);
     }
 
     public function getUnreadMessagesCount() : int

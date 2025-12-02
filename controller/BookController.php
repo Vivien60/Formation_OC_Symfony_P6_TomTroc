@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace controller;
 
 use model\BookCopy;
+use model\BookCopyManager;
 use services\MediaManager;
 use services\Utils;
 use view\layouts\ConnectedLayout;
@@ -12,6 +13,11 @@ use view\templates\BookCopyEdit;
 
 class BookController extends AbstractController
 {
+    public function __construct()
+    {
+        $this->entityManager = new BookCopyManager();
+    }
+
     public function copyDetail() : void
     {
         //TODO : here we assume the controller has the responsibility to redirect.
@@ -31,8 +37,11 @@ class BookController extends AbstractController
         if(!$this->performSecurityChecks())
             return;
         $refBook = intval(Utils::request('id', '0'));
-        $bookCopy = BookCopy::fromId($refBook);
+        $bookCopy = $this->entityManager->fromId($refBook);
+        Utils::trace("BookCopyManager::displayBookCopyForEdition");
+        Utils::trace($bookCopy);
         if($bookCopy) {
+            $this->entityManager->withUser($bookCopy);
             if ($bookCopy->owner->id != $this->userConnected()->id) {
                 echo $this->renderNotAllowed();
                 return;
@@ -50,11 +59,13 @@ class BookController extends AbstractController
         if(!$this->performSecurityChecks())
             return;
         $bookRef = intval(Utils::request('id', '0'));
-        if($bookRef == 0) {
+        Utils::trace("saveCopy : $bookRef");
+        if($bookRef <= 0) {
             $this->addCopyToUserLibrary();
         } else {
-            $bookCopy = BookCopy::fromId($bookRef);
-            if($bookCopy->owner->id != $this->userConnected()->id) {
+            $bookCopy = $this->entityManager->fromId($bookRef);
+            $this->entityManager->withUser($bookCopy);
+            if($bookCopy?->owner->id != $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
                 return;
             }
@@ -63,14 +74,14 @@ class BookController extends AbstractController
                 'title' => Utils::request('title', ''),
                 'author' => Utils::request('author', ''),
                 'description' => Utils::request('description', ''),
-                'availabilityStatus' => Utils::request('availability', 0),
+                'availabilityStatus' => (int)Utils::request('availability', 0),
             ];
             $bookCopy->modify($bookCopyValues);
             if(!$this->validation($bookCopy))
                 return;
 
             try {
-                $bookCopy->save();
+                $this->entityManager->save($bookCopy);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
@@ -90,7 +101,7 @@ class BookController extends AbstractController
                 return;
             }
             try {
-                $bookCopy->delete();
+                $this->entityManager->delete($bookCopy);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
@@ -103,15 +114,22 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         if(!$this->performSecurityChecks())
             return;
-        $bookCopy = BookCopy::fromArray($_REQUEST);
+        $bookCopyValues = [
+            'title' => Utils::request('title', ''),
+            'author' => Utils::request('author', ''),
+            'description' => Utils::request('description', ''),
+            'availabilityStatus' => (int)Utils::request('availability', 0),
+        ];
+        $bookCopy = BookCopy::fromArray($bookCopyValues);
         $bookCopy->owner = $this->userConnected();
         if(!$this->validation($bookCopy))
             return;
         try {
-            $bookCopy->create();
+            $this->entityManager->create($bookCopy);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
+        Utils::redirect('book-copy-edit-form', ['id' => $bookCopy->id]);
     }
 
     public function listBooksForExchange() : void
@@ -122,9 +140,9 @@ class BookController extends AbstractController
         try {
             $searchTerm = Utils::request('search');
             if($searchTerm) {
-                $bookCopies = BookCopy::searchBooksForExchange($searchTerm);
+                $bookCopies = $this->entityManager->searchBooksForExchange($searchTerm);
             } else {
-                $bookCopies = BookCopy::listAvailableBookCopies();
+                $bookCopies = $this->entityManager->listAvailableBookCopies();
             }
             $view = new BookCopiesAvailableList(new ConnectedLayout());
             $view->books = $bookCopies;
@@ -139,8 +157,9 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         if(!$this->performSecurityChecks())
             return;
-        $bookCopy = BookCopy::fromId(intval(Utils::request('id', '0')));
+        $bookCopy = $this->entityManager->fromId(intval(Utils::request('id', '0')));
         if($bookCopy) {
+            $this->entityManager->withUser($bookCopy);
             if($bookCopy->owner->id != $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
                 return;
@@ -154,7 +173,7 @@ class BookController extends AbstractController
             }
             $bookCopy->image = $mediaMng->filename();
             try {
-                $bookCopy->save();
+                $this->entityManager->save($bookCopy);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace controller;
 
 use model\BookCopy;
+use model\BookCopyManager;
 use services\Utils;
 use view\layouts\NonConnectedLayout;
 use view\templates\{Index, SignInForm, SignUpForm};
@@ -12,8 +13,9 @@ class IndexController extends AbstractController
 {
     public function index() : void
     {
+        $booksManager = new BookCopyManager();
         $layout = new NonConnectedLayout(); //Squelette de la page
-        $view = new Index($layout, BookCopy::listAvailableBookCopies(4));
+        $view = new Index($layout, $booksManager->listAvailableBookCopies(4));
         echo $this->renderView($view);
     }
 
