@@ -5,6 +5,7 @@ namespace controller;
 use model\AbstractEntity;
 use model\AbstractEntityManager;
 use model\User;
+use model\UserManager;
 use services\CsrfToken;
 use services\Utils;
 use view\layouts\ErrorLayout;
@@ -20,7 +21,8 @@ abstract class AbstractController
     protected function userConnected() : ?User
     {
         if(!$this->userConnected) {
-            $this->userConnected = User::fromMemory();
+            $manager = new UserManager();
+            $this->userConnected = $manager->fromMemory();
         }
         return $this->userConnected;
     }

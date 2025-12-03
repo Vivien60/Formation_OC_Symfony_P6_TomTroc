@@ -87,71 +87,10 @@ class User extends AbstractEntity
         $this->avatar = $this->avatar?:'default.png';
     }
 
-    public static function fromEmail(string $email) : ?User
-    {
-        $sql = static::$selectSql." where email = :email";
-        $stmt = static::$db->query($sql, ['email' => $email]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(empty($result['id']))
-            return null;
-        return static::fromArray($result);
-    }
-
-    public static function fromMemory() : ?User
-    {
-        return !empty($_SESSION['user'])? static::fromId($_SESSION['user']) : null;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function save() : void
-    {
-        if(!User::fromId($this->id)) {
-            throw new \Exception('User not found');
-        }
-        if($this->identifyAnotherUser()) {
-            throw new \Exception('Another user exist with this information');
-        }
-        $sql = "update user set username = :username, email = :email, password = :password, avatar = :avatar, created_at = :created_at where id = :id";
-        $stmt = static::$db->query($sql, [
-            'id' => $this->id,
-            'username' => $this->username,
-            'email' => $this->email,
-            'password' => $this->password,
-            'avatar' => $this->avatar,
-            'created_at' => $this->createdAt->format("Y-m-d H:i:s")
-        ]);
-        $stmt->execute();
-    }
-
-    public function create() : void
-    {
-        if($this->isAnyMissingField()) {
-            throw new \Exception('Missing fields');
-        }
-        if($this->identifyAnotherUser()) {
-            throw new \Exception('User already registered');
-        }
-        $this->hashPassword();
-        $sql = "insert into user (username, email, password, avatar, created_at) values (:username, :email, :password, :avatar, NOW())";
-        $stmt = static::$db->query($sql, [
-            'username' => $this->username,
-            'email' => $this->email,
-            'password' => $this->password,
-            'avatar' => $this->avatar,
-        ]);
-        $this->id = (int)static::$db->getPDO()->lastInsertId();
-    }
-
-    public function toMemory(): void
-    {
-        $_SESSION['user'] = $this->id;
-    }
-
     public static function authenticate($email, $password) : ?static
     {
-        $user = User::fromEmail($email);
+        $manager = new UserManager();
+        $user = $manager->fromEmail($email);
         if (!$user) {
             return null;
         }
@@ -163,22 +102,7 @@ class User extends AbstractEntity
         return $user;
     }
 
-
-    protected function identifyAnotherUser(): bool
-    {
-        $sql = "select * from user where (email = :email or username = :username) and id != :id";
-        $stmt = static::$db->query(
-            $sql,
-            [
-                'email' => $this->email,
-                'username' => $this->username,
-                'id' => $this->id,
-            ]);
-        $nb = $stmt->fetchColumn();
-        return $nb > 0;
-    }
-
-    private function isAnyMissingField() : bool
+    public function isAnyMissingField() : bool
     {
         if(empty($this->username) || empty($this->password) || empty($this->email)) {
             return true;
@@ -214,6 +138,14 @@ class User extends AbstractEntity
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         return $this->password;
     }
+
+    public function getUniqueIdentifiers(): array {
+        return [
+            'email' => $this->email,
+            'username' => $this->username,
+        ];
+    }
+
 
     /**
      * @return bool

@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace controller;
 
 use model\BookCopy;
+use model\BookCopyManager;
 use model\User;
+use model\UserManager;
 use services\MediaManager;
 use services\Utils;
 use view\layouts\ConnectedLayout;
@@ -16,6 +18,11 @@ use view\templates\ReadProfile;
 
 class UserController extends AbstractController
 {
+    public function __construct()
+    {
+        $this->entityManager = new UserManager();
+    }
+
     public function signUp() : void
     {
         $username = Utils::request('username');
@@ -29,8 +36,8 @@ class UserController extends AbstractController
         if(!$this->performSecurityChecks() || !$this->validation($user))
             return;
         try {
-            $user->create();
-            $user->toMemory();
+            $this->entityManager->create($user);
+            $this->entityManager->toMemory($user);
         } catch (\Exception $e) {
             $view = new Error(new ErrorLayout(), $e);
             echo $this->renderView($view);
@@ -56,7 +63,7 @@ class UserController extends AbstractController
         if($user = User::authenticate($email, $password)){
             $_SESSION = array();
             session_regenerate_id(true);
-            $user->toMemory();
+            $this->entityManager->toMemory($user);
             Utils::redirect('edit-profile-form');
         } else {
             echo "Authentification error";
@@ -85,7 +92,7 @@ class UserController extends AbstractController
     public function editProfile() : void
     {
         $this->redirectIfNotLoggedIn();
-        $user = User::fromMemory();
+        $user = $this->entityManager->fromMemory();
         $id = Utils::request('id',0);
         if($id && $user?->id !== $id) {
             $view = new NotAllowed(new ErrorLayout());
@@ -110,8 +117,8 @@ class UserController extends AbstractController
             $user->newPassword(Utils::request('password', ''));
             if(!$this->validation($user))
                 return;
-            $user->save();
-            $user->toMemory();
+            $this->entityManager->save($user);
+            $this->entityManager->toMemory($user);
         } catch (\Exception $e) {
             $view = new Error(new ErrorLayout(), $e);
             echo $this->renderView($view);
@@ -126,7 +133,8 @@ class UserController extends AbstractController
         $id = intval(Utils::request('id', 0));
         $profile = User::fromId($id);
         if(!empty($profile)) {
-            $view = new ReadProfile(new ConnectedLayout(), $profile, BookCopy::fromOwner($profile));
+            $bookCopyManager = new BookCopyManager();
+            $view = new ReadProfile(new ConnectedLayout(), $profile, $bookCopyManager->fromOwner($profile));
         } else  {
             $view = $this->viewNotAllowed();
         }
@@ -138,7 +146,7 @@ class UserController extends AbstractController
         $this->redirectIfNotLoggedIn();
         if(!$this->performSecurityChecks())
             return;
-        $user = User::fromMemory();
+        $user = $this->entityManager->fromMemory();
         $id = intval(Utils::request('id',0));
         if($id && $user?->id !== $id) {
             $view = new NotAllowed(new ErrorLayout());
@@ -149,12 +157,12 @@ class UserController extends AbstractController
             $mediaMng = new MediaManager('image', $user);
             $mediaMng->handleFile();
         } catch (\Exception $e) {
-            echo $this->renderViewNotAllowed;
+            echo $this->renderNotAllowed($e);
             return;
         }
         $user->avatar = $mediaMng->filename();
         try {
-            $user->save();
+            $this->entityManager->save($user);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
