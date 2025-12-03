@@ -2,17 +2,16 @@
 declare(strict_types=1);
 session_start();
 
-require_once 'config/autoload.php';
-use config\Conf;
-use services\Utils;
-use controller\{
-    BookController,
+require_once 'src/config/autoload.php';
+
+use controller\{BookController,
     ErrorController,
     IndexController,
     MessagerieController,
     ThreadController,
-    UserController,
-};
+    UserController,};
+use lib\Utils;
+use config\Conf;
 
 //TODO VIVIEN: protection failles XSS
 
