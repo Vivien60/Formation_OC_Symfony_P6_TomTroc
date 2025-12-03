@@ -7,7 +7,7 @@ class BookCopySearch
     private array $searchFieldsAllowed = ['author', 'title', 'description', 'availabilityStatus'];
     private array $searchParams = [];
 
-    public function __construct(string $searchTerm = '')
+    public function __construct(?string $searchTerm = '')
     {
         if(!empty($searchTerm)) {
             $this->searchParams = ['author' => "%$searchTerm%", 'title' => "%$searchTerm%",];

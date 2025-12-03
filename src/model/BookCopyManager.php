@@ -25,47 +25,57 @@ class BookCopyManager extends AbstractEntityManager
     }
 
     /**
-     * @return static[]
-     */
-    public function listAvailableBookCopies(int $limit = 0): array
-    {
-        $searchBook = new BookCopySearch();
-        $sql = $this->buildAvailableBooksQuery($searchBook, $limit);
-        return self::queryBooks($sql);
-    }
-
-    /**
      * @param mixed $searchTerm
      * @param int $limit
      * @return BookCopy[]
      */
-    public function searchBooksForExchange(mixed $searchTerm, int $limit = 0) : array
+    public function searchBooksForExchange(BookCopySearch $searchBook, int $limit = 0) : array
     {
-        $searchBook = new BookCopySearch($searchTerm);
-        $sql = $this->buildAvailableBooksQuery($searchBook, $limit);
+        $sql = $this->buildAvailableBooksQuery($searchBook->getSearchFieldsAllowed(), $searchBook->getSearchParams(), $limit);
         return self::queryBooks($sql, $searchBook->getSearchParams());
     }
 
-    private function buildAvailableBooksQuery(BookCopySearch $search, int $limit = 0) : string
+    private function buildAvailableBooksQuery(array $searchFieldsAllowed, array $searchParams, int $limit = 0) : string
     {
-        $sqlBase = static::$selectSql." where availability_status = %s and (%s)";
+        $sqlBase = $this->buildMainSqlSearch($limit);
+        $sqlSearch = $this->getSqlSearchFilter($searchParams, $searchFieldsAllowed);
+        return sprintf($sqlBase, BookAvailabilityStatus::AVAILABLE->value, $sqlSearch);
+    }
+
+    /**
+     * @param int $limit
+     * @return string
+     */
+    protected function buildMainSqlSearch(int $limit): string
+    {
+        $sqlBase = static::$selectSql . " where availability_status = %s and (%s)";
         $limit = intval($limit);
         $sqlBase .= $limit > 0 ? " limit $limit" : "";
-        if(empty($searchParams)) {
-            $sqlSearchPart = ["1=1"];
-        } else {
+        return $sqlBase;
+    }
 
-            foreach($searchParams as $key => $value) {
-                if(!in_array($key, $search->getSearchFieldsAllowed())) {
+    /**
+     * @param array $searchParams
+     * @param array $searchFieldsAllowed
+     * @return string
+     */
+    protected function getSqlSearchFilter(array $searchParams, array $searchFieldsAllowed): string
+    {
+        $sqlSearchPart = [];
+        if (!empty($searchParams)) {
+            foreach ($searchParams as $key => $value) {
+                if (!in_array($key, $searchFieldsAllowed)) {
                     continue;
                 }
                 $fieldName = static::propertyToField($key);
                 $sqlSearchPart[] = "$fieldName like :$key";
             }
         }
-        $sqlSearch = implode(" or ", $sqlSearchPart);
-        $sql = sprintf($sqlBase, BookAvailabilityStatus::AVAILABLE->value, $sqlSearch);
-        return $sql;
+        if(empty($sqlSearchPart)) {
+            $sqlSearchPart = ["1=1"];
+        }
+
+        return implode(" or ", $sqlSearchPart);
     }
 
     public function fromOwner(User $owner) : array

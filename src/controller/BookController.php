@@ -6,6 +6,7 @@ use model\BookCopy;
 use model\BookCopyManager;
 use lib\MediaManager;
 use lib\Utils;
+use model\BookCopySearch;
 use view\layouts\ConnectedLayout;
 use view\templates\BookCopiesAvailableList;
 use view\templates\BookCopyDetail;
@@ -139,11 +140,8 @@ class BookController extends AbstractController
             return;
         try {
             $searchTerm = Utils::request('search');
-            if($searchTerm) {
-                $bookCopies = $this->entityManager->searchBooksForExchange($searchTerm);
-            } else {
-                $bookCopies = $this->entityManager->listAvailableBookCopies();
-            }
+            $searchBook = new BookCopySearch($searchTerm);
+            $bookCopies = $this->entityManager->searchBooksForExchange($searchBook);
             $view = new BookCopiesAvailableList(new ConnectedLayout());
             $view->books = $bookCopies;
             echo $this->renderView($view);
