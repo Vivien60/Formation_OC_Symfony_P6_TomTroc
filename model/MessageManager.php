@@ -2,11 +2,7 @@
 declare(strict_types=1);
 namespace model;
 
-use DateTime;
-use DateTimeInterface;
-use model\enum\MessageStatus;
 use PDO;
-use services\Utils;
 
 class MessageManager extends AbstractEntityManager
 {

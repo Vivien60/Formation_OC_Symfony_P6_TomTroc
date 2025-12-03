@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace model;
 
-use PDO;
-
 class Message extends AbstractEntity
 {
     public int $author = -1;

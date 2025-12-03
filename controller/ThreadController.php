@@ -50,7 +50,6 @@ class ThreadController extends AbstractController
             echo $this->renderView($view);
             return;
         }
-        $threads = $this->entityManager->fromParticipant($this->userConnected());
 
         Utils::redirect('messagerie', ['thread' => $threadRef ]);
     }

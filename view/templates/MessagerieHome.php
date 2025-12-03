@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace view\templates;
 
-use model\BookCopy;
 use model\Thread;
 use model\User;
 use services\Utils;

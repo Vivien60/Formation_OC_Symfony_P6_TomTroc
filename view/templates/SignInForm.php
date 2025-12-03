@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace view\templates;
 
-use model\User;
 use \view\layouts\AbstractLayout;
 
 class SignInForm extends AbstractHtmlTemplate implements WithForm

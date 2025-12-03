@@ -2,14 +2,12 @@
 declare(strict_types=1);
 namespace controller;
 
-use model\Thread;
-use model\User;
 use services\Utils;
 use view\templates\MessagerieHome;
 
 class MessagerieController extends AbstractController
 {
-    public function home()
+    public function home() : void
     {
         $this->redirectIfNotLoggedIn();
         if(!$this->performSecurityChecks())

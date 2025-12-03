@@ -11,12 +11,12 @@ class CsrfToken implements \Stringable
         $this->store();
     }
 
-    private function generate()
+    private function generate() : void
     {
         $this->token = bin2hex(random_bytes(32));
     }
 
-    private function store()
+    private function store() : void
     {
         $_SESSION['csrf_token'] = $this->token;
     }

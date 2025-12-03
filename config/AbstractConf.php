@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace config;
 
-use services\DBManager;
-
 abstract class AbstractConf
 {
     private static ?self $instance = null;

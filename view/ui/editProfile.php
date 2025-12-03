@@ -1,7 +1,6 @@
 <?php
 
 use services\Utils;
-use view\templates\AbstractHtmlTemplate;
 /**
  * @var \view\templates\EditProfile $this
  */

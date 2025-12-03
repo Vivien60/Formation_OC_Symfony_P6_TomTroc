@@ -70,7 +70,7 @@ class ThreadManager extends AbstractEntityManager
         $thread->id = (int)static::$db->getPDO()->lastInsertId();
     }
 
-    public function save(Thread $thread)
+    public function save(Thread $thread) : void
     {
         $sql = "update thread set updated_at = :updated_at where id = :id";
         static::$db->query($sql, [
@@ -79,7 +79,7 @@ class ThreadManager extends AbstractEntityManager
         ]);
     }
 
-    public function storeParticipants(Thread $thread)
+    public function storeParticipants(Thread $thread) : void
     {
         $sql = "insert into participate (thread_id, user_id) values (:threadId, :userId)";
         foreach($thread->participants as $participant)
@@ -88,7 +88,7 @@ class ThreadManager extends AbstractEntityManager
         }
     }
 
-    public function persistReadStatusForThread(Thread $thread, User $user)
+    public function persistReadStatusForThread(Thread $thread, User $user) : void
     {
         $sql = "insert into message_status (user_id, message_id, status)
                 values (:userId, :messageId, :readStatus) 

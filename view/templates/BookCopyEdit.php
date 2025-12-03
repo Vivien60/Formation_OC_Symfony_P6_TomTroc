@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace view\templates;
 
 use model\BookCopy;
-use services\Utils;
 use \view\layouts\AbstractLayout;
 
 class BookCopyEdit extends AbstractHtmlTemplate implements WithForm

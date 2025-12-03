@@ -4,8 +4,6 @@ namespace model;
 
 use DateTime;
 use DateTimeInterface;
-use model\enum\MessageStatus;
-use services\Utils;
 
 class Thread extends AbstractEntity
 {
@@ -110,7 +108,6 @@ class Thread extends AbstractEntity
     }
 
     /**
-     * @param mixed $threadToOpen
      * @param User $user
      * @return void
      */

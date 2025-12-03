@@ -5,7 +5,6 @@ namespace view\templates;
 
 use model\BookCopy;
 use model\User;
-use services\Utils;
 use \view\layouts\AbstractLayout;
 
 class BookCopyDetail extends AbstractHtmlTemplate

@@ -43,7 +43,7 @@ class MediaManager
         return $this;
     }
 
-    protected function performSecurityCheck()
+    protected function performSecurityCheck() : bool
     {
         $extension = pathinfo($this->fileInfo['name'], PATHINFO_EXTENSION);
         switch($this->fileInfo['type']) {

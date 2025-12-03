@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace controller;
 
-use model\BookCopy;
 use model\BookCopyManager;
-use services\Utils;
 use view\layouts\NonConnectedLayout;
 use view\templates\{Index, SignInForm, SignUpForm};
 
@@ -26,7 +24,7 @@ class IndexController extends AbstractController
         echo $this->renderView($view);
     }
 
-    public function displaySignInForm()
+    public function displaySignInForm() : void
     {
         $layout = new NonConnectedLayout();
         $view = new SignInForm($layout);

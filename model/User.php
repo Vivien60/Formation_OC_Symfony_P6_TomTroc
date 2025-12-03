@@ -3,10 +3,7 @@ declare(strict_types=1);
 
 namespace model;
 
-use DateTime;
 use model\enum\MessageStatus;
-use PDO;
-use services\DBManager;
 
 class User extends AbstractEntity
 {
@@ -49,7 +46,10 @@ class User extends AbstractEntity
         parent::__construct($fieldVals);
     }
 
-    public function getThreads()
+    /**
+     * @return Thread[]
+     */
+    public function getThreads() : array
     {
         if(empty($this->threads)) {
             $this->threads = Thread::getManager()->recentThreadsWithMessage($this);
@@ -66,7 +66,7 @@ class User extends AbstractEntity
         return Thread::openForUser($this, $id, $this->threads);
     }
 
-    public function newPassword(string $password)
+    public function newPassword(string $password) : void
     {
         if(empty($password))
             return;
@@ -110,7 +110,7 @@ class User extends AbstractEntity
         return false;
     }
 
-    public function retrieveLibrary()
+    public function retrieveLibrary() : void
     {
         $bookManager = new BookCopyManager();
         $this->library = $bookManager->fromOwner($this);
@@ -133,7 +133,7 @@ class User extends AbstractEntity
         return intval($stmt->fetchColumn());
     }
 
-    public function hashPassword()
+    public function hashPassword() : string
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         return $this->password;
@@ -159,7 +159,7 @@ class User extends AbstractEntity
         return true;
     }
 
-    private function validatePassword()
+    private function validatePassword() : void
     {
         if ($this->password === null ||
             (strlen($this->password) < 8 || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', $this->password))) {

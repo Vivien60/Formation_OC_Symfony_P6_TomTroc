@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace model;
 
-use model\enum\MessageStatus;
 use PDO;
 
 class UserManager extends AbstractEntityManager

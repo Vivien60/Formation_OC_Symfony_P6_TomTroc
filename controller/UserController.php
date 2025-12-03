@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace controller;
 
-use model\BookCopy;
 use model\BookCopyManager;
 use model\User;
 use model\UserManager;
@@ -141,7 +140,7 @@ class UserController extends AbstractController
         echo $this->renderView($view);
     }
 
-    public function addImage()
+    public function addImage() : void
     {
         $this->redirectIfNotLoggedIn();
         if(!$this->performSecurityChecks())

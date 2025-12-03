@@ -4,7 +4,6 @@ namespace services;
 
 use \DateTime, \IntlDateFormatter;
 use model\User;
-use Stringable;
 
 /**
  * Classe utilitaire : cette classe ne contient que des méthodes statiques qui peuvent être appelées

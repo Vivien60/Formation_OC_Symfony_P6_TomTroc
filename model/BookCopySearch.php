@@ -2,8 +2,6 @@
 
 namespace model;
 
-use model\enum\BookAvailabilityStatus;
-
 class BookCopySearch
 {
     private array $searchFieldsAllowed = ['author', 'title', 'description', 'availabilityStatus'];

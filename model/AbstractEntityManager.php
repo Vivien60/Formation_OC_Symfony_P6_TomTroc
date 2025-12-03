@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace model;
 
-use DateTime;
-use DateTimeInterface;
 use PDO;
 use services\DBManager;
 use services\Utils;

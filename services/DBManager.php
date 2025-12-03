@@ -5,8 +5,6 @@ namespace services;
 use PDO;
 use PDOStatement;
 
-use config\Conf;
-
 /**
  * Classe qui permet de se connecter à la base de données.
  * Cette classe est un singleton. Cela signifie qu'il n'est pas possible de créer plusieurs instances de cette classe.
@@ -16,9 +14,9 @@ class DBManager
 {
     // Création d'une classe singleton qui permet de se connecter à la base de données.
     // On crée une instance de la classe DBConnect qui permet de se connecter à la base de données.
-    private static $instance;
+    private static ?DBManager $instance = null;
 
-    private $db;
+    private PDO $db;
 
     public static array $bddConfig;
 
@@ -77,7 +75,7 @@ class DBManager
      * Exécute une requête SQL préparée
      * @param string $sql
      * @param array $params
-     * @return array
+     * @return PDOStatement
      */
     protected function executeQueryWithParams(string $sql, array $params): PDOStatement
     {

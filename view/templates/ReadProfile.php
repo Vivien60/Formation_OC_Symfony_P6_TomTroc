@@ -5,7 +5,6 @@ namespace view\templates;
 
 use model\BookCopy;
 use model\User;
-use services\Utils;
 use \view\layouts\AbstractLayout;
 
 class ReadProfile extends AbstractHtmlTemplate
@@ -15,6 +14,7 @@ class ReadProfile extends AbstractHtmlTemplate
 
     /**
      * @param AbstractLayout $layout
+     * @param User|null $user
      * @var $library null|BookCopy[]
      */
     public function __construct(AbstractLayout $layout, readonly ?User $user = null, readonly ?array $library = null)

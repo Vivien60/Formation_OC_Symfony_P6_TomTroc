@@ -2,10 +2,7 @@
 declare(strict_types=1);
 namespace model;
 
-use DateTime;
-use DateTimeInterface;
 use model\enum\BookAvailabilityStatus;
-use model\enum\MessageStatus;
 use PDO;
 use services\Utils;
 
@@ -37,7 +34,12 @@ class BookCopyManager extends AbstractEntityManager
         return self::queryBooks($sql);
     }
 
-    public function searchBooksForExchange(mixed $searchTerm, int $limit = 0)
+    /**
+     * @param mixed $searchTerm
+     * @param int $limit
+     * @return BookCopy[]
+     */
+    public function searchBooksForExchange(mixed $searchTerm, int $limit = 0) : array
     {
         $searchBook = new BookCopySearch($searchTerm);
         $sql = $this->buildAvailableBooksQuery($searchBook, $limit);
@@ -135,7 +137,7 @@ class BookCopyManager extends AbstractEntityManager
         static::$db->query($sql, ['id' => $book->id]);
     }
 
-    public function withUser(BookCopy $bookCopy)
+    public function withUser(BookCopy $bookCopy) : void
     {
         Utils::trace("BookCopyManager::withUser");
         Utils::trace($bookCopy->userId);
