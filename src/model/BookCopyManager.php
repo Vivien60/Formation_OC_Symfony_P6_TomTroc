@@ -102,20 +102,8 @@ class BookCopyManager extends AbstractEntityManager
         if(!static::fromId($book->id)) {
             throw new \Exception('Book not found');
         }
-        $sql = "update book_copy 
-                set author = :author, title = :title, description = :description, 
-                    created_at = :created_at, availability_status = :availability, 
-                    image = :image, user_id = :ownerId where id = :id";
-        $stmt = static::$db->query($sql, [
-            'id' => $book->id,
-            'title' => $book->title,
-            'author' => $book->author,
-            'description' => $book->description,
-            'created_at' => $book->createdAt->format("Y-m-d H:i:s"),
-            'availability' => $book->availabilityStatus,
-            'ownerId' => $book->userId,
-            'image' => $book->image,
-        ]);
+        $sql = $this->updateSql();
+        $stmt = static::$db->query($sql, $this->getBindValues($book));
         $stmt->execute();
     }
 
@@ -124,21 +112,16 @@ class BookCopyManager extends AbstractEntityManager
      */
     public function create(BookCopy $book) : void
     {
-        if(User::fromId($book->userId) === null) {
-            throw new \Exception('User not found');
+        try {
+            $sql = $this->insertSql();
+            $stmt = static::$db->query($sql, $this->getBindValues($book));
+            $this->setNewId($book);
+        } catch (\PDOException $e) {
+            if ($this->isForeignKeyError($e, 'user_id')) {
+                throw new \Exception('User not found');
+            }
+            throw $e;
         }
-        $sql = "insert into book_copy (author, title, description, created_at, availability_status, user_id, image) 
-                values (:author, :title, :description, :created_at, :availability, :ownerId, :image)";
-        $stmt = static::$db->query($sql, [
-            'author' => $book->author,
-            'title' => $book->title,
-            'description' => $book->description,
-            'created_at' => $book->createdAt->format("Y-m-d H:i:s"),
-            'availability' => $book->availabilityStatus,
-            'ownerId' => $book->userId,
-            'image' => $book->image,
-        ]);
-        $book->id = (int)static::$db->getPDO()->lastInsertId();
     }
 
     public function delete(BookCopy $book): void
@@ -147,12 +130,55 @@ class BookCopyManager extends AbstractEntityManager
         static::$db->query($sql, ['id' => $book->id]);
     }
 
-    public function withUser(BookCopy $bookCopy) : void
+    /**
+     * @param BookCopy $book
+     * @return array
+     */
+    protected function getBindValues(BookCopy $book): array
     {
-        Utils::trace("BookCopyManager::withUser");
-        Utils::trace($bookCopy->userId);
-        Utils::trace("BookCopyManager::withUser : User");
-        Utils::trace(User::fromId($bookCopy->userId));
-        $bookCopy->owner = User::fromId($bookCopy->userId);
+        $values = [
+            'author' => $book->author,
+            'title' => $book->title,
+            'description' => $book->description,
+            'created_at' => $book->createdAt->format("Y-m-d H:i:s"),
+            'availability' => $book->availabilityStatus,
+            'ownerId' => $book->userId,
+            'image' => $book->image,
+        ];
+        if($book->id > 0) {
+            $values['id'] = $book->id;
+        }
+        return $values;
+    }
+
+    /**
+     * @param BookCopy $book
+     * @return void
+     */
+    protected function setNewId(BookCopy $book): void
+    {
+        $book->id = (int)static::$db->getPDO()->lastInsertId();
+    }
+
+    /**
+     * @return string
+     */
+    protected function updateSql(): string
+    {
+        $sql = "update book_copy 
+                set author = :author, title = :title, description = :description, 
+                    created_at = :created_at, availability_status = :availability, 
+                    image = :image, user_id = :ownerId where id = :id";
+        return $sql;
+    }
+
+    /**
+     * @return string
+     */
+    protected function insertSql(): string
+    {
+        $sql = "insert into book_copy (author, title, description, created_at, availability_status, user_id, image) 
+                values (:author, :title, :description, :created_at, :availability, :ownerId, :image)";
+        return $sql;
     }
 }

@@ -5,6 +5,7 @@ namespace model;
 use PDO;
 use lib\DBManager;
 use lib\Utils;
+use PDOException;
 
 abstract class AbstractEntityManager
 {
@@ -56,5 +57,11 @@ abstract class AbstractEntityManager
     {
         $fieldName = preg_replace_callback('/([[:upper:]])/', fn($matches) => '_'.strtolower($matches[0]), $property);
         return $fieldName;
+    }
+
+    protected function isForeignKeyError(PDOException $e, string $column): bool {
+        // Détecte l'erreur FK (dépend de ton SGBD)
+        return str_contains($e->getMessage(), 'FOREIGN KEY')
+            && str_contains($e->getMessage(), $column);
     }
 }

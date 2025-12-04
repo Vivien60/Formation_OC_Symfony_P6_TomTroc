@@ -7,6 +7,7 @@ use model\BookCopyManager;
 use lib\MediaManager;
 use lib\Utils;
 use model\BookCopySearch;
+use model\UserManager;
 use view\layouts\ConnectedLayout;
 use view\templates\BookCopiesAvailableList;
 use view\templates\BookCopyDetail;
@@ -16,7 +17,6 @@ class BookController extends AbstractController
 {
     public function __construct()
     {
-        $this->entityManager = new BookCopyManager();
     }
 
     public function copyDetail() : void
@@ -38,15 +38,13 @@ class BookController extends AbstractController
         if(!$this->performSecurityChecks())
             return;
         $refBook = intval(Utils::request('id', '0'));
-        $bookCopy = $this->entityManager->fromId($refBook);
-        Utils::trace("BookCopyManager::displayBookCopyForEdition");
-        Utils::trace($bookCopy);
+        $bookCopy = $this->bookCopyManager->fromId($refBook);
         if($bookCopy) {
-            $this->entityManager->withUser($bookCopy);
-            if ($bookCopy->owner->id != $this->userConnected()->id) {
+            if ($bookCopy->userId != $this->userConnected()->id) {
                 echo $this->renderNotAllowed();
                 return;
             }
+            $bookCopy->owner = $this->userConnected();
         } else {
             $bookCopy = BookCopy::blank();
         }
@@ -64,9 +62,8 @@ class BookController extends AbstractController
         if($bookRef <= 0) {
             $this->addCopyToUserLibrary();
         } else {
-            $bookCopy = $this->entityManager->fromId($bookRef);
-            $this->entityManager->withUser($bookCopy);
-            if($bookCopy?->owner->id != $this->userConnected()->id) {
+            $bookCopy = $this->bookCopyManager->fromId($bookRef);
+            if($bookCopy->userId != $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
                 return;
             }
@@ -82,7 +79,7 @@ class BookController extends AbstractController
                 return;
 
             try {
-                $this->entityManager->save($bookCopy);
+                $this->bookCopyManager->save($bookCopy);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
@@ -95,14 +92,15 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         if(!$this->performSecurityChecks())
             return;
-        $bookCopy = BookCopy::fromId(intval(Utils::request('id', '0')));
+        $bookCopy = $this->bookCopyManager->fromId(intval(Utils::request('id', '0')));
         if($bookCopy) {
-            if($bookCopy->owner->id != $this->userConnected()->id) {
+            if($bookCopy->userId != $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
                 return;
             }
+            $bookCopy->owner = $this->userConnected();
             try {
-                $this->entityManager->delete($bookCopy);
+                $this->bookCopyManager->delete($bookCopy);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
@@ -126,7 +124,7 @@ class BookController extends AbstractController
         if(!$this->validation($bookCopy))
             return;
         try {
-            $this->entityManager->create($bookCopy);
+            $this->bookCopyManager->create($bookCopy);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
@@ -141,7 +139,7 @@ class BookController extends AbstractController
         try {
             $searchTerm = Utils::request('search');
             $searchBook = new BookCopySearch($searchTerm);
-            $bookCopies = $this->entityManager->searchBooksForExchange($searchBook);
+            $bookCopies = $this->bookCopyManager->searchBooksForExchange($searchBook);
             $view = new BookCopiesAvailableList(new ConnectedLayout());
             $view->books = $bookCopies;
             echo $this->renderView($view);
@@ -155,13 +153,13 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         if(!$this->performSecurityChecks())
             return;
-        $bookCopy = $this->entityManager->fromId(intval(Utils::request('id', '0')));
+        $bookCopy = $this->bookCopyManager->fromId(intval(Utils::request('id', '0')));
         if($bookCopy) {
-            $this->entityManager->withUser($bookCopy);
-            if($bookCopy->owner->id != $this->userConnected()->id) {
+            if($bookCopy->userId != $this->userConnected()->id) {
                 echo $this->viewNotAllowed()->render();
                 return;
             }
+            $bookCopy->owner = $this->userConnected();
             try {
                 $mediaMng = new MediaManager('image', $bookCopy);
                 $mediaMng->handleFile();
@@ -171,7 +169,7 @@ class BookController extends AbstractController
             }
             $bookCopy->image = $mediaMng->filename();
             try {
-                $this->entityManager->save($bookCopy);
+                $this->bookCopyManager->save($bookCopy);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }

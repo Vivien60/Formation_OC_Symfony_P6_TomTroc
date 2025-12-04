@@ -2,26 +2,62 @@
 declare(strict_types=1);
 namespace controller;
 
-use model\AbstractEntity;
-use model\AbstractEntityManager;
-use model\User;
-use model\UserManager;
 use lib\CsrfToken;
 use lib\Utils;
+use model\AbstractEntity;
+use model\AbstractEntityManager;
+use model\BookCopyManager;
+use model\MessageManager;
+use model\ThreadManager;
+use model\User;
+use model\UserManager;
+use model\WithUser;
 use view\layouts\ErrorLayout;
 use view\layouts\NonConnectedLayout;
 use view\templates\AbstractHtmlTemplate;
-use view\templates\WithForm;
 use view\templates\Error;
+use view\templates\WithForm;
 
 abstract class AbstractController
 {
     private ?User $userConnected = null;
     protected ?AbstractEntityManager $entityManager = null;
+    protected ?UserManager $userManager {
+        get {
+            if(!isset($this->userManager)) {
+                $this->userManager = new UserManager();
+            }
+            return $this->userManager;
+        }
+    }
+    protected ?BookCopyManager $bookCopyManager {
+        get {
+            if(!isset($this->bookCopyManager)) {
+                $this->bookCopyManager = new BookCopyManager();
+            }
+            return $this->bookCopyManager;
+        }
+    }
+    protected ?MessageManager $messageManager {
+        get {
+            if(!isset($this->messageManager)) {
+                $this->messageManager = new MessageManager();
+            }
+            return $this->messageManager;
+        }
+    }
+    protected ?ThreadManager $threadManager {
+        get {
+            if(!isset($this->threadManager)) {
+                $this->threadManager = new ThreadManager();
+            }
+            return $this->threadManager;
+        }
+    }
 
     protected function userConnected() : ?User
     {
-        if(!$this->userConnected) {
+        if(!isset($this->userConnected)) {
             $manager = new UserManager();
             $this->userConnected = $manager->fromMemory();
         }
