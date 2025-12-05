@@ -6,7 +6,7 @@ use PDO;
 
 class UserManager extends AbstractEntityManager
 {
-    protected static string $selectSql = "select id, username, email, password, avatar, DATE(created_at) as createdAt, avatar from user";
+    protected static string $selectSql = "select id, username, email, password, avatar, DATE(created_at) as createdAt from user";
 
     public function __construct()
     {
@@ -38,12 +38,7 @@ class UserManager extends AbstractEntityManager
      */
     public function save(User $user) : void
     {
-        if(!$this->fromId($user->id)) {
-            throw new \Exception('User not found');
-        }
-        if($this->identifyAnotherUser($user->id, $user->getUniqueIdentifiers())) {
-            throw new \Exception('Another user exist with this information');
-        }
+        $this->checkUser($user);
         $sql = "update user set username = :username, email = :email, password = :password, avatar = :avatar, created_at = :created_at where id = :id";
         $stmt = static::$db->query($sql, [
             'id' => $user->id,
@@ -58,14 +53,9 @@ class UserManager extends AbstractEntityManager
 
     public function create(User $user) : void
     {
-        //TODO Vivien : move this into User. Create a method like 'prepareNewUser'
-        if($user->isAnyMissingField()) {
-            throw new \Exception('Missing fields');
-        }
         if($this->identifyAnotherUser($user->id, $user->getUniqueIdentifiers())) {
             throw new \Exception('User already registered');
         }
-        $user->hashPassword();
         $sql = "insert into user (username, email, password, avatar, created_at) values (:username, :email, :password, :avatar, NOW())";
         $stmt = static::$db->query($sql, [
             'username' => $user->username,
@@ -82,7 +72,7 @@ class UserManager extends AbstractEntityManager
             ' or ',
             array_map( fn($uniqueFields) => "$uniqueFields = :$uniqueFields", array_keys($uniqueFields) )
         );
-        $sql = "select * from user where ($whereUniqueFields) and id != :id";
+        $sql = "select count(id) from user where ($whereUniqueFields) and id != :id";
         $stmt = static::$db->query(
             $sql,
             [
@@ -91,5 +81,20 @@ class UserManager extends AbstractEntityManager
             ]);
         $nb = $stmt->fetchColumn();
         return $nb > 0;
+    }
+
+    /**
+     * @param User $user
+     * @return void
+     * @throws \Exception
+     */
+    protected function checkUser(User $user): void
+    {
+        if (!$this->fromId($user->id)) {
+            throw new \Exception('User not found');
+        }
+        if ($this->identifyAnotherUser($user->id, $user->getUniqueIdentifiers())) {
+            throw new \Exception('Another user exist with this information');
+        }
     }
 }

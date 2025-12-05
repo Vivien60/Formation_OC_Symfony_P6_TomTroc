@@ -102,14 +102,6 @@ class User extends AbstractEntity
         return $user;
     }
 
-    public function isAnyMissingField() : bool
-    {
-        if(empty($this->username) || empty($this->password) || empty($this->email)) {
-            return true;
-        }
-        return false;
-    }
-
     public function retrieveLibrary() : void
     {
         $bookManager = new BookCopyManager();
@@ -156,7 +148,15 @@ class User extends AbstractEntity
         $this->validateEmail();
         $this->validateUsername();
         $this->validatePassword();
+        $this->isAnyMissingField();
         return true;
+    }
+
+    public function isAnyMissingField() : void
+    {
+        if(empty($this->username) || empty($this->password) || empty($this->email)) {
+            throw new \Exception('Missing fields');
+        }
     }
 
     private function validatePassword() : void

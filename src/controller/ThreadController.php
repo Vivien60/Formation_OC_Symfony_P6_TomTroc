@@ -39,8 +39,10 @@ class ThreadController extends AbstractController
     public function send(): void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $threadRef = intval(Utils::request('thread', 0));
         $thread = $this->entityManager->fromId($threadRef);
         $content = Utils::request('content', '');

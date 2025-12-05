@@ -35,8 +35,10 @@ class BookController extends AbstractController
     public function displayBookCopyForEdition() : void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $refBook = intval(Utils::request('id', '0'));
         $bookCopy = $this->bookCopyManager->fromId($refBook);
         if($bookCopy) {
@@ -55,8 +57,10 @@ class BookController extends AbstractController
     public function saveCopy() : void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $bookRef = intval(Utils::request('id', '0'));
         Utils::trace("saveCopy : $bookRef");
         if($bookRef <= 0) {
@@ -90,8 +94,10 @@ class BookController extends AbstractController
     public function deleteCopy() : void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $bookCopy = $this->bookCopyManager->fromId(intval(Utils::request('id', '0')));
         if($bookCopy) {
             if($bookCopy->userId != $this->userConnected()->id) {
@@ -111,8 +117,10 @@ class BookController extends AbstractController
     public function addCopyToUserLibrary() : void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $bookCopyValues = [
             'title' => Utils::request('title', ''),
             'author' => Utils::request('author', ''),
@@ -134,8 +142,10 @@ class BookController extends AbstractController
     public function listBooksForExchange() : void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         try {
             $searchTerm = Utils::request('search');
             $searchBook = new BookCopySearch($searchTerm);
@@ -151,8 +161,10 @@ class BookController extends AbstractController
     public function addImage() : void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $bookCopy = $this->bookCopyManager->fromId(intval(Utils::request('id', '0')));
         if($bookCopy) {
             if($bookCopy->userId != $this->userConnected()->id) {

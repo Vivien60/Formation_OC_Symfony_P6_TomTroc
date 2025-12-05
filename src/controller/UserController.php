@@ -35,6 +35,7 @@ class UserController extends AbstractController
         if(!$this->performSecurityChecks() || !$this->validation($user))
             return;
         try {
+            $user->hashPassword();
             $this->entityManager->create($user);
             $this->entityManager->toMemory($user);
         } catch (\Exception $e) {
@@ -54,8 +55,10 @@ class UserController extends AbstractController
      */
     public function signIn() : void
     {
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $email = Utils::request('email');
         $password = Utils::request('password');
 
@@ -107,8 +110,10 @@ class UserController extends AbstractController
     public function update() : void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $user = $this->userConnected();
         try {
             $user->email = Utils::request('email', '');
@@ -143,8 +148,10 @@ class UserController extends AbstractController
     public function addImage() : void
     {
         $this->redirectIfNotLoggedIn();
-        if(!$this->performSecurityChecks())
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
             return;
+        }
         $user = $this->entityManager->fromMemory();
         $id = intval(Utils::request('id',0));
         if($id && $user?->id !== $id) {

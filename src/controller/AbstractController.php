@@ -112,7 +112,6 @@ abstract class AbstractController
     protected function csrfValidation() : bool
     {
         if(!$this->verifyCSRF()) {
-            echo $this->renderNotAllowed();
             return false;
         }
         return true;
