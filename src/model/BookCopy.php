@@ -7,8 +7,6 @@ use model\enum\BookAvailabilityStatus;
 class BookCopy extends AbstractEntity
 {
 
-    //TODO Vivien : delete this when AbstractEntity will be refactored
-    protected static string $selectSql = "select id, title, author, availability_status, image, description, created_at, user_id from book_copy";
     public ?User $owner = null {
         set {
             $this->owner = $value;

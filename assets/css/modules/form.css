@@ -15,10 +15,6 @@
     color: var(--gris-foncé);
 }
 
-/**
-    TODO Vivien : faire le changement suivant : au lieu de .form__field quand il y a un parent,
-     on va utiliser .field__input , et mettre du coup .field sur le parent.
- */
 .form__field, .field__input {
     box-sizing: border-box;
     background-color: #fff;

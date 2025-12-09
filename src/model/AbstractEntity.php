@@ -107,7 +107,6 @@ abstract class AbstractEntity
      */
     public abstract function validate() : bool;
 
-    //TODO Vivien : make this function abstract when very entity manager is implemented
     static protected function getManager() : AbstractEntityManager {
         return static::$manager;
     }

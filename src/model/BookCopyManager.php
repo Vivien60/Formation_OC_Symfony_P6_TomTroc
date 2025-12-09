@@ -12,7 +12,7 @@ class BookCopyManager extends AbstractEntityManager
 
     public function __construct()
     {
-        parent::__construct(BookCopy::class);;
+        parent::__construct(BookCopy::class);
     }
 
     /**
@@ -89,7 +89,6 @@ class BookCopyManager extends AbstractEntityManager
      * @param array $params
      * @return array|BookCopy[]
      */
-    //TODO Vivien : check if we can make generic query, queryBuilder or something else
     protected static function queryBooks(array|string $sql, array $params = []): array
     {
         $stmt = static::$db->query($sql, $params);

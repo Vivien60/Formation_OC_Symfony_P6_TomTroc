@@ -22,7 +22,6 @@ $htmlBigUserCard = sprintf(
 );
 
 $libraryUserHTML = '';
-//TODO Vivien : make a method which returns only available books
 foreach ($this->library as $bookCopy) {
     $libraryUserHTML .= <<<EOF
 <tr>

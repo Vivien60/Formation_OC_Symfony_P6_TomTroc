@@ -13,8 +13,6 @@ use controller\{BookController,
 use lib\Utils;
 use config\Conf;
 
-//TODO VIVIEN: protection failles XSS
-
 Conf::getInstance()->deploy();
 switch(Utils::request('action', null)) {
     case 'home':

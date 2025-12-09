@@ -162,7 +162,6 @@ class Thread extends AbstractEntity
      */
     public function createNewMessage(string $content, User $author) : void
     {
-        //TODO : Utiliser un repo pourrait permettre de laisser à Thread l'orchestration du rank
         $message = $this->createMessage($author, $content);
         $this->addMessage($message);
         static::getManager()->addMessageStatus($message, $this->filterOtherParticipants($author));
