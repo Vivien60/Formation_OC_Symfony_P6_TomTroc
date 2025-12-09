@@ -1,5 +1,9 @@
-.ourValues__bloc, .hero, .lastBooks__bloc, .howToUse__bloc {
+.ourValues__bloc, .lastBooks__bloc, .howToUse__bloc {
     text-align: center;
+    margin: 0;
+}
+.hero {
+    text-align: left;
     margin: 0;
 }
 
