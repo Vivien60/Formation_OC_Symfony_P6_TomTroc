@@ -51,6 +51,14 @@
     margin: 5rem 0 0.125rem 0;
 }
 
+.teaser {
+
+}
+
+.teaser__text {
+    padding: 0 0 1.625rem 0;
+}
+
 .lastBooks__bloc h2 , .howToUse__bloc h2, .ourValues__bloc h2 {
     margin: 5rem 0 1.5rem 0;
 }

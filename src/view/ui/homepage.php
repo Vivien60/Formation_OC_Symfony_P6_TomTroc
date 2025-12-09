@@ -14,13 +14,13 @@ return
     <<<HTML
     <section class="hero">
         <div class="hero__content">
-            <div>
+            <div class="teaser">
                 <h1>Rejoignez nos lecteurs passionnés</h1>
-                <p>
+                <p class="teaser__text">
                     Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture. 
                     Nous croyons en la magie du partage de connaissances et d'histoires à travers les livres. 
                 </p>
-                <a class="bigButton" href=""">Découvrir</a>
+                <a class="bigButton" href="?action=available-list">Découvrir</a>
             </div>
         </div>
         <div>
