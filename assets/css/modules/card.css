@@ -40,9 +40,10 @@ Maxi card user à gauche
     box-sizing: border-box;
     height:35rem;
     align-items: center;
-    justify-content: space-evenly;
-    padding-bottom: 10rem;
+    justify-content: space-between;
+    padding: 0 4rem 2rem 4rem;
     background-color: var(--bg-color-light);
+    flex: 1 1 40%;
 }
 
 .card--user-big .card__title {
@@ -51,10 +52,12 @@ Maxi card user à gauche
 
 .card--user-big .card__poster {
     align-items: center;
+    margin-top: 3rem;
 }
 
 .card--user-big .card__content {
     text-align: center;
+    padding-bottom: 3.44rem;
 }
 
 .card--user-big .line-separator {
