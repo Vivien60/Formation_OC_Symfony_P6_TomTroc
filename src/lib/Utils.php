@@ -173,4 +173,21 @@ class Utils
         file_put_contents(static::$debugFile, $logMessage, FILE_APPEND | LOCK_EX);
     }
 
+    public static function convertDateToTimeSince(\DateTimeInterface|string|null $since)
+    {
+        $now = new DateTime();
+        $diff = $since->diff($now);
+        $nb = $diff->format('%a');
+        if($nb >= 365)
+        {
+            return $diff->format('%y an(s)');
+        }
+        if($nb > 30)
+        {
+            return $diff->format('%m mois');
+        }
+
+        return $diff->format('%a jour(s)');
+    }
+
 }

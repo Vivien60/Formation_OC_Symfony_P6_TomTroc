@@ -20,10 +20,11 @@ $htmlBigUserCard = sprintf(
     $editLink,
     $this->user->id,
     $this->e($this->user->username),
-    Utils::convertDateToFrenchFormat($this->user->createdAt),
+    Utils::convertDateToTimeSince($this->user->createdAt),
     count($this->user->library),
     $writeMessageLink,
     $this->user->avatar,
+    'userInfo__card-container'
 );
 
 $libraryUserHTML = '';
@@ -34,10 +35,12 @@ foreach ($this->user->library as $bookCopy) {
                 <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
                 <td class="library__book-info">{$this->e($bookCopy->title)}</td>
                 <td class="library__book-info">{$this->e($bookCopy->author)}</td>
-                <td class="library__book-info library__book-info--longdesc">{$this->e($bookCopy->description)}</td>
+                <td class="library__book-info"><div class="library__book-info--longdesc">{$this->e($bookCopy->description)}</div></td>
                 <td><div class="badge--long-size {$badgeClass}">{$bookCopy->availabilityStatusLabel}</div></td>
-                <td><a class="library__action library__action--edit" href="?action=book-copy-edit-form&id={$bookCopy->id}">Editer</a></td>
-                <td><a class="library__action library__action--delete" href="?action=book-copy-remove&id={$bookCopy->id}">Supprimer</a></td>
+                <td>
+                    <a class="library__action library__action--edit" href="?action=book-copy-edit-form&id={$bookCopy->id}">Editer</a>
+                    <a class="library__action library__action--delete" href="?action=book-copy-remove&id={$bookCopy->id}">Supprimer</a>
+                </td>
             </tr>
 EOF;
 }
@@ -67,22 +70,21 @@ return <<<HTML
     </div>
     <div class="books-admin userInfo__new-book-container">
         <table class="library">
-            <thead class="uppercase-mini-heading">
+            <thead class="library__header">
                 <tr>
-                    <td>Photo</td>
-                    <td>Titre</td>
-                    <td>Auteur</td>
-                    <td>Description</td>
-                    <td>Disponibilité</td>
-                    <td>Action</td>
-                    <td>&nbsp;</td>
+                    <td class="uppercase-mini-heading">Photo</td>
+                    <td class="uppercase-mini-heading">Titre</td>
+                    <td class="uppercase-mini-heading">Auteur</td>
+                    <td class="uppercase-mini-heading">Description</td>
+                    <td class="uppercase-mini-heading">Disponibilité</td>
+                    <td class="uppercase-mini-heading">Action</td>
                 </tr>
             </thead>
             <tbody>
                 $libraryUserHTML
             </tbody>
         </table>
-        <a class="bigButton bigButton--light bigButton--mini new-book__button" href="?action=book-copy-edit-form">Ajouter un livre</a>
+        <a class="bigButton bigButton--light bigButton--mini books-admin__new-book" href="?action=book-copy-edit-form">Ajouter un livre</a>
     </div>
 </div>
 HTML;

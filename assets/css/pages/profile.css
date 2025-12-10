@@ -24,16 +24,11 @@ Structure
 }
 
 
-.userInfo > .card--user-big {
-    flex: 1 1 40%;
-    box-sizing: border-box;
-    padding: 1rem 4rem;
-}
-
 .userInfo > .userInfo__form-container {
     flex: 1 1 40%;
     box-sizing: border-box;
-    padding: 1rem 7.3125rem;
+    padding: 3rem 7.3125rem;
+
 }
 
 .userInfo > .library {
@@ -44,6 +39,12 @@ Structure
     flex: 2 0 auto;
 }
 
+/**
+Bloc card
+ */
+.userInfo__card-container {
+    padding-top: 3rem;
+}
 
 /**
 Formulaire
@@ -78,6 +79,13 @@ Formulaire
     align-self: stretch;
 }
 
+.card__membership {
+    height: 3.44rem;
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 3.44rem;
+}
+
 
 
 .userInfo--public > * {
@@ -103,6 +111,13 @@ Bloc - gestion des livres
     justify-content: center;
     align-items: center;
 }
+
+.books-admin__new-book {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+
 /**
 Table de livres possédés
  */
@@ -112,9 +127,27 @@ Table de livres possédés
     border-spacing: 0;
     width: 100%;
     flex: 1 1 100%;
+    font-size: 0.75rem;
 }
+
 .library tr:nth-child(even) {
     background-color: var(--bg-color-dark);
+}
+
+.library tr td {
+    padding: 1.5rem 2.5rem;
+}
+
+.library tr td:first-child {
+    padding: 1.5rem 2.5rem 1.5rem 3.5rem;
+}
+
+.library tr td:last-child {
+    padding: 0 2.5rem 0 3.5rem;
+}
+
+.library__header {
+    height: 3.3125rem;
 }
 
 .library__book-info {
@@ -127,10 +160,13 @@ Table de livres possédés
 }
 
 .library__action--edit {
+    text-align: left;
 }
 
 .library__action--delete {
     color: #CB2D2D;
+    text-align: right;
+    margin: 0 0 0 1.75rem;
 }
 
 .library__book-info--longdesc {
@@ -138,7 +174,4 @@ Table de livres possédés
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
-}
-.new-book__button {
-    text-align: center;
 }
