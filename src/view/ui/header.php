@@ -22,8 +22,8 @@ return
             </ul>
         </div>
         <ul class="nav-bar__section nav-bar__section--list">
-            <li class="nav-bar__item"><a href="?action=messagerie"><img aria-hidden="true" class="icon icon--inline-text nav-bar__icon" src="assets/img/icons/messagerie.svg"><span>Messagerie</span>{$badgeHTML}</a></li>
-            <li class="nav-bar__item"><a href="?action=edit-profile-form"><img aria-hidden="true" class="icon icon--inline-text nav-bar__icon" src="assets/img/icons/account.svg"><span>Mon compte</span></a></li>
+            <li class="nav-bar__item"><a href="?action=messagerie"><img aria-hidden="true" alt="" class="icon icon--inline-text nav-bar__icon" src="assets/img/icons/messagerie.svg"><span>Messagerie</span>{$badgeHTML}</a></li>
+            <li class="nav-bar__item"><a href="?action=edit-profile-form"><img aria-hidden="true" alt="" class="icon icon--inline-text nav-bar__icon" src="assets/img/icons/account.svg"><span>Mon compte</span></a></li>
             <li class="nav-bar__item"><a href="{$urlLinkSession}">{$libLinkSession}</a></li>
         </ul>
     </nav>
