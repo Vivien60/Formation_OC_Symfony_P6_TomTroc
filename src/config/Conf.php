@@ -20,7 +20,8 @@ class Conf extends AbstractConf
                 "user"          => getenv("MYSQL_USERNAME"),
                 "password"      => '',
             ],
-            'baseUrl'       => 'http://openclassrooms.local/Formation_OC_Symfony_P6_TomTroc/',        );
+            'baseUrl'       => '/Formation_OC_Symfony_P6_TomTroc/',
+        );
     }
 
     public function deploy(): void
