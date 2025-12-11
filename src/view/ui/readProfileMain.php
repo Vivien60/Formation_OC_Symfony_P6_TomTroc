@@ -8,27 +8,28 @@ use view\templates\ReadProfile;
  */
 
 
-$writeMessageLink = '<a class="bigButton bigButton--light bigButon--max-size" href="?action=write-message">Ecrire un message</a>';
+$writeMessageLink = '<a class="bigButton bigButton--light bigButon--max-size card__write-to-button" href="?action=write-message">Ecrire un message</a>';
 $bigUserCard = require __DIR__.'/component/cardUserBig.php';
 $htmlBigUserCard = sprintf(
     $bigUserCard,
     '',
     $this->user->id,
     $this->e($this->user->username),
-    Utils::convertDateToFrenchFormat($this->user->createdAt),
+    Utils::convertDateToTimeSince($this->user->createdAt),
     count($this->user->library),
     $writeMessageLink,
     $this->user->avatar,
+    'userInfo__card-container',
 );
 
 $libraryUserHTML = '';
 foreach ($this->library as $bookCopy) {
     $libraryUserHTML .= <<<EOF
 <tr>
-                <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
+                <td class="library__book-info library__book-info--first"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
                 <td class="library__book-info">{$this->e($bookCopy->title)}</td>
                 <td class="library__book-info">{$this->e($bookCopy->author)}</td>
-                <td class="library__book-info library__book-info--longdesc">{$this->e($bookCopy->description)}</td>
+                <td class="library__book-info library__book-info--last"><div class="library__book-info--longdesc">{$this->e($bookCopy->description)}</div></td>
             </tr>
 EOF;
 }
@@ -38,12 +39,12 @@ return <<<HTML
 <div class="userInfo container--with-space-on-sides userInfo--public">
     {$htmlBigUserCard}
     <table class="library">
-        <thead>
+        <thead class="library__header">
             <tr>
-                <td>Photo</td>
-                <td>Titre</td>
-                <td>Auteur</td>
-                <td>Description</td>
+                <td class="uppercase-mini-heading">Photo</td>
+                <td class="uppercase-mini-heading">Titre</td>
+                <td class="uppercase-mini-heading">Auteur</td>
+                <td class="uppercase-mini-heading">Description</td>
             </tr>
         </thead>
         <tbody>

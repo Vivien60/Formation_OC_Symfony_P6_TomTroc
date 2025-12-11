@@ -32,12 +32,12 @@ foreach ($this->user->library as $bookCopy) {
     $badgeClass = $bookCopy->availabilityStatus == 1 ? 'badge--ok' : 'badge--nok';
     $libraryUserHTML .= <<<EOF
 <tr>
-                <td class="library__book-info"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
+                <td class="library__book-info library__book-info--first"><img alt="photo du livre" src="assets/img/books/{$bookCopy->image}" width="78"></td>
                 <td class="library__book-info">{$this->e($bookCopy->title)}</td>
                 <td class="library__book-info">{$this->e($bookCopy->author)}</td>
                 <td class="library__book-info"><div class="library__book-info--longdesc">{$this->e($bookCopy->description)}</div></td>
-                <td><div class="badge--long-size {$badgeClass}">{$bookCopy->availabilityStatusLabel}</div></td>
-                <td>
+                <td class="library__book-info"><div class="badge--long-size {$badgeClass}">{$bookCopy->availabilityStatusLabel}</div></td>
+                <td class="library__book-info library__book-info--last">
                     <a class="library__action library__action--edit" href="?action=book-copy-edit-form&id={$bookCopy->id}">Editer</a>
                     <a class="library__action library__action--delete" href="?action=book-copy-remove&id={$bookCopy->id}">Supprimer</a>
                 </td>

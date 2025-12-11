@@ -17,9 +17,9 @@ use view\templates\MessagerieHome;
                     $dest = $thread->otherParticipants[0];
                     $message = $thread->getLastMessage();
                     if($thread->id === $this->thread?->id) {
-                        $classThread="card card--row card--thread card--active";
+                        $classThread="card card--row card--user card--thread card--active";
                     } else {
-                        $classThread="card card--row card--thread";
+                        $classThread="card card--row card--user card--thread";
                     }
                     ?>
                     <li class="threads__item">

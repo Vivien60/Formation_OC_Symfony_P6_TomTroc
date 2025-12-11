@@ -16,6 +16,7 @@
     width: 19.25rem;
     max-width: 100%;
     padding: 3.5rem 0;
+    flex : 1 0 auto;
 }
 
 .threads__list h1 {

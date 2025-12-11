@@ -23,7 +23,7 @@ class BookController extends AbstractController
     {
         $this->redirectIfNotLoggedIn();
         $refBook = intval(Utils::request('id', '0'));
-        $bookCopy = BookCopy::fromId($refBook);
+        $bookCopy = $this->bookCopyManager->fromId($refBook);
         $view = new BookCopyDetail(new ConnectedLayout(), $bookCopy, $bookCopy->owner);
         echo $this->renderView($view);
     }

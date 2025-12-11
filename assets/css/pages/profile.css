@@ -46,6 +46,10 @@ Bloc card
     padding-top: 3rem;
 }
 
+.userInfo--public .userInfo__card-container {
+
+}
+
 /**
 Formulaire
  */
@@ -89,11 +93,15 @@ Formulaire
 
 
 .userInfo--public > * {
-    flex: 1 1 auto;
+    flex: 1 1 30%;
 }
 
 .userInfo--public > *:first-child {
-    flex: 0 1 30%;
+    flex: 1 1 30%;
+}
+
+.userInfo--public >  .library {
+    flex-basis: 60%;
 }
 
 /**
@@ -110,6 +118,7 @@ Bloc - gestion des livres
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    border-radius: 1.5rem;
 }
 
 .books-admin__new-book {
@@ -128,21 +137,28 @@ Table de livres possédés
     width: 100%;
     flex: 1 1 100%;
     font-size: 0.75rem;
+    border-radius: 1.5rem;
+}
+
+.library__header td {
+    border-bottom: 1px solid var(--bg-color-dark);
+    vertical-align: bottom;
+    padding: 0.5rem 2.5rem;
 }
 
 .library tr:nth-child(even) {
     background-color: var(--bg-color-dark);
 }
 
-.library tr td {
+.library__book-info {
     padding: 1.5rem 2.5rem;
 }
 
-.library tr td:first-child {
+.library__book-info--first {
     padding: 1.5rem 2.5rem 1.5rem 3.5rem;
 }
 
-.library tr td:last-child {
+.library__book-info--last {
     padding: 0 2.5rem 0 3.5rem;
 }
 
