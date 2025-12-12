@@ -72,10 +72,12 @@ class Thread extends AbstractEntity
 
     public static function openForUser(User $user, int $id, array $threads = []) : ?static
     {
-        if($id === 0) {
-            $threadToOpen = static::defaultThreadToOpen($user, $threads);
-        } else {
+        $threadToOpen = null;
+        if($id > 0) {
             $threadToOpen = static::findFromArrayAndRef($threads, $id);
+        }
+        if($threadToOpen === null) {
+            $threadToOpen = static::defaultThreadToOpen($user, $threads);
         }
         $threadToOpen->currentUser = $user;
         $threadToOpen->markAsRead($user);
