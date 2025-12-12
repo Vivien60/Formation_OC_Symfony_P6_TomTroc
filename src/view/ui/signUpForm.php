@@ -8,9 +8,9 @@ return
     <<<HTML
     <div class="container container--sign-in-up">
         <div class="container container__half-page container--with-space-on-sides container--form-sign-in-up">
-            <form name="signup" method="post" action="?action=create-account">
+            <h1>Inscription</h1>
+            <form class="form" name="signup" method="post" action="?action=create-account">
                 {$this->getCsrfField()}
-                <h1>Inscription</h1>
                 <label class="form__label">
                     Pseudo
                     <input aria-required="true" class="form__field" type="text" name="name" placeholder="pseudo">

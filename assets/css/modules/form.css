@@ -1,5 +1,10 @@
 .form {
-
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 2rem;
+    text-align: left;
+    color: var(--gris-texte);
 }
 
 .form--discreet-label {

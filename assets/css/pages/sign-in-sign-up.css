@@ -18,3 +18,23 @@
 .container.container--sign-in-up .container__full-img {
     max-height: 100%;
 }
+
+.container--form-sign-in-up form {
+    margin: 3.5rem 0 0 0;
+}
+
+.container--form-sign-in-up .form__label {
+    color: var(--gris-texte);
+}
+
+.container--form-sign-in-up .form__field {
+    padding: 1rem 1rem;
+}
+
+.container--form-sign-in-up .form__footer {
+    color: var(--gris-foncé);
+}
+
+.container--form-sign-in-up .form__footer a {
+    text-decoration: underline;
+}

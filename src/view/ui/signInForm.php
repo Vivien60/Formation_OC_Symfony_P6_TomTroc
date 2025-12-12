@@ -8,8 +8,8 @@ return
     <<<HTML
     <div class="container container--sign-in-up">
         <div class="container container__half-page container--with-space-on-sides container--form-sign-in-up">
+            <h1>Connexion</h1>
             <form class="form" name="login" method="post" action="?action=login">
-                <h1>Connexion</h1>
                 {$this->getCsrfField()}
                 <label class="form__label">
                     Adresse email
