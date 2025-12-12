@@ -11,7 +11,7 @@ use view\templates\BookCopiesAvailableList;
 $bookCard = require __DIR__.'/component/cardBook.php';
 $htmlBookCards = '';
 foreach($this->books as $book) {
-    $htmlBookCards .= sprintf($bookCard, $this->e($book->title), $this->e($book->author), $this->e($book->owner->username), $book->id, 'assets/img/books/'.basename($book->image));
+    $htmlBookCards .= sprintf($bookCard, $this->e($book->title), $this->e($book->author), $this->e($book->owner->username), $book->id, 'assets/img/books/'.basename($book->image), "2");
 }
 
 return

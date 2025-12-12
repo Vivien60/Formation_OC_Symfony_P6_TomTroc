@@ -26,3 +26,7 @@
     height: 0.94rem;
     font-size: 0.62rem;
 }
+
+.card--book h2, .card--book h3, .card--book h4 {
+    font-size: 1rem;
+}

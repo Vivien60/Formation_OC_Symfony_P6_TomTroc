@@ -13,7 +13,7 @@ $badgeHTML = $this->helper['connected']?
     :'';
 return
     <<<HTML
-    <nav class="header__container nav-bar">
+    <nav class="header__container nav-bar" aria-label="Navigation principale">
         <div class="nav-bar__section">
             <a class="nav-bar__logo" href="?action=home"><img alt="Logo TomTroc" src="assets/img/logo/extended.svg"></a>
             <ul class="nav-bar__section nav-bar__section--list">

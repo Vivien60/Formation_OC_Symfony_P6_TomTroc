@@ -37,6 +37,7 @@ EOF;
 return <<<HTML
 
 <div class="userInfo container--with-space-on-sides userInfo--public">
+    <h1 class="visually-hidden">Profil de l'utilisateur</h1>
     {$htmlBigUserCard}
     <table class="library">
         <thead class="library__header">
