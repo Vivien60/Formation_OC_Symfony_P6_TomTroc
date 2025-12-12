@@ -10,10 +10,6 @@ use view\templates\BookCopyDetail;
 $cardUser = require __DIR__.'/component/cardUser.php';
 $htmlCards = sprintf($cardUser, 'card--user card--row', $this->user->id, $this->e($this->user->username), $this->user->avatar);
 
-/**
- * TODO : ajouter le fil d'ariane (il est presque invisible)
- */
-
 return
 <<<HTML
 <div class="container container--book-detail">

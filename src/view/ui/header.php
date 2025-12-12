@@ -15,7 +15,7 @@ return
     <<<HTML
     <nav class="header__container nav-bar">
         <div class="nav-bar__section">
-            <a class="nav-bar__logo" href="?action=home"><img alt="" src="assets/img/logo/extended.svg"></a>
+            <a class="nav-bar__logo" href="?action=home"><img alt="Logo TomTroc" src="assets/img/logo/extended.svg"></a>
             <ul class="nav-bar__section nav-bar__section--list">
                 <li class="nav-bar__item nav-bar__item--active"><a href="?action=home">Accueil</a></li>
                 <li class="nav-bar__item"><a href="?action=available-list">Nos livres à l’échange</a></li>

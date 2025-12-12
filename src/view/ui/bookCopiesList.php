@@ -23,7 +23,7 @@ return
             <label class="form__label field field--with-icon">
                 {$this->getCsrfField()}
                 <img class="field__icon" aria-hidden="true" alt="&#x1F50ED;" src="assets/img/icons/magnifying-glass.svg">
-                <input class="field__input" type="text" placeholder="Rechercher un livre" name="search">
+                <input class="field__input" type="text" aria-label="Rechercher un livre" title="Rechercher un livre" placeholder="Rechercher un livre" name="search" id="search">
             </label>
         </form>
     </header>

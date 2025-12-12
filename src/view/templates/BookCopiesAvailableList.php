@@ -12,6 +12,7 @@ class BookCopiesAvailableList extends AbstractHtmlTemplate implements WithForm
      */
     public array $books;
     public string $csrfToken;
+    public string $title = 'Nos livres à l’échange';
 
     /**
      * @param ConnectedLayout $param

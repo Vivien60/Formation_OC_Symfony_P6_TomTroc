@@ -10,7 +10,7 @@ $editLink = <<<UPLOAD_LINK
         {$this->getCsrfField()}
         <label>
             <a class="grey link--underlined avatar-upload__action form-sync-action" data-sync-target="avatar-upload__input">modifier</a>
-            <input class="browse-file avatar-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
+            <input aria-hidden="true" class="browse-file avatar-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
         </label>
     </form>
 UPLOAD_LINK;
@@ -49,8 +49,8 @@ return <<<HTML
 <div class="userInfo container--with-space-on-sides">
     <h1 class="heading heading--form-pages">Mon compte</h1>
     {$htmlBigUserCard}
-    <div class="userInfo__form-container">
-        <h3>Vos informations personnelles</h3>
+    <section class="userInfo__form-container form-container--user-profile">
+        <h2>Vos informations personnelles</h2>
         <form class="form form--user-profile form--coloured form--discreet-label" method="post" action="?action=update-account">
             {$this->getCsrfField()}
             <label class="form__label">
@@ -59,7 +59,7 @@ return <<<HTML
             </label>
             <label class="form__label">
                 Mot de passe
-                <input class="form__field"  type="password" name="password">
+                <input class="form__field"  type="password" name="password" autocomplete="new-password">
             </label>
             <label class="form__label">
                 Pseudo
@@ -67,8 +67,9 @@ return <<<HTML
             </label>
             <input type="submit" value="Enregistrer" class="bigButton bigButton--light bigButton--fixed-width">
         </form>
-    </div>
-    <div class="books-admin userInfo__new-book-container">
+    </section>
+    <section class="books-admin userInfo__new-book-container">
+        <h2 class="hide">Vos livres</h2>
         <table class="library">
             <thead class="library__header">
                 <tr>
@@ -85,6 +86,6 @@ return <<<HTML
             </tbody>
         </table>
         <a class="bigButton bigButton--light bigButton--mini books-admin__new-book" href="?action=book-copy-edit-form">Ajouter un livre</a>
-    </div>
+    </section>
 </div>
 HTML;

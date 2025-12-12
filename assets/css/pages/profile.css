@@ -13,9 +13,6 @@ Structure
 
 .userInfo > *:not(h1){
     border-radius: 1.5rem;
-    /**
-    TODO Vivien: check why the border radius is not same between the 2 first blocks
-     */
 }
 
 .userInfo h1 {
@@ -59,6 +56,14 @@ Formulaire
     display: flex;
     flex-flow: column nowrap;
     gap: 1rem;
+}
+
+.form-container--user-profile {
+
+}
+
+.form-container--user-profile h2 {
+    font-size: 1rem;
 }
 
 .form--user-profile {

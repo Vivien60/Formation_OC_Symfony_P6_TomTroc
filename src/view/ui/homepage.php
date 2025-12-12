@@ -56,7 +56,7 @@ return
     
     <section class="ourValues__bloc">
         <img class="ourValues__header-img"
-            alt="woman in a library searching for books. Books are placed in many stacks on shelves in relative disorder." 
+            alt="woman in a library searching for books that are placed on shelves in relative disorder." 
             src="assets/img/website/clay-banks-unsplash.jpg"
             >
         <div class="ourValues__content">

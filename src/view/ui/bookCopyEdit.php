@@ -18,7 +18,7 @@ return
         {$this->getCsrfField()}
         <label>
             Photo
-            <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->e($this->book?->image)}"></div>
+            <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->e($this->book?->image)}" alt="photo of the book"></div>
             <input class="browse-file photo-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
             <a class="photo-upload__action form-sync-action" data-sync-target="photo-upload__input">Modifier la photo</a>
         </label>
@@ -45,7 +45,7 @@ return
                     <option value="0" {$this->helper['availabilityOptionState'][0]}>Indisponible</option>
                 </select>
             </label>
-            <input class="bigButton" type="submit">
+            <input class="bigButton" type="submit" value="Valider">
         </form>
     </div>
 </div>

@@ -19,8 +19,6 @@ class ThreadController extends AbstractController
 
     public function writeTo(): void
     {
-        //TODO Vivien : refacto pour diminuer les instructions. Soit via une méthode de l'objet, soit par un service.
-        //  Cette dernière methode ayant plutot ma préférence
         $this->redirectIfNotLoggedIn();
         $thread = Thread::create([$this->userConnected()->id, intval(Utils::request('to', 0))]);
         $this->userConnected()->addThread($thread);
