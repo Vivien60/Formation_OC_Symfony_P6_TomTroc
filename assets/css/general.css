@@ -123,6 +123,10 @@ body {
     padding : 0 var(--main-padding-sides);
 }
 
+.block-return {
+    color: var(--gris-texte);
+}
+
 a {
     text-decoration: none;
     color: inherit;

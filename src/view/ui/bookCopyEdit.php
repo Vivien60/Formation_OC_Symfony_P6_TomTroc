@@ -10,21 +10,21 @@ use view\templates\BookCopyEdit;
 return
     <<<HTML
 <div class="main-container__header main-container__header--book-copy-edit">
-    <nav><a>&larr; retour</a></nav>
+    <nav aria-label="retour" class="block-return"><a href="?action=edit-profile-form">&larr; retour</a></nav>
     <h1 class="heading--form-pages">Modifier les informations</h1>
 </div>
 <div class="container container--book-copy-edit">
     <form class="photo-upload__form photo-upload" method="post" action="?action=book-copy-upload-photo&id={$this->book?->id}" enctype="multipart/form-data" data-component="form">
         {$this->getCsrfField()}
+        <header class="photo-upload__title">Photo</header>
+        <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->e($this->book?->image)}" alt="photo of the book"></div>
         <label>
-            Photo
-            <div class="photo-upload__preview"><img class="photo-upload__image" src="assets/img/books/{$this->e($this->book?->image)}" alt="photo of the book"></div>
             <input class="browse-file photo-upload__input form-submit-change" type="file" name="image" accept="image/*" required>
-            <a class="photo-upload__action form-sync-action" data-sync-target="photo-upload__input">Modifier la photo</a>
+            <div class="photo-upload__footer"><a class="photo-upload__action form-sync-action" data-sync-target="photo-upload__input">Modifier la photo</a></div>
         </label>
     </form>
-    <div class="container container--book-copy-edit container__edit-book-copy container--form--light">
-        <form class="form form--user-profile form--book-edit form--coloured" name="book-copy-edit" method="post" action="?action=book-copy-save&id={$this->e($this->book?->id)}">
+    <div class="container container--book-copy-edit container--form--light container__edit-book-copy">
+        <form class="form form--book-edit form--coloured" name="book-copy-edit" method="post" action="?action=book-copy-save&id={$this->e($this->book?->id)}">
             <input type="hidden" name="csrf" value="{$this->csrfToken}" />
             <label class="form__label">
                 Titre
