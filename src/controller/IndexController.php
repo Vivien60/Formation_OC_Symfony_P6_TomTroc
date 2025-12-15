@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace controller;
 
-use model\BookCopyManager;
 use model\BookCopySearch;
+use services\BookCopyService;
 use view\layouts\NonConnectedLayout;
 use view\templates\{Index, SignInForm, SignUpForm};
 
@@ -12,9 +12,10 @@ class IndexController extends AbstractController
 {
     public function index() : void
     {
-        $booksManager = new BookCopyManager();
+        $service = new BookCopyService($this->userManager, $this->bookCopyManager);
+        $bookCopies = $service->bookSearch('', 4);
         $layout = new NonConnectedLayout(); //Squelette de la page
-        $view = new Index($layout, $booksManager->searchBooksForExchange(new BookCopySearch(), 4));
+        $view = new Index($layout, $bookCopies);
         echo $this->renderView($view);
     }
 

@@ -22,7 +22,8 @@ class ThreadManager extends AbstractEntityManager
     {
         $sql = "select user_id from participate where thread_id = :threadId";
         $stmt = static::$db->query($sql, ['threadId' => $thread->id]);
-        return array_map(fn($participant) => User::fromId($participant['user_id']), $stmt->fetchAll());
+        $userManager = new UserManager();
+        return $userManager->fromIds(array_column($stmt->fetchAll(), 'user_id'));
     }
 
     /**

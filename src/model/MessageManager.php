@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace model;
 
+use model\enum\MessageStatus;
 use PDO;
 
 class MessageManager extends AbstractEntityManager
@@ -62,4 +63,20 @@ class MessageManager extends AbstractEntityManager
         $message->id = (int)static::$db->getPDO()->lastInsertId();
     }
 
+    public function getUnreadMessagesCountForUser(User $user) : int
+    {
+        $sql = "select count(*) 
+                from 
+                    participate p
+                    inner join message m on p.thread_id = m.thread_id 
+                    left join message_status ms on m.id = ms.message_id and p.user_id = ms.user_id
+                where p.user_id = :id and (ms.status = :readStatus or ms.status IS NULL)";
+        $stmt = static::$db->query(
+            $sql,
+            [
+                'id' => $user->id,
+                'readStatus' => MessageStatus::UNREAD->value
+            ]);
+        return intval($stmt->fetchColumn());
+    }
 }

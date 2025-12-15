@@ -68,26 +68,6 @@ abstract class AbstractEntity
         return new static($fieldVals);
     }
 
-    public static function fromId(int $id) : ?static
-    {
-        $sql = static::$selectSql . " where id = :id";
-        $stmt = static::$db->query($sql, ['id' => $id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(empty($result['id']))
-            return null;
-        return static::fromArray($result);
-    }
-
-    /**
-     * @return static[]
-     */
-    public static function all(): array
-    {
-        $stmt = static::$db->query(static::$selectSql);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return array_map(static::fromArray(...), $result);
-    }
-
     /**
      * Converts a camelCase property name into a snake_case field name.
      * Useful for mapping entity property names to database column names.
@@ -106,8 +86,4 @@ abstract class AbstractEntity
      * @return bool True if the validation succeeds, false otherwise.
      */
     public abstract function validate() : bool;
-
-    static protected function getManager() : AbstractEntityManager {
-        return static::$manager;
-    }
 }

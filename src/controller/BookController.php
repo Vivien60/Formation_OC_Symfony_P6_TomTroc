@@ -8,6 +8,7 @@ use lib\MediaManager;
 use lib\Utils;
 use model\BookCopySearch;
 use model\UserManager;
+use services\BookCopyService;
 use view\layouts\ConnectedLayout;
 use view\templates\BookCopiesAvailableList;
 use view\templates\BookCopyDetail;
@@ -24,6 +25,8 @@ class BookController extends AbstractController
         $this->redirectIfNotLoggedIn();
         $refBook = intval(Utils::request('id', '0'));
         $bookCopy = $this->bookCopyManager->fromId($refBook);
+        $service = new BookCopyService($this->userManager, $this->bookCopyManager);
+        $bookCopy = $service->bookCopiesWithUsers([$bookCopy])[0];
         $view = new BookCopyDetail(new ConnectedLayout(), $bookCopy, $bookCopy->owner);
         echo $this->renderView($view);
     }
@@ -143,13 +146,14 @@ class BookController extends AbstractController
             return;
         }
         try {
-            $searchTerm = Utils::request('search');
-            $searchBook = new BookCopySearch($searchTerm);
-            $bookCopies = $this->bookCopyManager->searchBooksForExchange($searchBook);
+            $searchTerm = Utils::request('search', '');
+            $service = new BookCopyService($this->userManager, $this->bookCopyManager);
+            $bookCopies = $service->bookSearch($searchTerm);
             $view = new BookCopiesAvailableList(new ConnectedLayout());
             $view->books = $bookCopies;
             echo $this->renderView($view);
         } catch (\Exception $e) {
+            $this->renderError($e);
             echo $e->getMessage();
         }
     }

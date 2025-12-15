@@ -108,23 +108,6 @@ class User extends AbstractEntity
         $this->library = $bookManager->fromOwner($this);
     }
 
-    public function getUnreadMessagesCount() : int
-    {
-        $sql = "select count(*) 
-                from 
-                    participate p
-                    inner join message m on p.thread_id = m.thread_id 
-                    left join message_status ms on m.id = ms.message_id and p.user_id = ms.user_id
-                where p.user_id = :id and (ms.status = :readStatus or ms.status IS NULL)";
-        $stmt = static::$db->query(
-            $sql,
-            [
-                'id' => $this->id,
-                'readStatus' => MessageStatus::UNREAD->value
-            ]);
-        return intval($stmt->fetchColumn());
-    }
-
     public function hashPassword() : string
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);

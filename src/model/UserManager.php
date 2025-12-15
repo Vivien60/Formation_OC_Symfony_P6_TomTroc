@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace model;
 
+use lib\Utils;
 use PDO;
 
 class UserManager extends AbstractEntityManager
@@ -11,6 +12,24 @@ class UserManager extends AbstractEntityManager
     public function __construct()
     {
         parent::__construct(User::class);
+    }
+
+    /**
+     * @param array $ownerIds
+     * @return User[]
+     */
+    public function fromIds(array $ownerIds): array
+    {
+        $sql = static::$selectSql." where id in (".implode(',', $ownerIds).")";
+        $stmt = static::$db->query($sql);
+
+        $users = [];
+        while ($row = $stmt->fetch()) {
+            $user = User::fromArray($row);
+            $users[$user->id] = $user;  // ← Indexé par ID directement
+        }
+        Utils::trace($users);
+        return $users;
     }
 
     public function fromEmail(string $email) : ?User

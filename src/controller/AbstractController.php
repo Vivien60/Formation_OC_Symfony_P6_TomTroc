@@ -132,7 +132,7 @@ abstract class AbstractController
         $connected = false;
         $unreadMessages = 0;
         if ($this->userConnected()) {
-            $unreadMessages = $this->userConnected()->getUnreadMessagesCount();
+            $unreadMessages = $this->messageManager->getUnreadMessagesCountForUser($this->userConnected());
             $connected = true;
         }
         $view->addToHelper([

@@ -219,7 +219,7 @@ class Thread extends AbstractEntity
     /**
      * @return ThreadManager
      */
-    protected static function getManager(): AbstractEntityManager
+    public static function getManager(): AbstractEntityManager
     {
         return static::$manager;
     }

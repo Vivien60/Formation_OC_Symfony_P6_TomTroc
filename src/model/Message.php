@@ -12,7 +12,7 @@ class Message extends AbstractEntity
     public User $authorInstance {
         get {
             if(empty($this->authorInstance)) {
-                $this->authorInstance = User::fromId($this->author);
+                $this->authorInstance = new UserManager()->fromId($this->author);
             }
             return $this->authorInstance;
         }
@@ -20,7 +20,7 @@ class Message extends AbstractEntity
     public Thread $thread {
         get {
             if(empty($this->thread)) {
-                $this->thread = Thread::fromId($this->threadId);
+                $this->thread = new ThreadManager()->fromId($this->threadId);
             }
             return $this->thread;
         }
@@ -38,7 +38,7 @@ class Message extends AbstractEntity
     public function getAuthor() : User
     {
         if(empty($this->authorInstance)) {
-            $this->authorInstance = User::fromId($this->author);
+            $this->authorInstance = new UserManager()->fromId($this->author);
         }
         return $this->authorInstance;
     }
@@ -46,7 +46,7 @@ class Message extends AbstractEntity
     public function getThread() : Thread
     {
         if(empty($this->thread)) {
-            $this->thread = Thread::fromId($this->threadId);
+            $this->thread = new ThreadManager()->fromId($this->threadId);
         }
         return $this->thread;
     }

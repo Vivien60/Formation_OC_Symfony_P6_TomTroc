@@ -13,9 +13,6 @@ class BookCopy extends AbstractEntity
             $this->userId = $value->id;
         }
         get {
-            if(empty($this->owner) && $this->userId > 0) {
-                $this->owner = User::fromId($this->userId);
-            }
             return $this->owner;
         }
     }
