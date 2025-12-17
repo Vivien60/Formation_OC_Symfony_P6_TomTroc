@@ -61,7 +61,6 @@ class BookController extends AbstractController
             return;
         }
         $bookRef = intval(Utils::request('id', '0'));
-        Utils::trace("saveCopy : $bookRef");
         if($bookRef <= 0) {
             $this->addCopyToUserLibrary();
         } else {

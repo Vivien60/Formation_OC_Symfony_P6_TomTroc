@@ -28,7 +28,6 @@ class UserManager extends AbstractEntityManager
             $user = User::fromArray($row);
             $users[$user->id] = $user;  // ← Indexé par ID directement
         }
-        Utils::trace($users);
         return $users;
     }
 
