@@ -34,4 +34,37 @@ let cardEnhancement = function () {
     }
 };
 
+let formEnhancement = function() {
+    let formsArray = Array.prototype.slice.call(document.querySelectorAll('[data-component="form"]'));
+    if (formsArray.length > 0) {
+        formsArray.forEach(function (form, index) {
+            let submitElt = form.querySelector('.form__submit');
+            if (submitElt) {
+                submitElt.addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    form.submit();
+                })
+            }
+            let syncAction = form.querySelector('.form-sync-action');
+            if (syncAction) {
+                syncAction.addEventListener('click', function (ev) {
+                    let eltToSync = form.querySelector('.'+syncAction.getAttribute('data-sync-target'));
+                    const ev2 = new MouseEvent("click", ev);
+                    ev2.redispatched = true;
+                    eltToSync.dispatchEvent(ev2);
+                })
+            }
+
+            let submitOnChange = form.querySelector('.form-submit-change');
+            if (submitOnChange) {
+                console.log('submitOnChange', submitOnChange);
+                submitOnChange.addEventListener('change', function (ev) {
+                    form.submit();
+                })
+            }
+        })
+    }
+}
+
 document.addEventListener('DOMContentLoaded', cardEnhancement);
+document.addEventListener('DOMContentLoaded', formEnhancement);

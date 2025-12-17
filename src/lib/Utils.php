@@ -1,0 +1,193 @@
+<?php
+declare(strict_types=1);
+namespace lib;
+
+use \DateTime, \IntlDateFormatter;
+use model\User;
+
+/**
+ * Classe utilitaire : cette classe ne contient que des méthodes statiques qui peuvent être appelées
+ * directement sans avoir besoin d'instancier un objet Utils.
+ * Exemple : Utils::redirect('home');
+ */
+class Utils
+{
+    public static string $debugFile = '';
+
+    /**
+     * Convertit une date vers le format de type "Samedi 15 juillet 2023" en francais.
+     * @param DateTime $date : la date à convertir.
+     * @return string : la date convertie.
+     */
+    public static function convertDateToFrenchFormat(DateTime $date): string
+    {
+        // Attention, s'il y a un soucis lié à IntlDateFormatter c'est qu'il faut
+        // activer l'extention intl_date_formater (ou intl) au niveau du serveur apache. 
+        // Ca peut se faire depuis php.ini ou parfois directement depuis votre utilitaire (wamp/mamp/xamp)
+        $dateFormatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::FULL);
+        $dateFormatter->setPattern('EEEE d MMMM Y');
+        return $dateFormatter->format($date);
+    }
+
+    /**
+     * Convertit une date vers le format de type "21.08 12:05".
+     * @param DateTime $date : la date à convertir.
+     * @return string : la date convertie.
+     */
+    public static function convertDateAndTimeToNumericFormat(DateTime $date): string
+    {
+        // Attention, s'il y a un soucis lié à IntlDateFormatter c'est qu'il faut
+        // activer l'extention intl_date_formater (ou intl) au niveau du serveur apache.
+        // Ca peut se faire depuis php.ini ou parfois directement depuis votre utilitaire (wamp/mamp/xamp)
+        $dateFormatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::FULL);
+        $dateFormatter->setPattern('dd.M hh:mm');
+        return $dateFormatter->format($date);
+    }
+
+    /**
+     * Convertit une date en un format horaire de type "12:05".
+     * @param DateTime $date : la date à convertir.
+     * @return string : la date convertie.
+     */
+    public static function convertDateAndTimeToTimeFormat(DateTime $date): string
+    {
+        // Attention, s'il y a un soucis lié à IntlDateFormatter c'est qu'il faut
+        // activer l'extention intl_date_formater (ou intl) au niveau du serveur apache.
+        // Ca peut se faire depuis php.ini ou parfois directement depuis votre utilitaire (wamp/mamp/xamp)
+        $dateFormatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::FULL);
+        $dateFormatter->setPattern('hh:mm');
+        return $dateFormatter->format($date);
+    }
+
+    /**
+     * Redirige vers une URL.
+     * @param string $action : l'action que l'on veut faire (correspond aux actions dans le routeur).
+     * @param array $params : Facultatif, les paramètres de l'action sous la forme ['param1' => 'valeur1', 'param2' => 'valeur2']
+     * @return void
+     */
+    public static function redirect(string $action, array $params = []): void
+    {
+        $url = "index.php?action=$action";
+        foreach ($params as $paramName => $paramValue) {
+            $url .= "&$paramName=$paramValue";
+        }
+        header("Location: $url");
+        exit();
+    }
+
+    /**
+     * Cette méthode retourne le code js a insérer en attribut d'un bouton.
+     * pour ouvrir une popup "confirm", et n'effectuer l'action que si l'utilisateur
+     * a bien cliqué sur "ok".
+     * @param string $message : le message à afficher dans la popup.
+     * @return string : le code js à insérer dans le bouton.
+     */
+    public static function askConfirmation(string $message): string
+    {
+        return "onclick=\"return confirm('$message');\"";
+    }
+
+    /**
+     * Cette méthode protège une chaine de caractères contre les attaques XSS.
+     * De plus, elle transforme les retours à la ligne en balises <p> pour un affichage plus agréable.
+     * @param string $string : la chaine à protéger.
+     * @return string : la chaine protégée.
+     */
+    public static function formatToHtmlParagraphs(string $string): string
+    {
+        // Etape 1, on protège le texte avec htmlspecialchars.
+        $finalString = htmlspecialchars($string, ENT_QUOTES);
+
+        // Etape 2, le texte va être découpé par rapport aux retours à la ligne, 
+        $lines = explode("\n", $finalString);
+
+        // On reconstruit en mettant chaque ligne dans un paragraphe (et en sautant les lignes vides).
+        $finalString = "";
+        foreach ($lines as $line) {
+            if (trim($line) != "") {
+                $finalString .= "<p>$line</p>";
+            }
+        }
+
+        return $finalString;
+    }
+
+    /**
+     * Cette méthode permet de récupérer une variable de la superglobale $_REQUEST.
+     * Si cette variable n'est pas définie, on retourne la valeur null (par défaut)
+     * ou celle qui est passée en paramètre si elle existe.
+     * @param string $variableName : le nom de la variable à récupérer.
+     * @param mixed $defaultValue : la valeur par défaut si la variable n'est pas définie.
+     * @return mixed : la valeur de la variable ou la valeur par défaut.
+     */
+    public static function request(string $variableName, mixed $defaultValue = null): mixed
+    {
+        return $_REQUEST[$variableName] ?? $defaultValue;
+    }
+
+    /**
+     * This method sanitizes the input string by converting special characters to HTML entities.
+     * This helps prevent XSS (Cross-Site Scripting) attacks by escaping potentially harmful characters.
+     * @param string $string The input string to be sanitized.
+     * @return string The sanitized string with special characters converted to HTML entities.
+     */
+    public static function filterInput(string $string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES);
+    }
+
+    public static function userConnected(): User|null
+    {
+        // On vérifie que l'utilisateur est connecté.
+        if (isset($_SESSION['user'])) {
+            return unserialize($_SESSION['user']);
+        }
+        return null;
+    }
+
+    public static function stripExtension(mixed $name)
+    {
+        if (is_string($name)) {
+            return preg_replace('/\.[^.]+$/', '', $name);
+        }
+        return $name;
+    }
+
+    /**
+     * Logs a given value into a debug file if a debug file is defined.
+     * The log will include a timestamp in the format 'Y-m-d H:i:s'.
+     * @param mixed $value : the value to be logged. It will be serialized into a string representation.
+     * @return void : this method does not return a value.
+     */
+    public static function trace(mixed $value) : void
+    {
+        if(static::$debugFile == '') return;
+        $formatLog = "[%s] %s\n";
+        $date = date('Y-m-d H:i:s');
+        if(!is_string($value)) {
+            $message = print_r($value, true);
+        } else {
+            $message = $value;
+        }
+        $logMessage = sprintf($formatLog, $date, $message);
+        file_put_contents(static::$debugFile, $logMessage, FILE_APPEND | LOCK_EX);
+    }
+
+    public static function convertDateToTimeSince(\DateTimeInterface|string|null $since)
+    {
+        $now = new DateTime();
+        $diff = $since->diff($now);
+        $nb = $diff->format('%a');
+        if($nb >= 365)
+        {
+            return $diff->format('%y an(s)');
+        }
+        if($nb > 30)
+        {
+            return $diff->format('%m mois');
+        }
+
+        return $diff->format('%a jour(s)');
+    }
+
+}

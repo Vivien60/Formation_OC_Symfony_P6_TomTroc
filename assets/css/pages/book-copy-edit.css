@@ -1,0 +1,128 @@
+/**
+ * Structure principale - Book Copy Edit
+ */
+.container--book-copy-edit {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 2rem;
+    align-items: flex-start;
+    background-color: var(--bg-color-light);
+    padding: 3.5rem 0;
+}
+
+.main-container__header--book-copy-edit {
+    padding: 2.5rem 0 0 0;
+}
+.main-container__header--book-copy-edit h1 {
+    margin: 1.5rem 0 1.5rem 0;
+}
+
+/**
+ * Photo section (left side)
+ */
+.photo-upload {
+    box-sizing: border-box;
+    flex: 1 1 50%;
+    width:50%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+    align-items: center;
+    text-align: left;
+    color: var(--gris-texte);
+}
+
+.photo-upload__title {
+    width: 100%;
+}
+
+.photo-upload label{
+    width: 100%;
+}
+
+.container--book-detail .container__poster {
+    box-sizing: border-box;
+    width:50%;
+    display: flex;
+    align-items: center;
+}
+
+.photo-upload__preview {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    margin : 0.67rem 0 0 0;
+}
+
+.photo-upload__image {
+    object-fit: cover;
+    width: 100%;
+    max-height: calc(50vh);
+}
+
+.photo-upload__action {
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--gris-foncé);
+    margin: 0 0 0.5rem 0;
+}
+
+.photo-upload__footer {
+    width: 100%;
+    text-align: right;
+}
+
+.container__form-field--link:hover {
+    text-decoration: none;
+}
+
+/**
+ * Form section (right side)
+ */
+.container__edit-book-copy {
+    box-sizing: border-box;
+    flex: 1 1 50%;
+    padding: 0 2rem;
+    width: auto;
+}
+
+.container__half-page h2 {
+    box-sizing: border-box;
+    flex: 1 1 50%;
+    padding: 2rem;
+    width: auto;
+}
+
+.container--form--light {
+    background-color: var(--bg-color-light);
+}
+
+.form--book-edit {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1.5rem;
+    flex: 1 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.form--book-edit .form__label {
+    color: var(--gris-texte);
+}
+
+
+.form--book-edit .bigButton {
+    align-self: flex-start;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.form--book-edit .bigButton:hover {
+    background-color: var(--vert-principal);
+    opacity: 0.9;
+}

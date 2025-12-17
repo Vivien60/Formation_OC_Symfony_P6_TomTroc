@@ -1,0 +1,198 @@
+/**
+Structure
+ */
+.userInfo {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+}
+
+.userInfo--public {
+    padding-top: 4.5rem;
+}
+
+.userInfo > *:not(h1){
+    border-radius: 1.5rem;
+}
+
+.userInfo h1 {
+    margin: 4.375rem 0 1rem 0;
+    flex: 1 1 100%;
+}
+
+
+.userInfo > .userInfo__form-container {
+    flex: 1 1 40%;
+    box-sizing: border-box;
+    padding: 3rem 7.3125rem;
+
+}
+
+.userInfo > .library {
+    flex: 0 0 100%;
+}
+
+.userInfo--public  > .library {
+    flex: 2 0 auto;
+}
+
+/**
+Bloc card
+ */
+.userInfo__card-container {
+    padding-top: 3rem;
+}
+
+.userInfo--public .userInfo__card-container {
+
+}
+
+/**
+Formulaire
+ */
+.userInfo__form-container {
+    background-color: var(--bg-color-light);
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+}
+
+.form-container--user-profile {
+
+}
+
+.form-container--user-profile h2 {
+    font-size: 1rem;
+}
+
+.form--user-profile {
+    flex: 1 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.form--user-profile label {
+    text-align: left;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.5rem;
+}
+
+.card--user-big hr {
+    width: auto;
+    margin: 0 20%;
+    align-self: stretch;
+}
+
+.card__membership {
+    height: 3.44rem;
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 3.44rem;
+}
+
+
+
+.userInfo--public > * {
+    flex: 1 1 30%;
+}
+
+.userInfo--public > *:first-child {
+    flex: 1 1 30%;
+}
+
+.userInfo--public >  .library {
+    flex-basis: 60%;
+}
+
+/**
+Bloc - gestion des livres
+ */
+.userInfo__new-book-container {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+}
+
+.books-admin {
+    background-color: var(--bg-color-light);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.5rem;
+}
+
+.books-admin__new-book {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+
+/**
+Table de livres possédés
+ */
+
+.library {
+    background-color: var(--bg-color-light);
+    border-spacing: 0;
+    width: 100%;
+    flex: 1 1 100%;
+    font-size: 0.75rem;
+    border-radius: 1.5rem;
+}
+
+.library__header td {
+    border-bottom: 1px solid var(--bg-color-dark);
+    vertical-align: bottom;
+    padding: 0.5rem 2.5rem;
+}
+
+.library tr:nth-child(even) {
+    background-color: var(--bg-color-dark);
+}
+
+.library__book-info {
+    padding: 1.5rem 2.5rem;
+}
+
+.library__book-info--first {
+    padding: 1.5rem 2.5rem 1.5rem 3.5rem;
+}
+
+.library__book-info--last {
+    padding: 0 2.5rem 0 3.5rem;
+}
+
+.library__header {
+    height: 3.3125rem;
+}
+
+.library__book-info {
+    max-width: 8rem;
+    max-height: 4rem;
+}
+
+.library__action {
+    text-decoration: underline;
+}
+
+.library__action--edit {
+    text-align: left;
+}
+
+.library__action--delete {
+    color: #CB2D2D;
+    text-align: right;
+    margin: 0 0 0 1.75rem;
+}
+
+.library__book-info--longdesc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}

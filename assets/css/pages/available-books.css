@@ -1,0 +1,22 @@
+.books-list-page {
+    width: 100%;
+    padding: 0 16.4375rem;
+}
+
+.books-list-page h1 {
+    margin: 8.125rem 0 0 0;
+}
+
+.books-list-page__header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.books-list-page__list {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 2.375rem;
+    padding: 4.5rem 0;
+}

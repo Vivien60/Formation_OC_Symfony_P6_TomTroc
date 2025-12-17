@@ -2,15 +2,16 @@
 declare(strict_types=1);
 session_start();
 
-require_once 'config/autoload.php';
-use config\Conf;
-use services\Utils;
+require_once 'src/config/autoload.php';
+
 use controller\{BookController,
     ErrorController,
     IndexController,
     MessagerieController,
     ThreadController,
-    UserController};
+    UserController,};
+use lib\Utils;
+use config\Conf;
 
 Conf::getInstance()->deploy();
 switch(Utils::request('action', null)) {
@@ -75,6 +76,10 @@ switch(Utils::request('action', null)) {
         $controller = new BookController();
         $controller->deleteCopy();
         break;
+    case 'available-list':
+        $controller = new BookController();
+        $controller->listBooksForExchange();
+        break;
     case 'messagerie':
         $controller = new MessagerieController();
         $controller->home();
@@ -88,8 +93,16 @@ switch(Utils::request('action', null)) {
         $controller->writeTo();
         break;
     case 'send-message':
-        $controller = new ThreadController();;
+        $controller = new ThreadController();
         $controller->send();
+        break;
+    case 'book-copy-upload-photo':
+        $controller = new BookController();
+        $controller->addImage();
+        break;
+    case 'profile-upload-avatar':
+        $controller = new UserController();
+        $controller->addImage();
         break;
     default:
         $controller = new ErrorController();

@@ -1,0 +1,137 @@
+.ourValues__bloc, .lastBooks__bloc, .howToUse__bloc {
+    text-align: center;
+    margin: 0;
+}
+.hero {
+    text-align: left;
+    margin: 0;
+}
+
+.hero, .howToUse__bloc, .ourValues__bloc {
+    background-color: var(--bg-color-medium2);
+}
+
+.lastBooks__bloc {
+    text-align: center;
+    background-color: var(--bg-color-medium);
+}
+
+.ourValues__bloc {
+    padding: 0 0 2.5rem 0;
+}
+
+.lastBooks__bloc {
+    text-align: center;
+    padding: 0 0 4rem 0;
+}
+
+.howToUse__bloc {
+    padding: 0 0 5rem 0;
+}
+
+.hero {
+    padding: 0 18.4375rem 4rem 18.4375rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 6.375rem;
+}
+
+.hero > * {
+    flex: 3 0 0;
+}
+
+.hero__content {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.hero h1 {
+    margin: 5rem 0 0.125rem 0;
+}
+
+.teaser {
+
+}
+
+.teaser__text {
+    padding: 0 0 1.625rem 0;
+}
+
+.lastBooks__bloc h2 , .howToUse__bloc h2, .ourValues__bloc h2 {
+    margin: 5rem 0 1.5rem 0;
+}
+
+.hero__img-title {
+    flex:0 1 100%;
+    text-align: right;
+}
+
+.lastBooks__container-books {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 1.875rem;
+    padding: 3rem 0;
+}
+
+.lastBooks__footer {
+    padding: 0 18.4375rem;
+}
+
+.howToUse__header {
+    width:24.8125rem;
+    display: inline-block;
+    color: var(--gris-texte);
+    font-size: 1rem;
+}
+
+.howToUse__step-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 1.875rem;
+    padding: 3rem 0;
+}
+
+.howToUse__step-list > * {
+    background-color: var(--bg-color-light);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 13.475rem;
+    height:8.6875rem;
+    padding: 2.75rem 1.09375rem;
+    border-radius: 0.62rem;
+}
+
+.ourValues__header-img {
+    object-fit: cover;
+    object-position: center -302px;
+    height:14.375rem;
+    width: 100%;
+}
+
+.ourValues__content, .ourValues__footer {
+    box-sizing: border-box;
+    margin: 0 auto 0 542px;
+    width: 26.75rem;
+}
+
+.ourValues__content {
+    text-align: left;
+    padding-right:2.25rem;
+    font-weight: 300;
+}
+
+.ourValues__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.875rem;
+    padding: 3rem 0;
+    color: var(--gris-texte);
+    font-style: italic;
+}

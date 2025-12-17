@@ -47,7 +47,8 @@ function getHtmlTag($name): array
 {
     $tagName = str_replace(['<', '>'], '', $name);
     $tagWithoutClosingTag = [ 'input', 'br', 'hr', 'img', ];
-    if(!in_array($tagName, $tagWithoutClosingTag)) {
+    $searchPattern = '/\b'.implode('|', $tagWithoutClosingTag).'\b/';
+    if(!preg_match($searchPattern, $tagName)) {
         $tag['close'] = "$tagName";
     } else {
         $tag['close'] = null;

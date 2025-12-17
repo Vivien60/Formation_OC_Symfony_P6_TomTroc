@@ -1,0 +1,128 @@
+:root {
+    --header-thread-height: 6rem;
+}
+
+.messagerie__container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    background-color: var(--bg-color-medium2);
+}
+
+.threads__list {
+    background-color: var(--bg-color-medium);
+    display: flex;
+    flex-direction: column;
+    width: 19.25rem;
+    max-width: 100%;
+    padding: 3.5rem 0;
+    flex : 1 0 auto;
+}
+
+.threads__list h1 {
+    margin: 0 0 1.6875rem 2.125rem;
+}
+
+
+.threads__item {
+    box-sizing: border-box;
+    height: 5.25rem;
+}
+
+.card--thread {
+    box-sizing: border-box;
+    height:100%;
+    padding:1.125rem 2.125rem;
+}
+
+.card--thread.card--active {
+    background-color: var(--bg-color-light);
+}
+
+.card--thread .card__content {
+    flex : 1 auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+    overflow: hidden;
+}
+
+.card--thread .card__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.card__desc--oneline > * {
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    display: inline-block;
+    color: var(--gris-texte);
+}
+
+.container--thread {
+    padding: 0 0 0 2.75rem;
+}
+
+.container--thread > .container__header {
+    margin-top: 2.25rem;
+    padding: 0;
+}
+
+.container--thread > .container__main {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    padding : 0 0 6.125rem 0;
+}
+
+.container--thread > .container__footer  {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    height: 3.0625rem;
+    margin: 0 0 3.75rem 0;
+}
+
+.message-container, .message-container--sender-is-not-me {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+}
+
+.message-container--sender-is-me {
+    align-items: flex-end;
+}
+
+.message-container__header {
+    flex: 0 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    color: var(--gris-texte);
+}
+
+.message-container__message {
+    flex: 0 0 auto;
+    gap : 1.5625rem;
+    background-color: var(--bg-color-light);
+    padding: 0.625rem 1.125rem;
+    border-radius: 0.38rem;
+}
+
+.message-container--sender-is-me .message-container__message {
+    background-color: var(--bg-color-dark);
+}
+
+.message-container__avatar {
+    flex: 0 0 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    aspect-ratio: 1;
+    display: flex;
+    border-radius: 50%;
+}

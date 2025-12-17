@@ -1,0 +1,58 @@
+<?php
+declare(strict_types=1);
+namespace controller;
+
+use model\Thread;
+use model\ThreadManager;
+use lib\Utils;
+use view\layouts\ConnectedLayout;
+use view\layouts\ErrorLayout;
+use view\templates\Error;
+use view\templates\MessagerieHome;
+
+class ThreadController extends AbstractController
+{
+    public function __construct()
+    {
+        $this->entityManager = new ThreadManager();
+    }
+
+    public function writeTo(): void
+    {
+        $this->redirectIfNotLoggedIn();
+        $thread = Thread::create([$this->userConnected()->id, intval(Utils::request('to', 0))]);
+        $this->userConnected()->addThread($thread);
+        $threadToOpen =  $this->userConnected()->openThread($thread->id);
+        $participants = $threadToOpen->otherParticipants;
+        $view = new MessagerieHome(
+            new ConnectedLayout(),
+            $this->userConnected()->getThreads(),
+            $threadToOpen,
+            array_shift($participants),
+            $this->userConnected(),
+        );
+        echo $this->renderView($view);
+    }
+
+    public function send(): void
+    {
+        $this->redirectIfNotLoggedIn();
+        if(!$this->performSecurityChecks()) {
+            echo $this->renderNotAllowed();
+            return;
+        }
+        $threadRef = intval(Utils::request('thread', 0));
+        $thread = $this->entityManager->fromId($threadRef);
+        $content = Utils::request('content', '');
+        try {
+            $thread->createNewMessage($content, $this->userConnected());
+        } catch (\Exception $e) {
+            $view = new Error(new ErrorLayout(), $e);
+            echo $this->renderView($view);
+            return;
+        }
+
+        Utils::redirect('messagerie', ['thread' => $threadRef ]);
+    }
+
+}

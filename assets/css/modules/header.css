@@ -1,0 +1,42 @@
+.header__container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--gris-foncé);
+}
+
+.nav-bar__item {
+
+}
+
+.nav-bar__item--active {
+    font-weight: var(--font-weight-bold);
+}
+
+.nav-bar__section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.nav-bar__section--list {
+    gap: 2.75rem;
+}
+
+.nav-bar__logo {
+    margin-right: 2.125rem;
+    display: flex; /** allow to strip out the space between the logo and the bottom a */
+}
+
+.nav-bar__icon {
+    margin : 0 0.25rem 0 0;
+}
+
+.nav-bar__icon--right {
+    margin-right: 0;
+    margin-left: 0.25rem;
+}

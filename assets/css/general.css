@@ -1,29 +1,273 @@
-div, span, ul, table {
-    border: 1px solid black;
-}
-section, main {
-    margin: 10px;
-    border: 1px solid cornflowerblue;
+/* Design System */
+:root {
+    --gris-clair: #f5f3ef;
+    --vert-principal: #00ac66;
+    --gris-texte: #a6a6a6;
+    --gris-foncé: #292929;
+    --font-family: Inter;
+    --second-family: Playfair Display;
+    --font-size: 0.875rem;
+    --font-weight-bold: 700;
+
+    --bg-color-light: #fff;
+    --bg-color-medium: #faf9f7;
+    --bg-color-medium2: var(--gris-clair);
+    --bg-color-dark: #edf2f6;
+
+    --main-padding-sides: 9.375rem;
 }
 
-header, footer {
-    margin: 10px;
-    border: 1px solid coral;
+body {
+    box-sizing: border-box;
+    height: 100vh;
+    min-width: 90rem;
+    margin: 0;
+    background-color: var(--bg-color-medium);
+    font-family: var(--font-family), sans-serif;
+    font-weight: 400;
+    font-size: var(--font-size);
+    color: var(--gris-foncé);
+    /*
+    font-weight: var(--body-font-weight);
+    font-size: var(--body-font-size);
+    line-height: var(--body-line-height);
+    color: var(--black);
+     */
 }
 
-.libraryTable {
+.main-container {
+    box-sizing: border-box;
+    max-width: 90rem;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    background-color: var(--bg-color-medium2);
+}
+
+.container {
+    box-sizing: border-box;
     width: 100%;
-    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column nowrap;
 }
 
-.libraryTable__book {
+.main-container > header, .container__header {
+    padding: 0 var(--main-padding-sides);
+    flex: 0 0 auto;
+}
+
+.main-container > header {
+    /*position: fixed;
+    left: max(0rem, calc((100vw - 90rem) / 2));
+    right: max(0rem, calc((100vw - 90rem) / 2));*/
+    height: 5rem;
+    background-color: var(--bg-color-medium2);
+}
+
+.main-container > main, .container__main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.main-container > main {
+    /*margin-top: 5rem;*/
+    background-color: var(--bg-color-medium);
+}
+
+.main-container > footer, .container__footer {
+    flex: 0 0 auto;
+}
+
+.main-container > footer {
+    height: 3.8125rem;
+    background-color: white;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2.5rem;
+    font-size: 0.75rem;
+    font-weight: 300;
+}
+
+.main-container__error-content {
+    margin-top: 5rem;
+}
+
+.container--error {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+
+.container__footer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container__half-page {
+    box-sizing: border-box;
+    flex: 1 1 50%;
+    width: auto;
+}
+
+.container--with-space-on-sides {
+    padding : 0 var(--main-padding-sides);
+}
+
+.block-return {
+    color: var(--gris-texte);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--gris-foncé);
+    font-family: var(--second-family), sans-serif;
+    margin: 0;
+}
+
+h1 {
+    font-size: 2.25rem;
+    color: #000;
+    font-weight: 400;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+h3 {
+    font-size: 1rem;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.img-cover {
+    object-fit: cover;
+}
+
+.bigButton, .bigButton--dark, .bigButton--light {
+    display: inline-block;
+    box-sizing: border-box;
+    background-color: var(--vert-principal);
+    border-radius: 0.62rem;
+    padding: 1.25rem 2.38rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight:600;
+    font-size: 1rem;
+    border: 0;
+}
+
+.bigButton--dark {
+    background-color: #006D41;
+}
+
+.bigButton--light {
+    background-color: var(--bg-color-medium2);
+    color: var(--vert-principal);
+    border: 1px solid var(--vert-principal);
+}
+
+.bigButton--inline {
+    padding: 0.75rem 2rem;
+    margin-left: 1.255rem;
+}
+
+.bigButon--max-size {
     width: 100%;
+    text-align: center;
 }
 
-.libraryTable__bookField {
-    max-width:200px;
+.bigButton--fixed-width {
+    width: 9.375rem;
 }
 
-.libraryTable__img {
-    width: 200px;
+.bigButton--mini {
+    padding: 0.5rem 1.25rem;
+    font-size: inherit;
+}
+
+.formField, .formField--darker {
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 0.38rem;
+    width: 20.12rem;
+    height: 3.12rem;
+}
+
+.formField--darker {
+    background-color: var(--bg-color-dark);
+}
+
+.line-separator {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid var(--gris-texte);
+    margin: 1em 0;
+    padding: 0;
+}
+
+.grey {
+    color: var(--gris-texte);
+}
+
+.link--underlined {
+    text-decoration: underline;
+}
+
+.uppercase-mini-heading {
+    text-transform: uppercase;
+    font-size: 0.5rem;
+    font-weight: 600;
+    padding: 0.375rem 0;
+}
+
+.browse-file {
+    display: none;
+}
+
+.hide {
+    display: none;
+}
+
+/*
+Source - https://stackoverflow.com/a
+Posted by GrahamTheDev, modified by community. See post 'Timeline' for change history
+Retrieved 2025-12-12, License - CC BY-SA 4.0
+*/
+
+.visually-hidden {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+    clip: rect(1px, 1px, 1px, 1px); /* maybe deprecated but we need to support legacy browsers */
+    clip-path: inset(50%); /* modern browsers, clip-path works inwards from each corner */
+    white-space: nowrap; /* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 }

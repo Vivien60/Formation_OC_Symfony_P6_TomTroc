@@ -1,0 +1,18 @@
+.main-container > footer {
+    background-color: var(--bg-color-light);
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.footer__list {
+    display:flex;
+    flex-direction: row;
+}
+
+.main-container > footer, .footer__list {
+    gap: 2.5rem;
+}
