@@ -31,7 +31,6 @@ abstract class AbstractEntityManager
         $sql = static::$selectSql . " where id = :id";
         $stmt = static::$db->query($sql, ['id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        Utils::trace($result);
         if(empty($result['id']))
             return null;
         return $this->fromArray($result);

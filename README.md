@@ -71,19 +71,10 @@ Paramètres à modifier :
 - `password` : votre mot de passe MySQL
 - `baseUrl` : le chemin relatif de votre projet, si dans un sous-dossier par rapport au nom du domaine.
 
-### 4. Permissions des fichiers
-
-Assurez-vous que le serveur web a les permissions d'écriture sur le dossier `logs` du projet :
-
-```bash
-chmod 755 logs
-```
-
-### 5. Accéder à l'application
-
-Ouvrez votre navigateur et accédez à :
-- `http://localhost/Formation_OC_Symfony_P6_TomTroc/` (si installé directement)
-- `http://tomtroc.local/` (si VirtualHost configuré)
+### 4. Création de dossier
+Créer le dossier et le fichier `logs/debug.log` à la racine du projet.
+Il est utlisé pour debugger explicitement via `Utils::trace(mixed $var)`. 
+Il affichera le contenu de la variable, ou un dump si ce n'est pas une simple chaine.
 
 ## Structure du projet
 
@@ -103,6 +94,49 @@ Formation_OC_Symfony_P6_TomTroc/
 │   └── view/           # Vues et templates
 ├── index.php           # Point d'entrée de l'application
 └── README.md           # Ce fichier
+```
+
+## MCD 
+Lien vers le MCD :
+https://www.mermaidchart.com/app/projects/c5f8f79c-a7fb-41f2-b76d-bf89ac48798b/diagrams/cf6af6ff-2967-45dc-8edf-0712f0f991d9/version/v0.1/edit
+```mermaid
+erDiagram
+    direction TB
+    BOOK_COPY {
+        int id  ""  
+        date created_at  ""  
+        string title  ""  
+        string author  ""  
+        string availability_status  ""  
+        string image  ""  
+    }
+
+    USER {
+        int id PK
+        string username
+        string email
+        string password
+        datetime created_at
+    }
+
+    THREAD {
+        int id PK
+        datetime created_at
+    }
+
+    MESSAGE {
+        int rank PK
+        int thread_id PK,FK
+        datetime created_at
+        text content
+        int author FK
+    }
+
+    USER ||--o{ MESSAGE : "écrit"
+    THREAD ||--|{ MESSAGE : "contient"
+    USER }|--o{ THREAD : "participe"
+    USER }o--o{ MESSAGE : "lit"
+    USER||--o{BOOK_COPY:"own"
 ```
 
 ## Fonctionnalités
