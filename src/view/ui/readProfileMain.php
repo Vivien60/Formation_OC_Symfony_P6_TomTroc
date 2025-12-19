@@ -8,7 +8,8 @@ use view\templates\ReadProfile;
  */
 
 
-$writeMessageLink = '<a class="bigButton bigButton--light bigButon--max-size card__write-to-button" href="?action=write-message">Ecrire un message</a>';
+$writeMessageLink = '<a class="bigButton bigButton--light bigButon--max-size card__write-to-button" href="?action=write-message&to=%s">Ecrire un message</a>';
+$writeMessageLink = sprintf($writeMessageLink, $this->user->id);
 $bigUserCard = require __DIR__.'/component/cardUserBig.php';
 $htmlBigUserCard = sprintf(
     $bigUserCard,
