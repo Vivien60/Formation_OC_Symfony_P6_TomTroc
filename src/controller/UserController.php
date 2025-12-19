@@ -135,7 +135,7 @@ class UserController extends AbstractController
     {
         $this->redirectIfNotLoggedIn();
         $id = intval(Utils::request('id', 0));
-        $profile = User::fromId($id);
+        $profile = $this->userManager->fromId($id);
         if(!empty($profile)) {
             $bookCopyManager = new BookCopyManager();
             $view = new ReadProfile(new ConnectedLayout(), $profile, $bookCopyManager->fromOwner($profile));

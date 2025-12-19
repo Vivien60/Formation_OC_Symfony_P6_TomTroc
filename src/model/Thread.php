@@ -65,7 +65,10 @@ class Thread extends AbstractEntity
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-        $thread->participants = array_map(fn($participant) => User::fromId($participant), $participants);
+        $manager = new UserManager();
+        $thread->participants = array_map(function ($participant) use ($manager) {
+            return $manager->fromId($participant);
+        }, $participants);
         static::getManager()->create($thread);
         return $thread;
     }
