@@ -13,15 +13,15 @@ return
                 {$this->getCsrfField()}
                 <label class="form__label">
                     Pseudo
-                    <input aria-required="true" class="form__field" type="text" name="name" placeholder="pseudo">
+                    <input aria-required="true" class="form__field" type="text" name="name" placeholder="pseudo" required>
                 </label>
                 <label class="form__label">
                     Adresse email
-                    <input aria-required="true" class="form__field" type="email" name="email" placeholder="email">
+                    <input aria-required="true" class="form__field" type="email" name="email" placeholder="email" required>
                 </label>
                 <label class="form__label">
                     Mot de passe
-                    <input aria-required="true" class="form__field" type="password" name="password" placeholder="mot de passe">
+                    <input aria-required="true" class="form__field" type="password" name="password" placeholder="mot de passe" required>
                 </label>
                 <input class="bigButton" type="submit" value="S'inscrire">
                 <footer class="form__footer">
