@@ -24,9 +24,9 @@ class UserController extends AbstractController
 
     public function signUp() : void
     {
-        $username = Utils::request('username');
-        $password = Utils::request('password');
-        $email = Utils::request('email');
+        $username = Utils::request('name' ,'');
+        $password = Utils::request('password', '');
+        $email = Utils::request('email', '');
         $user = User::fromArray([
             'username' => $username,
             'password' => $password,
