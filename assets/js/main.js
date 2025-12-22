@@ -62,6 +62,21 @@ let formEnhancement = function() {
                     form.submit();
                 })
             }
+
+            let passwordField = form.querySelector('input[data-password-confirm-target]');
+            let passwordConfirmName = passwordField.getAttribute('data-password-confirm-target');
+            let passwordConfirm = form.querySelector('input[name="'+passwordConfirmName+'"]');
+            if (passwordConfirm && passwordField) {
+                let checkPwdFunc = function (ev) {
+                    if (passwordField.value !== passwordConfirm.value) {
+                        passwordConfirm.setCustomValidity('Passwords do not match');
+                    } else {
+                        passwordConfirm.setCustomValidity('');
+                    }
+                }
+                passwordConfirm.addEventListener('change', checkPwdFunc);
+                passwordField.addEventListener('change', checkPwdFunc);
+            }
         })
     }
 }
